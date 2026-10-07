@@ -60,23 +60,24 @@ header.top .id { display: grid; gap: 6px; min-width: 0; }
 @media (max-width: 920px) { .grid { grid-template-columns: minmax(0, 1fr); } }
 
 /* Inputs rail */
-aside.inputs { position: sticky; top: calc(env(safe-area-inset-top, 0px) + 16px); background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 18px; display: grid; gap: 18px; }
-@media (max-width: 920px) { aside.inputs { position: static; } }
+aside.inputs { position: sticky; top: calc(env(safe-area-inset-top, 0px) + 16px); max-height: calc(100vh - 32px); overflow-y: auto; background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 18px; display: grid; gap: 18px; }
+@media (max-width: 920px) { aside.inputs { position: static; max-height: none; overflow: visible; } }
 fieldset { border: 0; padding: 0; margin: 0; display: grid; gap: 12px; min-width: 0; }
 fieldset + fieldset { border-top: 1px solid var(--line); padding-top: 16px; }
 legend { padding: 0; margin-bottom: 4px; font-size: .72rem; letter-spacing: .1em; text-transform: uppercase; color: var(--accent); font-weight: 600; }
 fieldset.tax legend { color: var(--warn); }
-.field { display: grid; gap: 4px; }
+.field { display: grid; gap: 4px; min-width: 0; }
+.field > * { min-width: 0; }
 .field label { font-size: .86rem; font-weight: 500; }
-.field .hint { font-size: .76rem; color: var(--muted); }
+.hint { font-size: .76rem; color: var(--muted); }
 .box { display: flex; align-items: center; border: 1px solid var(--line); border-radius: 7px; background: var(--surface); transition: border-color .15s; }
 .box:focus-within { border-color: var(--focus); box-shadow: 0 0 0 3px color-mix(in srgb, var(--focus) 22%, transparent); }
 .box span { padding-inline: 10px; color: var(--muted); font-family: var(--font-data); font-size: .85rem; }
-.box input { flex: 1; min-width: 0; border: 0; background: transparent; color: var(--ink); font: 500 1rem var(--font-data); padding: 9px 10px; font-variant-numeric: tabular-nums; outline: none; }
+.box input { flex: 1; min-width: 0; width: 100%; border: 0; background: transparent; color: var(--ink); font: 500 1rem var(--font-data); padding: 9px 10px; font-variant-numeric: tabular-nums; outline: none; }
 .box span:first-child + input { padding-left: 0; }
 .box.disabled { background: var(--sunken); }
 .box.disabled input { color: var(--muted); }
-.row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.row2 { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 10px; }
 .check { display: flex; align-items: center; gap: 8px; font-size: .82rem; color: var(--muted); cursor: pointer; }
 .check input { accent-color: var(--accent); width: 16px; height: 16px; margin: 0; }
 .chips { display: flex; flex-wrap: wrap; gap: 6px; }
@@ -239,6 +240,21 @@ footer { margin-top: 24px; font-size: .78rem; color: var(--muted); }
         <span class="hint">Planning assumptions, compounded annually. Neither return is guaranteed.</span>
       </fieldset>
 
+      <fieldset>
+        <legend>Holding costs (hold scenario)</legend>
+        <div class="row2">
+          <div class="field">
+            <label for="propTax">Annual property tax</label>
+            <div class="box"><span>$</span><input id="propTax" type="number" min="0" step="250" inputmode="decimal"></div>
+          </div>
+          <div class="field">
+            <label for="propTaxGrowth">Yearly increase</label>
+            <div class="box"><input id="propTaxGrowth" type="number" min="-10" max="20" step="0.25" inputmode="decimal"><span>%</span></div>
+          </div>
+        </div>
+        <span class="hint">Paid each year Mary holds the lot, starting at this amount. Selling now ends these payments, so the hold scenario is also charged the investment growth those dollars would have earned.</span>
+      </fieldset>
+
       <fieldset class="tax">
         <legend>Tax assumptions</legend>
         <div class="field">
@@ -290,7 +306,7 @@ footer { margin-top: 24px; font-size: .78rem; color: var(--muted); }
       <section class="card" aria-labelledby="h-chart">
         <header>
           <h2 id="h-chart">Value over time</h2>
-          <p>Hold: property value. Sell: after-tax proceeds invested on the sale date.</p>
+          <p>Hold: property value less property taxes paid and their lost investment growth. Sell: after-tax proceeds invested on the sale date.</p>
         </header>
         <div class="chart-wrap"><svg class="chart" id="chart" viewBox="0 0 680 280" role="img" aria-label="Projected value of each strategy by year"></svg></div>
         <div class="legend"><span><span class="swatch sw-hold"></span>Hold property</span><span><span class="swatch sw-sell"></span>Sell now &amp; invest</span></div>
@@ -321,9 +337,11 @@ footer { margin-top: 24px; font-size: .78rem; color: var(--muted); }
             <div><dt>Projected property value at death</dt><dd id="h-fmv"></dd></div>
             <div><dt>Capital gains tax at death <span class="pill tie">step-up assumed</span></dt><dd id="h-tax"></dd></div>
             <div><dt>Children's new cost basis</dt><dd id="h-basis"></dd></div>
-            <div class="total"><dt>Projected value passed to children</dt><dd id="h-final"></dd></div>
+            <div class="neg"><dt>Property taxes paid while holding</dt><dd id="h-ptax"></dd></div>
+            <div class="neg"><dt>Lost investment growth on those taxes</dt><dd id="h-ptaxgrowth"></dd></div>
+            <div class="total"><dt>Net projected value of holding</dt><dd id="h-final"></dd></div>
           </dl>
-          <p class="assume">Assumes the lot receives a step-up in basis to fair market value at Mary's date of death. Estate, inheritance and other transfer taxes are not considered.</p>
+          <p class="assume">Assumes the lot receives a step-up in basis to fair market value at Mary's date of death. Property taxes are assumed paid from Mary's other savings, which would otherwise have been invested at the investment growth rate; the net value reflects that reduction in what passes to her children. Estate, inheritance and other transfer taxes are not considered.</p>
         </section>
       </div>
 
@@ -355,12 +373,14 @@ footer { margin-top: 24px; font-size: .78rem; color: var(--muted); }
           <button type="button" role="tab" id="tab-tax" aria-selected="false" aria-controls="panel-tax">Capital gains rate</button>
           <button type="button" role="tab" id="tab-re" aria-selected="false" aria-controls="panel-re">Real estate growth</button>
           <button type="button" role="tab" id="tab-inv" aria-selected="false" aria-controls="panel-inv">Investment growth</button>
+          <button type="button" role="tab" id="tab-ptax" aria-selected="false" aria-controls="panel-ptax">Property tax</button>
           <button type="button" role="tab" id="tab-grid" aria-selected="false" aria-controls="panel-grid">Growth grid</button>
         </div>
         <div role="tabpanel" id="panel-age" aria-labelledby="tab-age" class="tbl-wrap"></div>
         <div role="tabpanel" id="panel-tax" aria-labelledby="tab-tax" class="tbl-wrap" hidden></div>
         <div role="tabpanel" id="panel-re" aria-labelledby="tab-re" class="tbl-wrap" hidden></div>
         <div role="tabpanel" id="panel-inv" aria-labelledby="tab-inv" class="tbl-wrap" hidden></div>
+        <div role="tabpanel" id="panel-ptax" aria-labelledby="tab-ptax" class="tbl-wrap" hidden></div>
         <div role="tabpanel" id="panel-grid" aria-labelledby="tab-grid" class="tbl-wrap" hidden></div>
       </section>
 
@@ -371,7 +391,7 @@ footer { margin-top: 24px; font-size: .78rem; color: var(--muted); }
           <li>Growth rates are user-entered planning assumptions. Neither the property nor the investment is guaranteed to earn any return, and actual results will differ.</li>
           <li>The <strong>step-up in basis at death is an assumption</strong> based on current federal law (IRC §1014). Ownership structure, trusts, gifting during life, or future law changes can alter it.</li>
           <li>Federal estate tax, New Jersey inheritance tax, and any other transfer taxes are <strong>not considered</strong>. Both strategies leave an asset in Mary's estate of roughly the value shown.</li>
-          <li>Not modeled: selling costs and commissions, property taxes, insurance and other carrying costs of holding a vacant lot, income or capital gains taxes on investment earnings, inflation, and any tax the children would owe if they later sell.</li>
+          <li>Property taxes on the lot are modeled using the entered amount and yearly increase, paid at the end of each year, and are not deducted for income tax purposes. Not modeled: selling costs and commissions, insurance, maintenance and other carrying costs of holding a vacant lot, income or capital gains taxes on investment earnings, inflation, and any tax the children would owe if they later sell.</li>
           <li>Returns compound once a year. The sale is assumed to close today and the death date is assumed at the end of the final year.</li>
         </ul>
       </section>
@@ -383,10 +403,10 @@ footer { margin-top: 24px; font-size: .78rem; color: var(--muted); }
 <script>
 (function () {
   "use strict";
-  var DEFAULTS = { age: 70, lifeExp: 95, years: 25, yearsOverride: false, value: 600000, basis: 100000, reGrowth: 5, invGrowth: 5, cgRate: 23.8 };
-  var STORE = "mw-lot-calc-v1";
+  var DEFAULTS = { age: 70, lifeExp: 95, years: 25, yearsOverride: false, value: 600000, basis: 100000, reGrowth: 5, invGrowth: 5, cgRate: 23.8, propTax: 6000, propTaxGrowth: 3 };
+  var STORE = "mw-lot-calc-v2";
   var $ = function (id) { return document.getElementById(id); };
-  var ids = ["age", "lifeExp", "years", "value", "basis", "reGrowth", "invGrowth", "cgRate"];
+  var ids = ["age", "lifeExp", "years", "value", "basis", "reGrowth", "invGrowth", "cgRate", "propTax", "propTaxGrowth"];
 
   var usd0 = new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 });
   function usd(n) { return usd0.format(Math.round(n)); }
@@ -402,11 +422,23 @@ footer { margin-top: 24px; font-size: .78rem; color: var(--muted); }
     var tax = Math.max(0, gain) * p.cgRate / 100;
     var net = p.value - tax;
     var sellFinal = net * Math.pow(1 + p.invGrowth / 100, n);
-    var holdFinal = p.value * Math.pow(1 + p.reGrowth / 100, n);
-    return { n: n, gain: gain, tax: tax, net: net, sellFinal: sellFinal, holdFinal: holdFinal, diff: holdFinal - sellFinal };
+    var propFV = p.value * Math.pow(1 + p.reGrowth / 100, n);
+    var c = carry(p, n);
+    var holdFinal = propFV - c.fv;
+    return { n: n, gain: gain, tax: tax, net: net, sellFinal: sellFinal, propFV: propFV, taxPaid: c.paid, taxFV: c.fv, holdFinal: holdFinal, diff: holdFinal - sellFinal };
+  }
+  // Property taxes over t years: first year's bill = propTax, rising each year, paid at year end
+  // (a final partial year is prorated). fv = what those payments would have grown to at the investment rate.
+  function carry(p, t) {
+    var paid = 0, fv = 0, r = 1 + p.invGrowth / 100, g = 1 + p.propTaxGrowth / 100;
+    for (var k = 1; k - 1 < t; k++) {
+      var amt = p.propTax * Math.pow(g, k - 1) * Math.min(1, t - (k - 1));
+      paid += amt; fv += amt * Math.pow(r, t - Math.min(k, t));
+    }
+    return { paid: paid, fv: fv };
   }
   function read() {
-    var p = { age: num("age"), lifeExp: num("lifeExp"), value: Math.max(0, num("value")), basis: Math.max(0, num("basis")), reGrowth: num("reGrowth"), invGrowth: num("invGrowth"), cgRate: Math.min(100, Math.max(0, num("cgRate"))), yearsOverride: $("yearsOverride").checked };
+    var p = { age: num("age"), lifeExp: num("lifeExp"), value: Math.max(0, num("value")), basis: Math.max(0, num("basis")), reGrowth: num("reGrowth"), invGrowth: num("invGrowth"), cgRate: Math.min(100, Math.max(0, num("cgRate"))), propTax: Math.max(0, num("propTax")), propTaxGrowth: num("propTaxGrowth"), yearsOverride: $("yearsOverride").checked };
     p.years = p.yearsOverride ? Math.max(0, num("years")) : Math.max(0, p.lifeExp - p.age);
     return p;
   }
@@ -453,25 +485,28 @@ footer { margin-top: 24px; font-size: .78rem; color: var(--muted); }
     // Hold ledger
     $("h-value").textContent = usd(p.value);
     $("h-years").textContent = fmtYears(m.n);
-    $("h-growth").textContent = signed(m.holdFinal - p.value) + " at " + pct(p.reGrowth, 2);
-    $("h-fmv").textContent = usd(m.holdFinal);
+    $("h-growth").textContent = signed(m.propFV - p.value) + " at " + pct(p.reGrowth, 2);
+    $("h-fmv").textContent = usd(m.propFV);
     $("h-tax").textContent = usd(0);
-    $("h-basis").textContent = usd(m.holdFinal);
+    $("h-basis").textContent = usd(m.propFV);
+    $("h-ptax").textContent = (m.taxPaid > 0 ? "−" : "") + usd(m.taxPaid);
+    $("h-ptaxgrowth").textContent = (m.taxFV - m.taxPaid > 0.5 ? "−" : "") + usd(Math.max(0, m.taxFV - m.taxPaid));
     $("h-final").textContent = usd(m.holdFinal);
 
     // Insights
     $("i-tax").textContent = usd(m.tax);
     $("i-tax-p").textContent = m.tax > 0 ? pct(m.tax / p.value * 100) + " of the lot's value leaves before any investing. At " + pct(p.invGrowth, 2) + " that is worth " + usd(m.tax * Math.pow(1 + p.invGrowth / 100, m.n)) + " by Mary's death." : "No gain, so no tax on a sale under these inputs.";
     if (m.n > 0 && m.net > 0) {
-      var be = ((1 + p.reGrowth / 100) * Math.pow(p.value / m.net, 1 / m.n) - 1) * 100;
+      var be = breakEvenReturn(p);
+      if (be == null) { $("i-be").textContent = "n/a"; $("i-be-p").textContent = "No return between −50% and 100% makes the two strategies equal."; } else {
       $("i-be").textContent = pct(be, 2);
-      $("i-be-p").textContent = "Net proceeds must earn this each year to match holding at " + pct(p.reGrowth, 2) + " real estate growth. Current assumption: " + pct(p.invGrowth, 2) + ".";
+      $("i-be-p").textContent = "Net proceeds must earn this each year to match holding at " + pct(p.reGrowth, 2) + " real estate growth, including property taxes. Current assumption: " + pct(p.invGrowth, 2) + "."; }
     } else { $("i-be").textContent = "n/a"; $("i-be-p").textContent = "Needs at least some years invested and positive proceeds."; }
     if (m.gain > 0) {
-      var bt = (p.value - p.value * Math.pow((1 + p.reGrowth / 100) / (1 + p.invGrowth / 100), m.n)) / m.gain * 100;
-      if (Math.abs(bt) < 1e-9) { $("i-bt").textContent = "0%"; $("i-bt-p").textContent = "With equal growth rates, any tax on a sale today makes holding the better outcome."; }
-      else if (bt < 0) { $("i-bt").textContent = "None"; $("i-bt-p").textContent = "Holding wins even at a 0% tax rate, because real estate is assumed to grow faster."; }
-      else if (bt >= 100) { $("i-bt").textContent = "None"; $("i-bt-p").textContent = "Selling wins at any tax rate, because investments are assumed to grow much faster."; }
+      var bt = (p.value - m.holdFinal / Math.pow(1 + p.invGrowth / 100, m.n)) / m.gain * 100;
+      if (Math.abs(bt) < 1e-9) { $("i-bt").textContent = "0%"; $("i-bt-p").textContent = "Any tax on a sale today makes holding the better outcome under these inputs."; }
+      else if (bt < 0) { $("i-bt").textContent = "None"; $("i-bt-p").textContent = "Holding wins even at a 0% tax rate under these inputs."; }
+      else if (bt >= 100) { $("i-bt").textContent = "None"; $("i-bt-p").textContent = "Selling wins at any tax rate under these inputs."; }
       else { $("i-bt").textContent = pct(bt, 1); $("i-bt-p").textContent = "Below this rate selling comes out ahead; above it, holding does. Current assumption: " + pct(p.cgRate, 2) + "."; }
     } else { $("i-bt").textContent = "n/a"; $("i-bt-p").textContent = "No taxable gain under these inputs."; }
 
@@ -479,6 +514,14 @@ footer { margin-top: 24px; font-size: .78rem; color: var(--muted); }
     sensitivity(p, m);
     syncChips(p.cgRate);
     save();
+  }
+  // Investment return at which Sell = Hold (Sell rises and Hold falls as the return rises, so bisection works)
+  function breakEvenReturn(p) {
+    var f = function (r) { return model(clone(p, "invGrowth", r)).diff; };
+    var lo = -50, hi = 100;
+    if (f(lo) < 0 || f(hi) > 0) return null;
+    for (var i = 0; i < 80; i++) { var mid = (lo + hi) / 2; if (f(mid) > 0) lo = mid; else hi = mid; }
+    return (lo + hi) / 2;
   }
   function fmtYears(n) { var r = Math.round(n * 10) / 10; return r + (r === 1 ? " year" : " years"); }
   function fmtAge(a) { return Math.round(a * 10) / 10; }
@@ -490,11 +533,11 @@ footer { margin-top: 24px; font-size: .78rem; color: var(--muted); }
     var W = 680, H = 280, L = 62, R = 112, T = 16, B = 34, svg = $("chart");
     var n = m.n, steps = Math.max(1, Math.ceil(n));
     var pts = [];
-    for (var i = 0; i <= steps; i++) { var t = Math.min(i, n); pts.push({ t: t, h: p.value * Math.pow(1 + p.reGrowth / 100, t), s: m.net * Math.pow(1 + p.invGrowth / 100, t) }); }
+    for (var i = 0; i <= steps; i++) { var t = Math.min(i, n); pts.push({ t: t, h: p.value * Math.pow(1 + p.reGrowth / 100, t) - carry(p, t).fv, s: m.net * Math.pow(1 + p.invGrowth / 100, t) }); }
     var maxV = 0; pts.forEach(function (q) { maxV = Math.max(maxV, q.h, q.s); });
     var step = niceMax(maxV / 5), yt = Math.max(1, Math.ceil(maxV / step)), ymax = step * yt;
     var x = function (t) { return L + (n > 0 ? t / n : 0) * (W - L - R); };
-    var y = function (v) { return T + (1 - v / ymax) * (H - T - B); };
+    var y = function (v) { v = Math.max(0, v); return T + (1 - v / ymax) * (H - T - B); };
     var out = [];
     for (var k = 0; k <= yt; k++) { var vv = ymax * k / yt, yy = y(vv).toFixed(1); out.push('<line class="grid-line" x1="' + L + '" x2="' + (W - R) + '" y1="' + yy + '" y2="' + yy + '"/><text x="' + (L - 8) + '" y="' + yy + '" text-anchor="end" dominant-baseline="middle">' + usdK(vv) + "</text>"); }
     var xticks = n <= 0 ? [0] : niceTicks(n);
@@ -533,6 +576,7 @@ footer { margin-top: 24px; font-size: .78rem; color: var(--muted); }
     $("panel-tax").innerHTML = oneWay([0, 15, 20, 23.8, 30, 34.55, 40], "Capital gains rate", pf, p.cgRate, "cgRate", p) + '<p class="sens-note">Rate applies only to the sale today. The hold scenario assumes no capital gains tax at death.</p>';
     $("panel-re").innerHTML = oneWay([2, 3, 4, 5, 6, 7, 8], "Real estate growth", pf, p.reGrowth, "reGrowth", p);
     $("panel-inv").innerHTML = oneWay([3, 4, 5, 6, 7, 8, 9], "Investment growth", pf, p.invGrowth, "invGrowth", p);
+    $("panel-ptax").innerHTML = oneWay([0, 3000, 6000, 9000, 12000, 15000], "Annual property tax", function (r) { return usd(r); }, p.propTax, "propTax", p) + '<p class="sens-note">Starting annual bill, increasing ' + esc(pct(p.propTaxGrowth, 2)) + ' per year. Affects only the hold scenario.</p>';
     // Two-way growth grid
     var reVals = [3, 4, 5, 6, 7], invVals = [3, 4, 5, 6, 7, 8];
     if (reVals.indexOf(p.reGrowth) < 0) { reVals.push(p.reGrowth); reVals.sort(function (a, b) { return a - b; }); }
@@ -552,7 +596,7 @@ footer { margin-top: 24px; font-size: .78rem; color: var(--muted); }
   function syncChips(rate) { Array.prototype.forEach.call(document.querySelectorAll("#cgChips button"), function (b) { b.setAttribute("aria-pressed", String(parseFloat(b.dataset.rate) === rate)); }); }
   function apply(s) { ids.forEach(function (k) { $(k).value = s[k]; }); $("yearsOverride").checked = !!s.yearsOverride; }
   function save() { try { var s = { yearsOverride: $("yearsOverride").checked }; ids.forEach(function (k) { s[k] = $(k).value; }); localStorage.setItem(STORE, JSON.stringify(s)); } catch (e) {} }
-  function load() { try { var s = JSON.parse(localStorage.getItem(STORE) || "null"); if (s && typeof s === "object") { apply(s); return true; } } catch (e) {} return false; }
+  function load() { try { var s = JSON.parse(localStorage.getItem(STORE) || "null"); if (s && typeof s === "object") { var mrg = {}; for (var k in DEFAULTS) mrg[k] = s[k] != null && s[k] !== "" ? s[k] : DEFAULTS[k]; apply(mrg); return true; } } catch (e) {} return false; }
 
   ids.forEach(function (k) { $(k).addEventListener("input", function () { if (k === "age" || k === "cgRate") $("sampleNote").hidden = true; render(); }); });
   $("yearsOverride").addEventListener("change", function () { if (this.checked) $("years").focus(); render(); });
