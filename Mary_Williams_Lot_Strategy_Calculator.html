@@ -1,0 +1,572 @@
+<title>Fair Haven Lot Strategy</title>
+<meta name="description" content="Illustrative planning model comparing selling Mary Williams' Fair Haven lot now versus holding it until death with a step-up in basis.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:wght@500;600&display=swap">
+<style>
+/* Layout: advisor console. Sticky assumptions rail on the left, results column on the right; stacks on phones. */
+:root {
+  --bg: #f3f5f4;
+  --surface: #ffffff;
+  --sunken: #e9eeec;
+  --ink: #15242b;
+  --muted: #56666c;
+  --line: #d3dcd9;
+  --accent: #1d5d6b;        /* Navesink river teal: interactive + headings */
+  --sell: #2f6fb0;          /* Sell now & invest */
+  --sell-soft: #e3edf7;
+  --hold: #3f7d4e;          /* Hold the lot */
+  --hold-soft: #e2efe5;
+  --warn: #8a5a12;
+  --warn-soft: #fbf1df;
+  --focus: #1d5d6b;
+  --font-display: "Spectral", Georgia, "Times New Roman", serif;
+  --font-body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-data: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  --r: 10px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0f1719; --surface: #162124; --sunken: #1c2a2e; --ink: #e5eeec; --muted: #9fb0b1;
+    --line: #2b3b3f; --accent: #6fbccb; --sell: #7fb0e6; --sell-soft: #1b2b3c; --hold: #82c592;
+    --hold-soft: #1a2f22; --warn: #e3b366; --warn-soft: #2e2617; --focus: #6fbccb; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0f1719; --surface: #162124; --sunken: #1c2a2e; --ink: #e5eeec; --muted: #9fb0b1;
+  --line: #2b3b3f; --accent: #6fbccb; --sell: #7fb0e6; --sell-soft: #1b2b3c; --hold: #82c592;
+  --hold-soft: #1a2f22; --warn: #e3b366; --warn-soft: #2e2617; --focus: #6fbccb; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 15px; line-height: 1.5; }
+.wrap { max-width: 1240px; margin: 0 auto; padding-inline: 20px; padding-block: 28px 56px; }
+h1, h2, h3 { font-family: var(--font-display); font-weight: 600; text-wrap: balance; margin: 0; color: var(--ink); }
+h1 { font-size: clamp(1.7rem, 3.2vw, 2.3rem); line-height: 1.15; }
+h2 { font-size: 1.3rem; }
+h3 { font-size: 1.05rem; }
+p { margin: 0; }
+.num, td.n, .val { font-variant-numeric: tabular-nums; }
+.eyebrow { font-size: .72rem; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+
+/* Header */
+header.top { display: flex; flex-wrap: wrap; gap: 16px 32px; align-items: flex-end; justify-content: space-between; padding-bottom: 20px; border-bottom: 1px solid var(--line); margin-bottom: 24px; }
+header.top .id { display: grid; gap: 6px; min-width: 0; }
+.client { color: var(--muted); }
+.client strong { color: var(--ink); font-weight: 600; }
+.badge { display: inline-flex; align-items: center; gap: 8px; border: 1px solid var(--warn); color: var(--warn); background: var(--warn-soft); border-radius: 999px; padding: 6px 12px; font-size: .8rem; font-weight: 600; }
+
+/* Main grid */
+.grid { display: grid; grid-template-columns: 340px minmax(0, 1fr); gap: 24px; align-items: start; }
+@media (max-width: 920px) { .grid { grid-template-columns: minmax(0, 1fr); } }
+
+/* Inputs rail */
+aside.inputs { position: sticky; top: calc(env(safe-area-inset-top, 0px) + 16px); background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 18px; display: grid; gap: 18px; }
+@media (max-width: 920px) { aside.inputs { position: static; } }
+fieldset { border: 0; padding: 0; margin: 0; display: grid; gap: 12px; min-width: 0; }
+fieldset + fieldset { border-top: 1px solid var(--line); padding-top: 16px; }
+legend { padding: 0; margin-bottom: 4px; font-size: .72rem; letter-spacing: .1em; text-transform: uppercase; color: var(--accent); font-weight: 600; }
+fieldset.tax legend { color: var(--warn); }
+.field { display: grid; gap: 4px; }
+.field label { font-size: .86rem; font-weight: 500; }
+.field .hint { font-size: .76rem; color: var(--muted); }
+.box { display: flex; align-items: center; border: 1px solid var(--line); border-radius: 7px; background: var(--surface); transition: border-color .15s; }
+.box:focus-within { border-color: var(--focus); box-shadow: 0 0 0 3px color-mix(in srgb, var(--focus) 22%, transparent); }
+.box span { padding-inline: 10px; color: var(--muted); font-family: var(--font-data); font-size: .85rem; }
+.box input { flex: 1; min-width: 0; border: 0; background: transparent; color: var(--ink); font: 500 1rem var(--font-data); padding: 9px 10px; font-variant-numeric: tabular-nums; outline: none; }
+.box span:first-child + input { padding-left: 0; }
+.box.disabled { background: var(--sunken); }
+.box.disabled input { color: var(--muted); }
+.row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.check { display: flex; align-items: center; gap: 8px; font-size: .82rem; color: var(--muted); cursor: pointer; }
+.check input { accent-color: var(--accent); width: 16px; height: 16px; margin: 0; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chips button { font: 500 .78rem var(--font-data); border: 1px solid var(--line); background: var(--sunken); color: var(--ink); border-radius: 999px; padding: 3px 10px; cursor: pointer; }
+.chips button:hover { border-color: var(--accent); }
+.chips button[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--surface); }
+button:focus-visible, input:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+.reset { justify-self: start; font: 500 .82rem var(--font-body); background: none; border: 0; color: var(--accent); cursor: pointer; padding: 0; text-decoration: underline; text-underline-offset: 3px; }
+.sample-note { font-size: .76rem; color: var(--muted); background: var(--sunken); border-radius: 7px; padding: 8px 10px; }
+
+/* Results */
+main.results { display: grid; gap: 24px; min-width: 0; }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 20px; min-width: 0; }
+.card > header { display: grid; gap: 4px; margin-bottom: 14px; }
+.card > header p { color: var(--muted); font-size: .88rem; }
+
+/* Headline comparison */
+.headline { border-width: 2px; border-color: var(--accent); }
+.headline-body { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 24px; align-items: center; }
+@media (max-width: 700px) { .headline-body { grid-template-columns: minmax(0, 1fr); } }
+table { border-collapse: collapse; width: 100%; }
+.cmp th, .cmp td { padding: 12px 4px; border-bottom: 1px solid var(--line); text-align: left; }
+.cmp thead th { font-size: .72rem; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); font-weight: 600; padding-top: 0; }
+.cmp td.n, .cmp th.n { text-align: right; }
+.cmp td.n { font: 500 1.35rem var(--font-data); font-variant-numeric: tabular-nums; }
+.cmp tr.diff td { border-bottom: 0; font-weight: 600; }
+.cmp tr.diff td.n { font-size: 1.35rem; }
+.swatch { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 8px; vertical-align: 1px; }
+.sw-sell { background: var(--sell); } .sw-hold { background: var(--hold); }
+.verdict { border-radius: var(--r); padding: 18px; display: grid; gap: 8px; }
+.verdict.hold { background: var(--hold-soft); }
+.verdict.sell { background: var(--sell-soft); }
+.verdict.tie { background: var(--sunken); }
+.verdict .who { font-family: var(--font-display); font-size: 1.35rem; font-weight: 600; line-height: 1.2; }
+.verdict.hold .who { color: var(--hold); } .verdict.sell .who { color: var(--sell); }
+.verdict .by { font: 500 2rem var(--font-data); font-variant-numeric: tabular-nums; line-height: 1.1; }
+.verdict .pct { color: var(--muted); font-size: .88rem; }
+
+/* Chart */
+.chart-wrap { overflow-x: auto; }
+svg.chart { width: 100%; min-width: 520px; height: auto; display: block; }
+svg.chart text { fill: var(--muted); font: 11px var(--font-data); }
+svg.chart .grid-line { stroke: var(--line); stroke-width: 1; }
+svg.chart .l-sell { stroke: var(--sell); fill: none; stroke-width: 2.5; }
+svg.chart .l-hold { stroke: var(--hold); fill: none; stroke-width: 2.5; }
+svg.chart .a-hold { fill: var(--hold); opacity: .08; }
+svg.chart .d-sell { fill: var(--sell); } svg.chart .d-hold { fill: var(--hold); }
+svg.chart text.end-sell { fill: var(--sell); font-weight: 500; } svg.chart text.end-hold { fill: var(--hold); font-weight: 500; }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: .84rem; color: var(--muted); margin-top: 8px; }
+
+/* Breakdown */
+.pair { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
+@media (max-width: 760px) { .pair { grid-template-columns: minmax(0, 1fr); } }
+.strategy { border-top: 4px solid var(--sell); }
+.strategy.hold { border-top-color: var(--hold); }
+.strategy h2 { font-size: 1.15rem; }
+.ledger { display: grid; }
+.ledger div { display: flex; justify-content: space-between; gap: 12px; padding: 8px 0; border-bottom: 1px dashed var(--line); font-size: .92rem; }
+.ledger dt { color: var(--muted); }
+.ledger dd { margin: 0; font-family: var(--font-data); font-weight: 500; text-align: right; font-variant-numeric: tabular-nums; }
+.ledger .neg dd { color: var(--warn); }
+.ledger .total { border-bottom: 0; border-top: 2px solid var(--ink); margin-top: 6px; padding-top: 10px; font-weight: 600; }
+.ledger .total dt { color: var(--ink); }
+.ledger .total dd { font-size: 1.1rem; }
+.assume { margin-top: 12px; font-size: .78rem; color: var(--muted); }
+
+/* Insight */
+.insight { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; padding: 0; overflow: hidden; }
+.insight > div { padding: 16px 20px; display: grid; gap: 4px; align-content: start; }
+.insight > div + div { border-left: 1px solid var(--line); }
+.insight .val { font: 500 1.3rem var(--font-data); }
+.insight p { font-size: .82rem; color: var(--muted); }
+@media (max-width: 760px) { .insight { grid-template-columns: minmax(0, 1fr); } .insight > div + div { border-left: 0; border-top: 1px solid var(--line); } }
+
+/* Sensitivity */
+.tabs { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
+.tabs button { font: 500 .85rem var(--font-body); padding: 7px 14px; border-radius: 7px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); cursor: pointer; }
+.tabs button[aria-selected="true"] { background: var(--accent); border-color: var(--accent); color: var(--surface); }
+.tbl-wrap { overflow-x: auto; }
+.sens th, .sens td { padding: 9px 10px; border-bottom: 1px solid var(--line); text-align: right; font-family: var(--font-data); font-size: .88rem; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.sens th { font-family: var(--font-body); font-size: .72rem; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+.sens th:first-child, .sens td:first-child { text-align: left; }
+.sens tr.current td { background: var(--sunken); font-weight: 600; }
+.sens td.pos { color: var(--hold); } .sens td.neg { color: var(--sell); }
+.pill { display: inline-block; font: 600 .7rem var(--font-body); letter-spacing: .04em; text-transform: uppercase; border-radius: 999px; padding: 2px 8px; }
+.pill.hold { background: var(--hold-soft); color: var(--hold); } .pill.sell { background: var(--sell-soft); color: var(--sell); } .pill.tie { background: var(--sunken); color: var(--muted); }
+.heat td { text-align: center; }
+.heat td.cell-hold { background: color-mix(in srgb, var(--hold) var(--a), transparent); }
+.heat td.cell-sell { background: color-mix(in srgb, var(--sell) var(--a), transparent); }
+.heat td.me { outline: 2px solid var(--ink); outline-offset: -2px; font-weight: 600; }
+.heat th.corner { text-align: left; }
+.sens-note { margin-top: 10px; font-size: .8rem; color: var(--muted); }
+
+/* Disclosures */
+.disclose { border-color: var(--warn); background: var(--warn-soft); }
+.disclose h2 { color: var(--warn); font-size: 1.1rem; }
+.disclose ul { margin: 10px 0 0; padding-left: 20px; display: grid; gap: 6px; font-size: .86rem; }
+.disclose li::marker { color: var(--warn); }
+footer { margin-top: 24px; font-size: .78rem; color: var(--muted); }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <div class="id">
+      <span class="eyebrow">Vacant lot · Fair Haven, New Jersey</span>
+      <h1>Sell the Lot Now, or Hold It for the Children?</h1>
+      <p class="client">Prepared for <strong>Mary Williams</strong> · Projected value passing to her children at death</p>
+    </div>
+    <span class="badge" role="note">Illustrative planning model · Not tax or legal advice</span>
+  </header>
+
+  <div class="grid">
+    <!-- ============ INPUTS ============ -->
+    <aside class="inputs" aria-label="Assumptions">
+      <fieldset>
+        <legend>Client &amp; timeline</legend>
+        <div class="row2">
+          <div class="field">
+            <label for="age">Mary's current age</label>
+            <div class="box"><input id="age" type="number" min="18" max="110" step="1" inputmode="numeric"></div>
+          </div>
+          <div class="field">
+            <label for="lifeExp">Life expectancy</label>
+            <div class="box"><input id="lifeExp" type="number" min="19" max="120" step="1" inputmode="numeric"></div>
+          </div>
+        </div>
+        <div class="field">
+          <label for="years">Years until life expectancy</label>
+          <div class="box" id="yearsBox"><input id="years" type="number" min="0" max="80" step="1" inputmode="numeric"><span>yrs</span></div>
+          <label class="check" for="yearsOverride"><input id="yearsOverride" type="checkbox"> Override the calculated number of years</label>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Property</legend>
+        <div class="field">
+          <label for="value">Current property value</label>
+          <div class="box"><span>$</span><input id="value" type="number" min="0" step="5000" inputmode="decimal"></div>
+        </div>
+        <div class="field">
+          <label for="basis">Cost basis</label>
+          <div class="box"><span>$</span><input id="basis" type="number" min="0" step="5000" inputmode="decimal"></div>
+          <span class="hint">Original purchase price plus capital improvements.</span>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Growth assumptions</legend>
+        <div class="row2">
+          <div class="field">
+            <label for="reGrowth">Real estate growth (%/yr)</label>
+            <div class="box"><input id="reGrowth" type="number" min="-20" max="30" step="0.25" inputmode="decimal"><span>%</span></div>
+          </div>
+          <div class="field">
+            <label for="invGrowth">Investment growth (%/yr)</label>
+            <div class="box"><input id="invGrowth" type="number" min="-20" max="30" step="0.25" inputmode="decimal"><span>%</span></div>
+          </div>
+        </div>
+        <span class="hint">Planning assumptions, compounded annually. Neither return is guaranteed.</span>
+      </fieldset>
+
+      <fieldset class="tax">
+        <legend>Tax assumptions</legend>
+        <div class="field">
+          <label for="cgRate">Capital gains tax rate on a sale today</label>
+          <div class="box"><input id="cgRate" type="number" min="0" max="60" step="0.1" inputmode="decimal"><span>%</span></div>
+          <div class="chips" id="cgChips" aria-label="Common rate presets">
+            <button type="button" data-rate="15">15%</button>
+            <button type="button" data-rate="20">20%</button>
+            <button type="button" data-rate="23.8">23.8%</button>
+            <button type="button" data-rate="30">30%</button>
+            <button type="button" data-rate="34.55">34.55%</button>
+          </div>
+          <span class="hint">Enter one blended rate. Consider federal long-term rate, 3.8% NIIT if applicable, and NJ income tax, which taxes capital gains as ordinary income.</span>
+        </div>
+        <div class="field">
+          <span class="hint"><strong>Hold scenario:</strong> assumes a full step-up in basis to fair market value at death, so no capital gains tax on lifetime appreciation.</span>
+        </div>
+      </fieldset>
+
+      <p class="sample-note" id="sampleNote">Age and tax rate are sample entries. Replace them with Mary's figures.</p>
+      <button type="button" class="reset" id="reset">Reset to starting assumptions</button>
+    </aside>
+
+    <!-- ============ RESULTS ============ -->
+    <main class="results">
+      <section class="card headline" aria-labelledby="h-headline">
+        <header>
+          <span class="eyebrow" id="horizonLabel">At age 95 · 25 years from today</span>
+          <h2 id="h-headline">Projected Value to Children at Mary's Death</h2>
+        </header>
+        <div class="headline-body">
+          <table class="cmp">
+            <thead><tr><th scope="col">Strategy</th><th scope="col" class="n">Projected value at death</th></tr></thead>
+            <tbody>
+              <tr><td><span class="swatch sw-sell"></span>Sell Now &amp; Invest</td><td class="n" id="o-sell">–</td></tr>
+              <tr><td><span class="swatch sw-hold"></span>Hold Property</td><td class="n" id="o-hold">–</td></tr>
+              <tr class="diff"><td>Difference</td><td class="n" id="o-diff">–</td></tr>
+            </tbody>
+          </table>
+          <div class="verdict" id="verdict" aria-live="polite">
+            <span class="eyebrow">Higher projected value</span>
+            <span class="who" id="v-who">–</span>
+            <span class="by" id="v-by">–</span>
+            <span class="pct" id="v-pct">–</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="card" aria-labelledby="h-chart">
+        <header>
+          <h2 id="h-chart">Value over time</h2>
+          <p>Hold: property value. Sell: after-tax proceeds invested on the sale date.</p>
+        </header>
+        <div class="chart-wrap"><svg class="chart" id="chart" viewBox="0 0 680 280" role="img" aria-label="Projected value of each strategy by year"></svg></div>
+        <div class="legend"><span><span class="swatch sw-hold"></span>Hold property</span><span><span class="swatch sw-sell"></span>Sell now &amp; invest</span></div>
+      </section>
+
+      <div class="pair">
+        <section class="card strategy" aria-labelledby="h-sell">
+          <header><span class="eyebrow">Option 2</span><h2 id="h-sell">Sell Now &amp; Invest</h2></header>
+          <dl class="ledger">
+            <div><dt>Current property value</dt><dd id="s-value"></dd></div>
+            <div><dt>Less cost basis</dt><dd id="s-basis"></dd></div>
+            <div><dt>Capital gain</dt><dd id="s-gain"></dd></div>
+            <div class="neg"><dt>Estimated capital gains tax <span id="s-rate"></span></dt><dd id="s-tax"></dd></div>
+            <div><dt>Net proceeds to invest</dt><dd id="s-net"></dd></div>
+            <div><dt>Years invested</dt><dd id="s-years"></dd></div>
+            <div><dt>Investment growth</dt><dd id="s-growth"></dd></div>
+            <div class="total"><dt>Projected value at Mary's death</dt><dd id="s-final"></dd></div>
+          </dl>
+          <p class="assume">Gain = value − basis. Tax = gain × assumed rate. Selling costs and taxes on investment earnings during the holding period are not modeled.</p>
+        </section>
+
+        <section class="card strategy hold" aria-labelledby="h-hold">
+          <header><span class="eyebrow">Option 1</span><h2 id="h-hold">Hold Property &amp; Pass to Children</h2></header>
+          <dl class="ledger">
+            <div><dt>Current property value</dt><dd id="h-value"></dd></div>
+            <div><dt>Years held</dt><dd id="h-years"></dd></div>
+            <div><dt>Appreciation during Mary's lifetime</dt><dd id="h-growth"></dd></div>
+            <div><dt>Projected property value at death</dt><dd id="h-fmv"></dd></div>
+            <div><dt>Capital gains tax at death <span class="pill tie">step-up assumed</span></dt><dd id="h-tax"></dd></div>
+            <div><dt>Children's new cost basis</dt><dd id="h-basis"></dd></div>
+            <div class="total"><dt>Projected value passed to children</dt><dd id="h-final"></dd></div>
+          </dl>
+          <p class="assume">Assumes the lot receives a step-up in basis to fair market value at Mary's date of death. Estate, inheritance and other transfer taxes are not considered.</p>
+        </section>
+      </div>
+
+      <section class="card insight" aria-label="Key figures">
+        <div>
+          <span class="eyebrow">Tax paid on a sale today</span>
+          <span class="val" id="i-tax">–</span>
+          <p id="i-tax-p">Capital removed from compounding on day one.</p>
+        </div>
+        <div>
+          <span class="eyebrow">Break-even investment return</span>
+          <span class="val" id="i-be">–</span>
+          <p id="i-be-p">Annual return the sale proceeds would need to match holding.</p>
+        </div>
+        <div>
+          <span class="eyebrow">Break-even tax rate</span>
+          <span class="val" id="i-bt">–</span>
+          <p id="i-bt-p">Rate at which both strategies produce the same value.</p>
+        </div>
+      </section>
+
+      <section class="card" aria-labelledby="h-sens">
+        <header>
+          <h2 id="h-sens">Sensitivity analysis</h2>
+          <p>Each table changes one assumption and keeps the rest as entered. The highlighted row matches the current inputs. Difference = Hold − Sell.</p>
+        </header>
+        <div class="tabs" role="tablist" aria-label="Sensitivity views">
+          <button type="button" role="tab" id="tab-age" aria-selected="true" aria-controls="panel-age">Age at death</button>
+          <button type="button" role="tab" id="tab-tax" aria-selected="false" aria-controls="panel-tax">Capital gains rate</button>
+          <button type="button" role="tab" id="tab-re" aria-selected="false" aria-controls="panel-re">Real estate growth</button>
+          <button type="button" role="tab" id="tab-inv" aria-selected="false" aria-controls="panel-inv">Investment growth</button>
+          <button type="button" role="tab" id="tab-grid" aria-selected="false" aria-controls="panel-grid">Growth grid</button>
+        </div>
+        <div role="tabpanel" id="panel-age" aria-labelledby="tab-age" class="tbl-wrap"></div>
+        <div role="tabpanel" id="panel-tax" aria-labelledby="tab-tax" class="tbl-wrap" hidden></div>
+        <div role="tabpanel" id="panel-re" aria-labelledby="tab-re" class="tbl-wrap" hidden></div>
+        <div role="tabpanel" id="panel-inv" aria-labelledby="tab-inv" class="tbl-wrap" hidden></div>
+        <div role="tabpanel" id="panel-grid" aria-labelledby="tab-grid" class="tbl-wrap" hidden></div>
+      </section>
+
+      <section class="card disclose" aria-labelledby="h-disc">
+        <h2 id="h-disc">Important assumptions and limitations</h2>
+        <ul>
+          <li>This is an <strong>illustrative financial planning model</strong>. It is not a tax calculation and is not tax, legal or investment advice. Confirm all tax treatment with a qualified CPA or estate attorney.</li>
+          <li>Growth rates are user-entered planning assumptions. Neither the property nor the investment is guaranteed to earn any return, and actual results will differ.</li>
+          <li>The <strong>step-up in basis at death is an assumption</strong> based on current federal law (IRC §1014). Ownership structure, trusts, gifting during life, or future law changes can alter it.</li>
+          <li>Federal estate tax, New Jersey inheritance tax, and any other transfer taxes are <strong>not considered</strong>. Both strategies leave an asset in Mary's estate of roughly the value shown.</li>
+          <li>Not modeled: selling costs and commissions, property taxes, insurance and other carrying costs of holding a vacant lot, income or capital gains taxes on investment earnings, inflation, and any tax the children would owe if they later sell.</li>
+          <li>Returns compound once a year. The sale is assumed to close today and the death date is assumed at the end of the final year.</li>
+        </ul>
+      </section>
+    </main>
+  </div>
+  <footer>Values in nominal dollars. Figures round to the nearest dollar.</footer>
+</div>
+
+<script>
+(function () {
+  "use strict";
+  var DEFAULTS = { age: 70, lifeExp: 95, years: 25, yearsOverride: false, value: 600000, basis: 100000, reGrowth: 5, invGrowth: 5, cgRate: 23.8 };
+  var STORE = "mw-lot-calc-v1";
+  var $ = function (id) { return document.getElementById(id); };
+  var ids = ["age", "lifeExp", "years", "value", "basis", "reGrowth", "invGrowth", "cgRate"];
+
+  var usd0 = new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 });
+  function usd(n) { return usd0.format(Math.round(n)); }
+  function usdK(n) { var a = Math.abs(n); if (a >= 1e6) return "$" + (n / 1e6).toFixed(a >= 1e7 ? 0 : 1) + "M"; if (a >= 1e3) return "$" + Math.round(n / 1e3) + "K"; return "$" + Math.round(n); }
+  function pct(n, d) { return (Math.round(n * Math.pow(10, d == null ? 1 : d)) / Math.pow(10, d == null ? 1 : d)).toString() + "%"; }
+  function num(id) { var v = parseFloat($(id).value); return isFinite(v) ? v : 0; }
+  function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
+
+  // ---- Core model ----
+  function model(p) {
+    var n = Math.max(0, p.years);
+    var gain = p.value - p.basis;
+    var tax = Math.max(0, gain) * p.cgRate / 100;
+    var net = p.value - tax;
+    var sellFinal = net * Math.pow(1 + p.invGrowth / 100, n);
+    var holdFinal = p.value * Math.pow(1 + p.reGrowth / 100, n);
+    return { n: n, gain: gain, tax: tax, net: net, sellFinal: sellFinal, holdFinal: holdFinal, diff: holdFinal - sellFinal };
+  }
+  function read() {
+    var p = { age: num("age"), lifeExp: num("lifeExp"), value: Math.max(0, num("value")), basis: Math.max(0, num("basis")), reGrowth: num("reGrowth"), invGrowth: num("invGrowth"), cgRate: Math.min(100, Math.max(0, num("cgRate"))), yearsOverride: $("yearsOverride").checked };
+    p.years = p.yearsOverride ? Math.max(0, num("years")) : Math.max(0, p.lifeExp - p.age);
+    return p;
+  }
+  function clone(p, k, v) { var c = {}; for (var x in p) c[x] = p[x]; c[k] = v; return c; }
+
+  // ---- Rendering ----
+  function render() {
+    var p = read();
+    if (!p.yearsOverride) $("years").value = p.years;
+    $("years").disabled = !p.yearsOverride;
+    $("yearsBox").classList.toggle("disabled", !p.yearsOverride);
+    var m = model(p);
+    var deathAge = p.age + m.n;
+
+    $("horizonLabel").textContent = "At age " + fmtAge(deathAge) + " · " + fmtYears(m.n) + " from today" + (p.yearsOverride ? " (years overridden)" : "");
+
+    $("o-sell").textContent = usd(m.sellFinal);
+    $("o-hold").textContent = usd(m.holdFinal);
+    $("o-diff").textContent = usd(Math.abs(m.diff));
+
+    var v = $("verdict"), tol = 0.5;
+    v.className = "verdict " + (Math.abs(m.diff) < tol ? "tie" : m.diff > 0 ? "hold" : "sell");
+    if (Math.abs(m.diff) < tol) {
+      $("v-who").textContent = "The strategies are even";
+      $("v-by").textContent = usd(0);
+      $("v-pct").textContent = "Both project the same value at death.";
+    } else {
+      var winHold = m.diff > 0, loser = winHold ? m.sellFinal : m.holdFinal;
+      $("v-who").textContent = winHold ? "Hold Property" : "Sell Now & Invest";
+      $("v-by").textContent = "+" + usd(Math.abs(m.diff));
+      $("v-pct").textContent = (loser > 0 ? pct(Math.abs(m.diff) / loser * 100) + " more than " : "More than ") + (winHold ? "selling now and investing" : "holding the property") + ", in projected value passing to her children.";
+    }
+
+    // Sell ledger
+    $("s-value").textContent = usd(p.value);
+    $("s-basis").textContent = "−" + usd(p.basis);
+    $("s-gain").textContent = m.gain < 0 ? "(" + usd(-m.gain) + ") loss" : usd(m.gain);
+    $("s-rate").textContent = "at " + pct(p.cgRate, 2);
+    $("s-tax").textContent = m.tax > 0 ? "−" + usd(m.tax) : usd(0);
+    $("s-net").textContent = usd(m.net);
+    $("s-years").textContent = fmtYears(m.n);
+    $("s-growth").textContent = signed(m.sellFinal - m.net) + " at " + pct(p.invGrowth, 2);
+    $("s-final").textContent = usd(m.sellFinal);
+    // Hold ledger
+    $("h-value").textContent = usd(p.value);
+    $("h-years").textContent = fmtYears(m.n);
+    $("h-growth").textContent = signed(m.holdFinal - p.value) + " at " + pct(p.reGrowth, 2);
+    $("h-fmv").textContent = usd(m.holdFinal);
+    $("h-tax").textContent = usd(0);
+    $("h-basis").textContent = usd(m.holdFinal);
+    $("h-final").textContent = usd(m.holdFinal);
+
+    // Insights
+    $("i-tax").textContent = usd(m.tax);
+    $("i-tax-p").textContent = m.tax > 0 ? pct(m.tax / p.value * 100) + " of the lot's value leaves before any investing. At " + pct(p.invGrowth, 2) + " that is worth " + usd(m.tax * Math.pow(1 + p.invGrowth / 100, m.n)) + " by Mary's death." : "No gain, so no tax on a sale under these inputs.";
+    if (m.n > 0 && m.net > 0) {
+      var be = ((1 + p.reGrowth / 100) * Math.pow(p.value / m.net, 1 / m.n) - 1) * 100;
+      $("i-be").textContent = pct(be, 2);
+      $("i-be-p").textContent = "Net proceeds must earn this each year to match holding at " + pct(p.reGrowth, 2) + " real estate growth. Current assumption: " + pct(p.invGrowth, 2) + ".";
+    } else { $("i-be").textContent = "n/a"; $("i-be-p").textContent = "Needs at least some years invested and positive proceeds."; }
+    if (m.gain > 0) {
+      var bt = (p.value - p.value * Math.pow((1 + p.reGrowth / 100) / (1 + p.invGrowth / 100), m.n)) / m.gain * 100;
+      if (Math.abs(bt) < 1e-9) { $("i-bt").textContent = "0%"; $("i-bt-p").textContent = "With equal growth rates, any tax on a sale today makes holding the better outcome."; }
+      else if (bt < 0) { $("i-bt").textContent = "None"; $("i-bt-p").textContent = "Holding wins even at a 0% tax rate, because real estate is assumed to grow faster."; }
+      else if (bt >= 100) { $("i-bt").textContent = "None"; $("i-bt-p").textContent = "Selling wins at any tax rate, because investments are assumed to grow much faster."; }
+      else { $("i-bt").textContent = pct(bt, 1); $("i-bt-p").textContent = "Below this rate selling comes out ahead; above it, holding does. Current assumption: " + pct(p.cgRate, 2) + "."; }
+    } else { $("i-bt").textContent = "n/a"; $("i-bt-p").textContent = "No taxable gain under these inputs."; }
+
+    drawChart(p, m);
+    sensitivity(p, m);
+    syncChips(p.cgRate);
+    save();
+  }
+  function fmtYears(n) { var r = Math.round(n * 10) / 10; return r + (r === 1 ? " year" : " years"); }
+  function fmtAge(a) { return Math.round(a * 10) / 10; }
+  function signed(n) { return (n >= 0 ? "+" : "−") + usd(Math.abs(n)); }
+
+  // ---- Chart ----
+  function niceMax(v) { if (v <= 0) return 1; var e = Math.pow(10, Math.floor(Math.log10(v))), f = v / e; var s = f <= 1 ? 1 : f <= 2 ? 2 : f <= 2.5 ? 2.5 : f <= 5 ? 5 : 10; return s * e; }
+  function drawChart(p, m) {
+    var W = 680, H = 280, L = 62, R = 112, T = 16, B = 34, svg = $("chart");
+    var n = m.n, steps = Math.max(1, Math.ceil(n));
+    var pts = [];
+    for (var i = 0; i <= steps; i++) { var t = Math.min(i, n); pts.push({ t: t, h: p.value * Math.pow(1 + p.reGrowth / 100, t), s: m.net * Math.pow(1 + p.invGrowth / 100, t) }); }
+    var maxV = 0; pts.forEach(function (q) { maxV = Math.max(maxV, q.h, q.s); });
+    var step = niceMax(maxV / 5), yt = Math.max(1, Math.ceil(maxV / step)), ymax = step * yt;
+    var x = function (t) { return L + (n > 0 ? t / n : 0) * (W - L - R); };
+    var y = function (v) { return T + (1 - v / ymax) * (H - T - B); };
+    var out = [];
+    for (var k = 0; k <= yt; k++) { var vv = ymax * k / yt, yy = y(vv).toFixed(1); out.push('<line class="grid-line" x1="' + L + '" x2="' + (W - R) + '" y1="' + yy + '" y2="' + yy + '"/><text x="' + (L - 8) + '" y="' + yy + '" text-anchor="end" dominant-baseline="middle">' + usdK(vv) + "</text>"); }
+    var xticks = n <= 0 ? [0] : niceTicks(n);
+    xticks.forEach(function (t) { out.push('<text x="' + x(t).toFixed(1) + '" y="' + (H - B + 18) + '" text-anchor="middle">' + fmtAge(p.age + t) + "</text>"); });
+    out.push('<text x="' + (W - R) + '" y="' + (H - 2) + '" text-anchor="end">Mary\'s age</text>');
+    var path = function (key) { return pts.map(function (q, j) { return (j ? "L" : "M") + x(q.t).toFixed(1) + " " + y(q[key]).toFixed(1); }).join(" "); };
+    out.push('<path class="a-hold" d="' + path("h") + " L" + x(n).toFixed(1) + " " + y(0) + " L" + x(0) + " " + y(0) + 'Z"/>');
+    out.push('<path class="l-hold" d="' + path("h") + '"/><path class="l-sell" d="' + path("s") + '"/>');
+    var last = pts[pts.length - 1], yh = y(last.h), ys = y(last.s);
+    if (Math.abs(yh - ys) < 16) { var mid = (yh + ys) / 2; var up = last.h >= last.s; yh = mid + (up ? -9 : 9); ys = mid + (up ? 9 : -9); }
+    out.push('<circle class="d-hold" cx="' + x(n).toFixed(1) + '" cy="' + y(last.h).toFixed(1) + '" r="4"/><circle class="d-sell" cx="' + x(n).toFixed(1) + '" cy="' + y(last.s).toFixed(1) + '" r="4"/>');
+    out.push('<text class="end-hold" x="' + (x(n) + 10).toFixed(1) + '" y="' + yh.toFixed(1) + '" dominant-baseline="middle">Hold ' + usdK(last.h) + "</text>");
+    out.push('<text class="end-sell" x="' + (x(n) + 10).toFixed(1) + '" y="' + ys.toFixed(1) + '" dominant-baseline="middle">Sell ' + usdK(last.s) + "</text>");
+    svg.innerHTML = out.join("");
+  }
+  function niceTicks(n) { var step = n <= 6 ? 1 : n <= 12 ? 2 : n <= 30 ? 5 : 10; var a = []; for (var t = 0; t <= n + 1e-9; t += step) a.push(t); if (n - a[a.length - 1] > step * 0.4) a.push(n); return a; }
+
+  // ---- Sensitivity ----
+  function verdictPill(d) { return Math.abs(d) < 0.5 ? '<span class="pill tie">Even</span>' : d > 0 ? '<span class="pill hold">Hold</span>' : '<span class="pill sell">Sell</span>'; }
+  function diffCell(d) { return '<td class="' + (d > 0.5 ? "pos" : d < -0.5 ? "neg" : "") + '">' + (d >= 0 ? "+" : "−") + usd(Math.abs(d)) + "</td>"; }
+  function oneWay(rows, label, fmt, cur, key, p) {
+    var h = '<table class="sens"><thead><tr><th scope="col">' + label + '</th><th scope="col">Sell &amp; invest</th><th scope="col">Hold property</th><th scope="col">Difference</th><th scope="col">Higher</th></tr></thead><tbody>';
+    var vals = rows.slice(); if (vals.indexOf(cur) < 0) { vals.push(cur); vals.sort(function (a, b) { return a - b; }); }
+    vals.forEach(function (r) { var mm = model(clone(p, key, r)); h += '<tr class="' + (r === cur ? "current" : "") + '"><td>' + fmt(r) + "</td><td>" + usd(mm.sellFinal) + "</td><td>" + usd(mm.holdFinal) + "</td>" + diffCell(mm.diff) + "<td>" + verdictPill(mm.diff) + "</td></tr>"; });
+    return h + "</tbody></table>";
+  }
+  function sensitivity(p, m) {
+    // Age at death
+    var curAge = p.age + m.n;
+    var ages = [80, 85, 90, 95, 100, 105].filter(function (a) { return a > p.age; });
+    if (ages.indexOf(curAge) < 0) { ages.push(curAge); ages.sort(function (a, b) { return a - b; }); }
+    var h = '<table class="sens"><thead><tr><th scope="col">Age at death</th><th scope="col">Years</th><th scope="col">Sell &amp; invest</th><th scope="col">Hold property</th><th scope="col">Difference</th><th scope="col">Higher</th></tr></thead><tbody>';
+    ages.forEach(function (a) { var yrs = a - p.age, mm = model(clone(p, "years", yrs)); h += '<tr class="' + (a === curAge ? "current" : "") + '"><td>' + fmtAge(a) + "</td><td>" + (Math.round(yrs * 10) / 10) + "</td><td>" + usd(mm.sellFinal) + "</td><td>" + usd(mm.holdFinal) + "</td>" + diffCell(mm.diff) + "<td>" + verdictPill(mm.diff) + "</td></tr>"; });
+    $("panel-age").innerHTML = h + '</tbody></table><p class="sens-note">Years are measured from Mary\'s current age of ' + esc(fmtAge(p.age)) + ".</p>";
+    var pf = function (r) { return pct(r, 2); };
+    $("panel-tax").innerHTML = oneWay([0, 15, 20, 23.8, 30, 34.55, 40], "Capital gains rate", pf, p.cgRate, "cgRate", p) + '<p class="sens-note">Rate applies only to the sale today. The hold scenario assumes no capital gains tax at death.</p>';
+    $("panel-re").innerHTML = oneWay([2, 3, 4, 5, 6, 7, 8], "Real estate growth", pf, p.reGrowth, "reGrowth", p);
+    $("panel-inv").innerHTML = oneWay([3, 4, 5, 6, 7, 8, 9], "Investment growth", pf, p.invGrowth, "invGrowth", p);
+    // Two-way growth grid
+    var reVals = [3, 4, 5, 6, 7], invVals = [3, 4, 5, 6, 7, 8];
+    if (reVals.indexOf(p.reGrowth) < 0) { reVals.push(p.reGrowth); reVals.sort(function (a, b) { return a - b; }); }
+    if (invVals.indexOf(p.invGrowth) < 0) { invVals.push(p.invGrowth); invVals.sort(function (a, b) { return a - b; }); }
+    var grid = [], maxAbs = 1;
+    reVals.forEach(function (re) { var row = []; invVals.forEach(function (iv) { var mm = model(clone(clone(p, "reGrowth", re), "invGrowth", iv)); row.push(mm.diff); maxAbs = Math.max(maxAbs, Math.abs(mm.diff)); }); grid.push(row); });
+    var g = '<table class="sens heat"><thead><tr><th scope="col" class="corner">RE growth ↓ / Investment →</th>' + invVals.map(function (iv) { return '<th scope="col">' + pf(iv) + "</th>"; }).join("") + "</tr></thead><tbody>";
+    reVals.forEach(function (re, i) {
+      g += '<tr><th scope="row" style="text-align:left">' + pf(re) + "</th>";
+      invVals.forEach(function (iv, j) { var d = grid[i][j], a = Math.round(8 + 32 * Math.abs(d) / maxAbs) + "%", me = re === p.reGrowth && iv === p.invGrowth; g += '<td class="' + (d >= 0 ? "cell-hold" : "cell-sell") + (me ? " me" : "") + '" style="--a:' + a + '">' + (d >= 0 ? "+" : "−") + usdK(Math.abs(d)) + "</td>"; });
+      g += "</tr>";
+    });
+    $("panel-grid").innerHTML = g + '</tbody></table><p class="sens-note">Hold − Sell at Mary\'s death over ' + esc(fmtYears(m.n)) + ". Green favors holding, blue favors selling. Outlined cell = current inputs.</p>";
+  }
+
+  // ---- Controls ----
+  function syncChips(rate) { Array.prototype.forEach.call(document.querySelectorAll("#cgChips button"), function (b) { b.setAttribute("aria-pressed", String(parseFloat(b.dataset.rate) === rate)); }); }
+  function apply(s) { ids.forEach(function (k) { $(k).value = s[k]; }); $("yearsOverride").checked = !!s.yearsOverride; }
+  function save() { try { var s = { yearsOverride: $("yearsOverride").checked }; ids.forEach(function (k) { s[k] = $(k).value; }); localStorage.setItem(STORE, JSON.stringify(s)); } catch (e) {} }
+  function load() { try { var s = JSON.parse(localStorage.getItem(STORE) || "null"); if (s && typeof s === "object") { apply(s); return true; } } catch (e) {} return false; }
+
+  ids.forEach(function (k) { $(k).addEventListener("input", function () { if (k === "age" || k === "cgRate") $("sampleNote").hidden = true; render(); }); });
+  $("yearsOverride").addEventListener("change", function () { if (this.checked) $("years").focus(); render(); });
+  Array.prototype.forEach.call(document.querySelectorAll("#cgChips button"), function (b) { b.addEventListener("click", function () { $("cgRate").value = b.dataset.rate; $("sampleNote").hidden = true; render(); }); });
+  $("reset").addEventListener("click", function () { apply(DEFAULTS); $("sampleNote").hidden = false; render(); });
+  var tabs = Array.prototype.slice.call(document.querySelectorAll('[role="tab"]'));
+  function selectTab(t) { tabs.forEach(function (b) { var on = b === t; b.setAttribute("aria-selected", String(on)); b.tabIndex = on ? 0 : -1; $(b.getAttribute("aria-controls")).hidden = !on; }); }
+  tabs.forEach(function (t, i) {
+    t.tabIndex = i === 0 ? 0 : -1;
+    t.addEventListener("click", function () { selectTab(t); });
+    t.addEventListener("keydown", function (e) { var d = e.key === "ArrowRight" ? 1 : e.key === "ArrowLeft" ? -1 : 0; if (d) { var nt = tabs[(i + d + tabs.length) % tabs.length]; selectTab(nt); nt.focus(); e.preventDefault(); } });
+  });
+
+  if (load()) $("sampleNote").hidden = true; else apply(DEFAULTS);
+  render();
+})();
+</script>
