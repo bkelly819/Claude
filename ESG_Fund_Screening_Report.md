@@ -17,7 +17,7 @@
 |---|---|---|
 | **Eligible: Pure ESG** | **4** | OWNS, PRXG, PRXV, VGSR |
 | **Requires Further Review** | **3** | CHGX, ETHO, OACP |
-| **Exclude** | **98** | All others (see Section 2) |
+| **Exclude (not ESG-only)** | **98** | All others, each documented in Section 2c |
 | **Total** | **105** | |
 
 **Key findings**
@@ -30,7 +30,8 @@
    - **Vert Asset Management** (VGSR): a Certified B Corp that runs only sustainable strategies.
 4. **Three funds are close but have unresolved questions.** CHGX's management changed in 2025. ETHO's dedicated ESG index provider sits inside a diversified ETF sponsor. OACP's faith-based values approach and unnamed sub-adviser need checking.
 5. **The eligible set has gaps.** It covers US large-cap equity, global real estate and agency MBS. It has **no eligible international/emerging-market equity, no small-cap and no broad core bond fund**. A portfolio built only from this list would be US-centric. That should be raised with the client rather than relaxing the standard to fill the gaps.
-6. **Calvert (CVSB) is the closest exclusion.** Calvert is a long-standing ESG-dedicated brand but is owned by Morgan Stanley. Under the client's stated rule it is excluded. The client may want to rule explicitly on "dedicated ESG subsidiary inside a conglomerate" cases (also relevant to Candriam/New York Life).
+6. **The not-ESG-only funds are now fully documented.** Section 2c gives every excluded fund's manager, ESG approach, holdings, fee and a mandate-strength rating. Section 3b shortlists the strongest of them (CVSB, IQSU/IQSI, USXF/DMXF/EMXF, green bonds) in case the client relaxes the ownership rule.
+7. **Calvert (CVSB) is the closest exclusion.** Calvert is a long-standing ESG-dedicated brand but is owned by Morgan Stanley. Under the client's stated rule it is excluded. The client may want to rule explicitly on "dedicated ESG subsidiary inside a conglomerate" cases (also relevant to Candriam/New York Life).
 
 ---
 
@@ -53,137 +54,163 @@
 | **Amplify Etho Climate Leadership U.S. ETF (ETHO)** | Adviser: Amplify Investments LLC (independent but multi-strategy ETF sponsor: crypto, income/covered-call, thematic). Sub-adviser: Tidal Investments. Index: Etho Capital, LLC (climate-dedicated) | Strong methodology: carbon-efficiency ranking across 10,000+ stocks, sector exclusions (fossil fuels, tobacco, weapons, gambling), ESG company screen and qualitative stakeholder review. ~290 equal-weighted holdings; broad US exposure including small/mid caps. | The ESG philosophy belongs to the index provider, not the sponsor. Amplify is not an ESG-dedicated firm, though it is far from a BlackRock-scale conglomerate. Ask the client whether a dedicated ESG index licensed to a non-dedicated sponsor is acceptable. Also confirm Etho Capital's current ownership and involvement. | 0.45% |
 | **OneAscent Core Plus Bond ETF (OACP)** | OneAscent Investment Solutions (Birmingham, AL), a faith-based ("biblically aligned") family of firms. **Unnamed sub-adviser** | Active core-plus bond fund with "values-based and proprietary impact criteria": eliminate harmful issuers, evaluate, then "elevate" issuers that promote flourishing. Would fill the core bond gap. | (1) Name the sub-adviser. If it is a large diversified manager, the fund probably fails. (2) Prospectus language says values are given "special consideration," which suggests they may be one factor rather than the primary objective. (3) Screens are faith-based moral exclusions (e.g., abortion, pornography, gambling per a third-party profile) and may not match the client's environmental priorities. (4) The fee is high for a bond fund. Top holdings are mostly US Treasuries/TIPS and agency MBS, so the impact contribution is hard to identify. | 0.74% |
 
-### 2c. Excluded (98)
+### 2c. Not ESG-Only: Excluded Under the Client's Standard, Fully Documented (98)
+
+These funds are still **excluded** under the client's strict standard. The sponsor is a diversified firm, ESG is one input to a conventional strategy, or the fund is an industry theme rather than an ESG mandate. They are documented below in the same detail as the eligible funds, so the client can see what they hold and how strong each ESG mandate is. That also makes it easy to revisit them if the ownership rule is ever relaxed (see Section 3b).
 
 **Reason codes:**
 - **O (Ownership):** Sponsor is a large, diversified financial institution or part of one.
-- **T (Thematic, not ESG mandate):** Industry or theme exposure without an ESG investment philosophy. Often comes from a multi-product sponsor.
-- **I (Integration only):** ESG is one input to, or a screen on, a conventional index or strategy.
+- **T (Thematic, not ESG mandate):** Industry or theme exposure without an ESG investment philosophy.
+- **I (Integration only):** ESG is a tilt, score or screen applied to a conventional index or strategy.
 
-Parent-company facts for these large, well-known sponsors are widely documented. They were not re-verified one fund at a time because any one of them is enough to exclude.
+**Mandate-strength scale (judgment):** How strong the fund's ESG mandate would be on its own, ignoring who sponsors it.
+- **Strong:** broad exclusions including fossil fuels, or use-of-proceeds or impact securities.
+- **Moderate:** best-in-class or exclusion screens that remove a meaningful part of the index.
+- **Light:** benchmark-hugging ESG tilt with few exclusions.
+- **Thematic:** industry exposure, not an ESG screen.
 
-| Ticker | Fund | Sponsor (parent) | Reason | Note |
-|---|---|---|---|---|
-| ACES | ALPS Clean Energy ETF | ALPS Advisors (SS&C Technologies) | O, T | Clean-energy thematic index from a fund-services conglomerate |
-| BATT | Amplify Lithium & Battery Tech ETF | Amplify ETFs | T | Holds lithium/cobalt/nickel miners. Theme with significant mining ESG risk |
-| AVSU | Avantis Responsible US Equity | Avantis (American Century Investments) | O, I | Factor strategy with ESG screens |
-| AVSD | Avantis Responsible International Equity | Avantis (American Century) | O, I | Same |
-| AVSE | Avantis Responsible Emerging Mkts Equity | Avantis (American Century) | O, I | Same |
-| LCTU | iShares US Carbon Transition Readiness Aware Active | BlackRock | O, I | |
-| LCTD | iShares World ex US Carbon Transition Readiness Aware Active | BlackRock | O, I | |
-| CVSB | Calvert Ultra-Short Investment Grade ETF | Calvert Research & Mgmt (Morgan Stanley) | O | **Closest call.** Calvert is an ESG-dedicated brand (since 1976) with its own research, but it is wholly owned by Morgan Stanley. Fails the stated ownership rule; client may choose to revisit (0.24% ER) |
-| DFSU | Dimensional US Sustainability Core 1 | Dimensional Fund Advisors | O, I | Factor core with sustainability screens |
-| DFSI | Dimensional International Sustainability Core 1 | Dimensional | O, I | |
-| DFSB | Dimensional Global Sustainability Fixed Income | Dimensional | O, I | |
-| FAN | First Trust Global Wind Energy | First Trust | O, T | |
-| CARZ | First Trust S-Network Future Vehicles & Tech | First Trust | O, T | Includes conventional automakers and tech |
-| QCLN | First Trust NASDAQ Clean Edge Green Energy | First Trust | O, T | |
-| FIW | First Trust Water | First Trust | O, T | |
-| GRID | First Trust NASDAQ Clean Edge Smart Grid Infrastructure | First Trust | O, T | |
-| ESGG | FlexShares STOXX Global ESG Select | Northern Trust | O, I | |
-| ESG | FlexShares STOXX US ESG Select | Northern Trust | O, I | |
-| FLMB | Franklin Municipal Green Bond | Franklin Templeton | O | Credible green-bond mandate, but sponsor fails |
-| LRGE | ClearBridge Large Cap Growth Select | Franklin Templeton (ClearBridge) | O, I | Conventional growth fund with ESG integration |
-| CTEC | Global X CleanTech (ClimateTech) | Global X (Mirae Asset) | O, T | |
-| RNRG | Global X Renewable Energy Producers | Global X (Mirae Asset) | O, T | |
-| DRIV | Global X Autonomous & Electric Vehicles | Global X (Mirae Asset) | O, T | Holds conventional automakers and chipmakers |
-| AQWA | Global X Clean Water | Global X (Mirae Asset) | O, T | |
-| HYDR | Global X Hydrogen | Global X (Mirae Asset) | O, T | Includes industrial gas companies with fossil-based hydrogen |
-| PBW | Invesco WilderHill Clean Energy | Invesco | O, T | |
-| PBD | Invesco Global Clean Energy | Invesco | O, T | |
-| PHO | Invesco Water Resources | Invesco | O, T | |
-| PIO | Invesco Global Water | Invesco | O, T | |
-| TAN | Invesco Solar | Invesco | O, T | |
-| KLMT | Invesco MSCI Global Climate 500 | Invesco | O, I | |
-| ERTH | Invesco MSCI Sustainable Future | Invesco | O, T | |
-| QQMG | Invesco ESG NASDAQ 100 | Invesco | O, I | Screened version of a conventional index |
-| RSPE | Invesco ESG S&P 500 Equal Weight | Invesco | O, I | |
-| ESML | iShares ESG Aware MSCI USA Small-Cap | BlackRock | O, I | |
-| XJR | iShares ESG Select Screened S&P Small-Cap | BlackRock | O, I | |
-| SUSB | iShares ESG 1-5 Year USD Corp Bond | BlackRock | O, I | |
-| ICLN | iShares Global Clean Energy | BlackRock | O, T | |
-| IDRV | iShares Self-Driving EV and Tech | BlackRock | O, T | |
-| XJH | iShares ESG Select Screened S&P Mid-Cap | BlackRock | O, I | |
-| SDG | iShares MSCI Global Sustainable Development Goals | BlackRock | O | Impact-themed but sponsor fails |
-| CRBN | iShares Low Carbon Optimized MSCI ACWI | BlackRock | O, I | |
-| USXF | iShares ESG Advanced MSCI USA | BlackRock | O, I | |
-| ESGU | iShares ESG Aware MSCI USA | BlackRock | O, I | Benchmark-hugging ESG tilt |
-| DSI | iShares ESG MSCI KLD 400 | BlackRock | O | Historic SRI index (Domini 400 lineage), but sponsor fails |
-| SUSL | iShares ESG MSCI USA Leaders | BlackRock | O, I | |
-| XVV | iShares ESG Select Screened S&P 500 | BlackRock | O, I | |
-| SUSA | iShares ESG Optimized MSCI USA | BlackRock | O, I | |
-| ESGD | iShares ESG Aware MSCI EAFE | BlackRock | O, I | |
-| DMXF | iShares ESG Advanced MSCI EAFE | BlackRock | O, I | |
-| HYXF | iShares ESG Advanced High Yield Corp Bond | BlackRock | O, I | |
-| EAGG | iShares ESG U.S. Aggregate Bond | BlackRock | O, I | |
-| EUSB | iShares ESG Advanced Universal USD Bond | BlackRock | O, I | |
-| SUSC | iShares ESG USD Corporate Bond | BlackRock | O, I | |
-| BGRN | iShares USD Green Bond | BlackRock | O | Use-of-proceeds green bonds, but sponsor fails |
-| ESGE | iShares ESG Aware MSCI EM | BlackRock | O, I | |
-| LDEM | iShares ESG MSCI EM Leaders | BlackRock | O, I | |
-| EMXF | iShares ESG Advanced MSCI EM | BlackRock | O, I | |
-| EVUS | iShares ESG Aware MSCI USA Value | BlackRock | O, I | CUSIP in the source file is corrupted (`4.64E+225`); ticker used for identification |
-| JMSI | JPMorgan Sustainable Municipal Income | J.P. Morgan Asset Management | O, I | |
-| KARS | KraneShares Electric Vehicles & Future Mobility | KraneShares | T | Multi-product sponsor (China, crypto, carbon); includes miners and automakers |
-| KGRN | KraneShares MSCI China Clean Tech | KraneShares | T | Also China governance/transparency concerns |
-| KRBN | KraneShares Global Carbon (futures) | KraneShares | T | Holds carbon-allowance futures. A commodity/pricing exposure, not ownership of sustainable businesses. 1933 Act commodity pool |
-| NBET | Neuberger Energy Transition & Infrastructure | Neuberger Berman | O, T | Holds midstream oil and gas infrastructure |
-| IQSU | NYLI Candriam U.S. Large Cap Equity | New York Life Investments (Candriam is an NYL subsidiary) | O | Candriam is ESG-focused, but the ultimate parent is a large diversified insurer and asset manager |
-| IQSI | NYLI Candriam International Equity | New York Life Investments | O | Same |
-| NUSC | Nuveen ESG Small-Cap | Nuveen (TIAA) | O, I | |
-| NUSA | Nuveen ESG 1-5 Year US Aggregate Bond | Nuveen (TIAA) | O, I | |
-| NUMV | Nuveen ESG Mid-Cap Value | Nuveen (TIAA) | O, I | |
-| NUMG | Nuveen ESG Mid-Cap Growth | Nuveen (TIAA) | O, I | |
-| NULV | Nuveen ESG Large-Cap Value | Nuveen (TIAA) | O, I | |
-| NULG | Nuveen ESG Large-Cap Growth | Nuveen (TIAA) | O, I | |
-| NULC | Nuveen ESG Large-Cap | Nuveen (TIAA) | O, I | |
-| NUDM | Nuveen ESG International Developed Markets Equity | Nuveen (TIAA) | O, I | |
-| NUHY | Nuveen ESG High Yield Corporate Bond | Nuveen (TIAA) | O, I | |
-| NUBD | Nuveen ESG US Aggregate Bond | Nuveen (TIAA) | O, I | |
-| NUEM | Nuveen ESG Emerging Markets Equity | Nuveen (TIAA) | O, I | |
-| EMNT | PIMCO Enhanced Short Maturity Active ESG | PIMCO (Allianz) | O, I | |
-| RAFE | PIMCO RAFI ESG US | PIMCO (Allianz) / Research Affiliates index | O, I | |
-| CNRG | SPDR S&P Kensho Clean Power | State Street | O, T | |
-| NZAC | SPDR MSCI ACWI Climate Paris Aligned | State Street | O, I | |
-| EFIV | SPDR S&P 500 ESG | State Street | O, I | |
-| SHE | SPDR MSCI USA Gender Diversity | State Street | O, I | |
-| PWRD | TCW Transform Systems | TCW Group (diversified; Carlyle-backed) | O, T | |
-| VOTE | TCW Transform 500 | TCW Group | O, I | Formerly Engine No. 1. Essentially an S&P 500-style index fund paired with engagement/proxy voting |
-| TBLU | Tortoise Global Water Fund | Tortoise Capital Advisors | T | Sponsor's core business is energy infrastructure/midstream, which conflicts with the client's philosophy |
-| SMOG | VanEck Low Carbon Energy | VanEck | O, T | |
-| EVX | VanEck Environmental Services | VanEck | O, T | Waste haulers and environmental services |
-| GRNB | VanEck Green Bond | VanEck | O | Use-of-proceeds green bonds, but sponsor fails |
-| ESGV | Vanguard ESG US Stock | Vanguard | O, I | |
-| VSGX | Vanguard ESG International Stock | Vanguard | O, I | |
-| VCEB | Vanguard ESG US Corporate Bond | Vanguard | O, I | |
-| USSG | Xtrackers MSCI USA Selection Equity | DWS (Deutsche Bank) | O, I | |
-| SNPE | Xtrackers S&P 500 Scored & Screened | DWS (Deutsche Bank) | O, I | |
-| USCA | Xtrackers MSCI USA Climate Action Equity | DWS (Deutsche Bank) | O, I | |
-| EASG | Xtrackers MSCI EAFE Selection Equity | DWS (Deutsche Bank) | O, I | |
-| EMCR | Xtrackers EM Carbon Reduction & Climate Improvers | DWS (Deutsche Bank) | O, I | |
-| EMCS | Xtrackers MSCI Emerging Markets Select | DWS (Deutsche Bank) | O, I | |
+**Expense ratios:** Figures marked **✓** were confirmed this session from at least one current data source (2026) or a sponsor document. Unmarked figures are last-known values to confirm against the prospectus. Holdings are representative top positions for the strategy, not a current holdings file. Pull live holdings before presenting.
+
+**Notable 2025–26 developments:**
+- Nuveen announced fee cuts on nine of its ESG ETFs in mid-2026 (10 bp on equity, 5 bp on fixed income). Its figures below may already be lower.
+- Liquidation waves at iShares, Franklin/Putnam and Invesco in 2025–26 did **not** name any fund on this list in the notices found.
+
+#### Group A: Strong ESG mandates from diversified sponsors (closest to the client's philosophy)
+
+| Fund & ticker | Manager / parent | ESG approach | Investment focus | Representative holdings | Expense ratio | Why excluded / assessment | Mandate |
+|---|---|---|---|---|---|---|---|
+| Calvert Ultra-Short Investment Grade ETF (**CVSB**) | Calvert Research & Management / Morgan Stanley | Calvert Principles for Responsible Investment: proprietary ESG research, exclusions, active engagement. Calvert has been an ESG specialist since 1976 | Ultra-short investment-grade corporate and securitized bonds (duration ≤1 yr) | Short-dated investment-grade corporates, ABS, Treasury bills | 0.24% ✓ | O. Calvert is ESG-dedicated, but its parent is a global bank. **Closest exclusion on the list** | Strong |
+| NYLI Candriam U.S. Large Cap Equity ETF (**IQSU**) | NYLIM, sub-advised index by Candriam / New York Life | Candriam ESG index: excludes controversial activities (incl. fossil-fuel-heavy, weapons, tobacco) and UN Global Compact violators, then applies best-in-class ESG ranking | US large-cap equity | Microsoft, Apple, NVIDIA, Alphabet, Visa | 0.09% ✓ | O. Candriam is ESG-focused, but its ultimate parent is a large insurer and asset manager | Strong |
+| NYLI Candriam International Equity ETF (**IQSI**) | NYLIM / Candriam / New York Life | Same Candriam screen, developed ex-US | Developed international equity | ASML, Novartis, Novo Nordisk, Toyota, SAP | 0.15–0.16% ✓ | O. Same as IQSU | Strong |
+| iShares ESG Advanced MSCI USA ETF (**USXF**) | BlackRock | MSCI "Advanced" screen: excludes fossil fuels, weapons, tobacco, private prisons, predatory lending, palm oil, etc.; keeps higher ESG-rated firms | US large/mid-cap equity | NVIDIA, Microsoft, Visa, Mastercard, Home Depot | 0.10% ✓ | O | Strong |
+| iShares ESG Advanced MSCI EAFE ETF (**DMXF**) | BlackRock | Same "Advanced" exclusion set, developed ex-US | Developed international equity | ASML, Novartis, Novo Nordisk, Schneider Electric, SAP | 0.12% ✓ | O | Strong |
+| iShares ESG Advanced MSCI EM ETF (**EMXF**) | BlackRock | Same "Advanced" exclusion set, emerging markets | Emerging-market equity | TSMC, HDFC Bank, Infosys, Meituan | 0.16–0.17% ✓ | O | Strong |
+| iShares ESG Advanced Universal USD Bond ETF (**EUSB**) | BlackRock | Excludes issuers in fossil fuels, weapons, tobacco and controversies; ESG-rated corporates | Broad USD investment-grade and some high-yield bonds | Treasuries, agency MBS, investment-grade corporates | ~0.12% ✓ | O | Strong |
+| iShares ESG Advanced High Yield Corp Bond ETF (**HYXF**) | BlackRock | Advanced exclusions applied to high-yield corporates | US high-yield corporate bonds | BB/B corporate issuers outside excluded sectors | 0.35% ✓ | O | Strong |
+| iShares ESG MSCI KLD 400 ETF (**DSI**) | BlackRock | MSCI KLD 400 Social Index (Domini 400 lineage, the original SRI benchmark): excludes alcohol, tobacco, gambling, weapons, nuclear and fossil-fuel reserve owners; selects ESG leaders | US large/mid-cap equity, ~400 names | NVIDIA, Microsoft, Alphabet, Tesla, Visa | 0.25% ✓ | O. Historic SRI index, but sponsored by BlackRock | Strong |
+| iShares MSCI Global Sustainable Development Goals ETF (**SDG**) | BlackRock | Impact index: ≥50% (generally) of revenue from UN-SDG-aligned products such as healthcare, clean energy and green buildings | Global impact equity, concentrated | Vestas, Novo Nordisk, First Solar, Xinyi Solar, Daiichi Sankyo | ~0.49% | O | Strong (impact) |
+| iShares USD Green Bond ETF (**BGRN**) | BlackRock | Use-of-proceeds green bonds (Climate Bonds Initiative-aligned) | Global USD green bonds: supranational, sovereign, corporate | EIB, KfW, World Bank green bonds; corporate green bonds | 0.20% ✓ | O | Strong (use of proceeds) |
+| VanEck Green Bond ETF (**GRNB**) | VanEck | Use-of-proceeds green bonds certified by the Climate Bonds Initiative | Global green bonds, investment grade + some high yield | Supranational, utility and bank green bonds | ~0.20% | O | Strong (use of proceeds) |
+| Franklin Municipal Green Bond ETF (**FLMB**) | Franklin Templeton | Municipal bonds financing environmental projects (water, clean transport, renewable energy) | Tax-exempt municipal bonds, long duration | Water/sewer revenue bonds, transit authorities, green-certified munis | ~0.30% | O. Status confirmed: not among the 2026 Putnam/Franklin ESG liquidations | Strong (use of proceeds) |
+| JPMorgan Sustainable Municipal Income ETF (**JMSI**) | J.P. Morgan Asset Management | Munis screened for ESG and sustainability factors | Intermediate municipal bonds | Revenue and general obligation munis (education, housing, utilities) | ~0.18% | O | Moderate–Strong |
+| State Street SPDR MSCI ACWI Climate Paris Aligned ETF (**NZAC**) | State Street Global Advisors | EU Paris-Aligned Benchmark: decarbonization path, fossil-fuel exclusions | Global equity | Microsoft, Apple, NVIDIA, Alphabet, Tesla | ~0.12% | O | Moderate–Strong (climate) |
+| Dimensional Global Sustainability Fixed Income ETF (**DFSB**) | Dimensional Fund Advisors | Excludes or underweights issuers by carbon intensity, fossil-fuel reserves and certain products | Global investment-grade bonds (USD-hedged) | Government and corporate investment-grade bonds | ~0.24% | O, I | Moderate |
+| Dimensional US Sustainability Core 1 ETF (**DFSU**) | Dimensional Fund Advisors | Factor core strategy with carbon-intensity underweights and exclusions (tobacco, weapons, fossil reserves) | US all-cap equity | Apple, Microsoft, NVIDIA, Amazon, Alphabet | 0.18% ✓ | O, I | Moderate |
+| Dimensional International Sustainability Core 1 ETF (**DFSI**) | Dimensional Fund Advisors | Same, developed ex-US | Developed international equity | Novo Nordisk, ASML, Nestlé, Toyota | 0.24% ✓ | O, I | Moderate |
+
+#### Group B: ESG-integrated or screened versions of conventional indexes
+
+| Fund & ticker | Manager / parent | ESG approach | Investment focus | Representative holdings | Expense ratio | Why excluded / assessment | Mandate |
+|---|---|---|---|---|---|---|---|
+| Avantis Responsible US Equity ETF (**AVSU**) | Avantis / American Century | Factor strategy (value/profitability) with exclusions for fossil fuels, weapons, tobacco, etc. | US all-cap equity | Apple, Microsoft, NVIDIA, Amazon, Meta | 0.15% ✓ | O, I | Moderate |
+| Avantis Responsible International Equity ETF (**AVSD**) | Avantis / American Century | Same, developed ex-US | Developed international equity | Novo Nordisk, ASML, Roche, Toyota | 0.23% ✓ | O, I | Moderate |
+| Avantis Responsible Emerging Markets Equity ETF (**AVSE**) | Avantis / American Century | Same, emerging markets | EM equity | TSMC, Tencent, Samsung, Infosys | ~0.33% | O, I | Moderate |
+| iShares U.S. Carbon Transition Readiness Aware Active ETF (**LCTU**) | BlackRock | Active overweight of companies rated "ready" for low-carbon transition; still holds energy | US large-cap equity | NVIDIA, Apple, Microsoft, Amazon | 0.15% ✓ (older sources 0.14–0.30%) | O, I | Light |
+| iShares World ex U.S. Carbon Transition Readiness Aware Active ETF (**LCTD**) | BlackRock | Same, ex-US | Developed international equity | ASML, Royal Bank of Canada, Novartis | 0.22% ✓ (older sources 0.20–0.37%) | O, I | Light |
+| FlexShares STOXX Global ESG Select Index Fund (**ESGG**) | Northern Trust | Best-in-class ESG selection with controversy exclusions, sector-neutral | Global large-cap equity | Microsoft, Apple, NVIDIA, ASML | ~0.42% | O, I | Moderate |
+| FlexShares STOXX US ESG Select Index Fund (**ESG**) | Northern Trust | Same, US | US large-cap equity | Microsoft, Apple, NVIDIA, Alphabet | ~0.32% | O, I | Moderate |
+| ClearBridge Large Cap Growth Select ETF (**LRGE**) | ClearBridge / Franklin Templeton | Conventional growth fund with ESG integration and engagement (formerly the ESG-branded version) | US large-cap growth equity | Microsoft, Amazon, NVIDIA, Meta, Visa | ~0.59% | O, I | Light |
+| Invesco MSCI Global Climate 500 ETF (**KLMT**) | Invesco | Climate-tilted global index: reweights by emissions and transition metrics. Operating as of July 2026 per SEC filing | Global large-cap equity | Microsoft, Apple, NVIDIA, Amazon | ~0.10% | O, I | Light (climate tilt) |
+| Invesco ESG NASDAQ 100 ETF (**QQMG**) | Invesco | Nasdaq-100 with ESG-score and controversy screens | US large-cap growth/tech | Apple, Microsoft, NVIDIA, Broadcom | ~0.20% | O, I | Light |
+| Invesco ESG S&P 500 Equal Weight ETF (**RSPE**) | Invesco | Equal-weight S&P 500 ESG index | US large-cap, equal weight | ~180–200 S&P 500 members at ~0.5% each | ~0.20% | O, I | Light |
+| iShares ESG Aware MSCI USA ETF (**ESGU**) | BlackRock | Optimized to raise ESG score versus MSCI USA while tracking it closely; few exclusions | US large/mid-cap equity | NVIDIA ~7%, Apple ~6.5%, Microsoft ~4%, Alphabet, Amazon | 0.15% ✓ | O, I | Light |
+| iShares ESG Aware MSCI USA Small-Cap ETF (**ESML**) | BlackRock | Same "Aware" optimization, small-cap | US small-cap equity | Diversified small caps, ~900+ names | ~0.17% | O, I | Light |
+| iShares ESG Aware MSCI USA Value ETF (**EVUS**) | BlackRock | Same "Aware" optimization, value | US large-cap value | JPMorgan, Berkshire, Johnson & Johnson, Procter & Gamble | ~0.18% | O, I. CUSIP in source file corrupted (`4.64E+225`) | Light |
+| iShares ESG Aware MSCI EAFE ETF (**ESGD**) | BlackRock | Same, developed ex-US | Developed international equity | ASML, Novo Nordisk, Nestlé, SAP | 0.20% ✓ | O, I | Light |
+| iShares ESG Aware MSCI EM ETF (**ESGE**) | BlackRock | Same, EM | EM equity | TSMC, Tencent, Samsung | 0.25% ✓ | O, I | Light |
+| iShares ESG MSCI EM Leaders ETF (**LDEM**) | BlackRock | Best-in-class ESG leaders within EM | EM equity | TSMC, Tencent, Alibaba, Reliance | 0.16–0.17% ✓ | O, I | Moderate |
+| iShares ESG MSCI USA Leaders ETF (**SUSL**) | BlackRock | Top-half ESG scorers per sector | US large/mid-cap equity | NVIDIA, Microsoft, Alphabet, Tesla | 0.10% ✓ | O, I | Moderate |
+| iShares ESG Optimized MSCI USA ETF (**SUSA**) | BlackRock | Optimized for higher ESG score | US large/mid-cap equity | NVIDIA, Microsoft, Apple | 0.25% ✓ | O, I | Light–Moderate |
+| iShares ESG Select Screened S&P 500 ETF (**XVV**) | BlackRock | S&P 500 minus controversial weapons, tobacco, thermal coal, oil sands, small arms, UNGC violators | US large-cap equity | Apple, Microsoft, NVIDIA, Amazon | 0.08% ✓ | O, I | Light |
+| iShares ESG Select Screened S&P Mid-Cap ETF (**XJH**) | BlackRock | Same screen, S&P 400 | US mid-cap equity | Diversified mid caps | 0.12% ✓ | O, I | Light |
+| iShares ESG Select Screened S&P Small-Cap ETF (**XJR**) | BlackRock | Same screen, S&P 600 | US small-cap equity | Diversified small caps | 0.12% ✓ | O, I | Light |
+| iShares Low Carbon Optimized MSCI ACWI ETF (**CRBN**) | BlackRock | Minimizes carbon emissions and reserves while tracking ACWI | Global equity | Apple, Microsoft, NVIDIA, Amazon | ~0.20% | O, I | Light (carbon tilt) |
+| iShares ESG Aware U.S. Aggregate Bond ETF (**EAGG**) | BlackRock | ESG-optimized Bloomberg US Aggregate | US core bonds | Treasuries, agency MBS, investment-grade corporates | 0.10% net ✓ | O, I | Light |
+| iShares ESG Aware USD Corporate Bond ETF (**SUSC**) | BlackRock | ESG-optimized investment-grade corporates | US investment-grade corporate bonds | Bank, tech and utility investment-grade bonds | 0.18% ✓ | O, I | Light |
+| iShares ESG Aware 1-5 Year USD Corporate Bond ETF (**SUSB**) | BlackRock | Same, short duration | Short-term investment-grade corporates | Short investment-grade corporates | 0.12% ✓ | O, I | Light |
+| Nuveen ESG Large-Cap ETF (**NULC**) | Nuveen / TIAA | TIAA/MSCI ESG leaders methodology; excludes controversial weapons, tobacco, etc. | US large-cap equity | NVIDIA, Microsoft, Apple, Alphabet | 0.21% ✓ (pre-2026 cut?) | O, I | Moderate |
+| Nuveen ESG Large-Cap Growth ETF (**NULG**) | Nuveen / TIAA | Same, growth | US large-cap growth | NVIDIA, Microsoft, Tesla, Visa | 0.26% ✓ (pre-2026 cut?) | O, I | Moderate |
+| Nuveen ESG Large-Cap Value ETF (**NULV**) | Nuveen / TIAA | Same, value | US large-cap value | JPMorgan, Procter & Gamble, Verizon | 0.26% ✓ (pre-2026 cut?) | O, I | Moderate |
+| Nuveen ESG Mid-Cap Growth ETF (**NUMG**) | Nuveen / TIAA | Same, mid growth | US mid-cap growth | Diversified mid caps | ~0.31% | O, I | Moderate |
+| Nuveen ESG Mid-Cap Value ETF (**NUMV**) | Nuveen / TIAA | Same, mid value | US mid-cap value | Diversified mid caps | 0.31% ✓ | O, I | Moderate |
+| Nuveen ESG Small-Cap ETF (**NUSC**) | Nuveen / TIAA | Same, small-cap | US small-cap equity | Diversified small caps | 0.31% ✓ | O, I | Moderate |
+| Nuveen ESG International Developed Markets Equity ETF (**NUDM**) | Nuveen / TIAA | Same, developed ex-US | Developed international equity | ASML, Novartis, Sony | 0.28% ✓ | O, I | Moderate |
+| Nuveen ESG Emerging Markets Equity ETF (**NUEM**) | Nuveen / TIAA | Same, EM | EM equity | TSMC, Tencent, Infosys | 0.36% ✓ | O, I | Moderate |
+| Nuveen ESG U.S. Aggregate Bond ETF (**NUBD**) | Nuveen / TIAA | ESG-screened Bloomberg Aggregate | US core bonds | Treasuries, agency MBS, investment-grade corporates | ~0.16% | O, I | Light–Moderate |
+| Nuveen ESG 1-5 Year U.S. Aggregate Bond ETF (**NUSA**) | Nuveen / TIAA | Same, short duration | Short-term US bonds | Treasuries, agencies, short investment-grade corporates | ~0.16% | O, I | Light–Moderate |
+| Nuveen ESG High Yield Corporate Bond ETF (**NUHY**) | Nuveen / TIAA | ESG-screened high yield | US high-yield bonds | BB/B corporates | 0.30% ✓ | O, I | Moderate |
+| PIMCO Enhanced Short Maturity Active ESG ETF (**EMNT**) | PIMCO / Allianz | Active cash-plus strategy with ESG exclusions and engagement | Ultra-short bonds | Commercial paper, short corporates, ABS | ~0.24% | O, I | Moderate |
+| PIMCO RAFI ESG U.S. ETF (**RAFE**) | PIMCO / Allianz (index: Research Affiliates) | Fundamental weighting with ESG screens | US large-cap value-tilted equity | Apple, Microsoft, JPMorgan, Johnson & Johnson | ~0.29% | O, I | Moderate |
+| State Street SPDR S&P 500 ESG ETF (**EFIV**) | State Street Global Advisors | S&P 500 ESG index: excludes bottom-quartile ESG scores, tobacco, controversial weapons, thermal coal | US large-cap equity | Apple, Microsoft, NVIDIA, Alphabet | ~0.10% | O, I | Light |
+| State Street SPDR MSCI USA Gender Diversity ETF (**SHE**) | State Street Global Advisors | Selects companies leading in gender diversity of board and management | US large-cap equity | Diversified large caps | ~0.20% | O, I | Light (single-issue social) |
+| TCW Transform 500 ETF (**VOTE**) | TCW Group (formerly Engine No. 1) | Essentially a broad US index fund. "ESG" comes from proxy voting and engagement, not screening | US large-cap equity | Apple, Microsoft, NVIDIA (S&P 500-like weights) | ~0.05% | O, I | Light (stewardship only) |
+| Vanguard ESG U.S. Stock ETF (**ESGV**) | Vanguard | FTSE exclusion screen (fossil fuels, weapons, tobacco, alcohol, gambling, adult entertainment, nuclear) | US total market | Apple, Microsoft, NVIDIA, Amazon | 0.09% ✓ | O, I | Moderate (exclusion-based) |
+| Vanguard ESG International Stock ETF (**VSGX**) | Vanguard | Same FTSE exclusions, ex-US | International developed + EM | TSMC, ASML, Novo Nordisk, Tencent | 0.10% ✓ | O, I | Moderate |
+| Vanguard ESG U.S. Corporate Bond ETF (**VCEB**) | Vanguard | Same exclusions, investment-grade corporates | US investment-grade corporate bonds | Bank, tech and healthcare investment-grade bonds | 0.12% ✓ | O, I | Moderate |
+| Xtrackers MSCI USA Selection Equity ETF (**USSG**) | DWS / Deutsche Bank | MSCI ESG selection (top-ranked ESG within sectors, ~50% of the market) | US large/mid-cap equity | NVIDIA, Microsoft, Alphabet, Tesla | 0.09% ✓ | O, I | Moderate |
+| Xtrackers S&P 500 Scored & Screened ETF (**SNPE**) | DWS / Deutsche Bank | S&P 500 Scored & Screened index | US large-cap equity | Apple, Microsoft, NVIDIA | 0.10% ✓ | O, I | Light |
+| Xtrackers MSCI USA Climate Action Equity ETF (**USCA**) | DWS / Deutsche Bank | Companies with credible decarbonization targets / transition leaders | US large/mid-cap equity | Microsoft, Apple, NVIDIA, Alphabet | 0.07% ✓ | O, I | Light (climate) |
+| Xtrackers MSCI EAFE Selection Equity ETF (**EASG**) | DWS / Deutsche Bank | MSCI ESG selection, developed ex-US | Developed international equity | ASML, Novo Nordisk, Nestlé | ~0.14% | O, I | Moderate |
+| Xtrackers EM Carbon Reduction & Climate Improvers ETF (**EMCR**) | DWS / Deutsche Bank | EM index with carbon-reduction targets | EM equity | TSMC, Tencent, Samsung | ~0.15% | O, I | Light (carbon tilt) |
+| Xtrackers MSCI Emerging Markets Select ETF (**EMCS**) | DWS / Deutsche Bank | MSCI ESG selection, EM | EM equity | TSMC, Tencent, HDFC Bank | 0.15% ✓ | O, I | Moderate |
+
+#### Group C: Thematic and sector funds (industry exposure, not an ESG mandate)
+
+| Fund & ticker | Manager / parent | Theme | Representative holdings | Expense ratio | Why excluded / ESG concerns |
+|---|---|---|---|---|---|
+| ALPS Clean Energy ETF (**ACES**) | ALPS Advisors / SS&C Technologies | US & Canadian clean energy | Tesla, First Solar, Enphase, Brookfield Renewable | ~0.55% | O, T. Concentrated, volatile |
+| Amplify Lithium & Battery Technology ETF (**BATT**) | Amplify ETFs | Battery supply chain | Lithium, cobalt and nickel miners; battery makers; BYD, Albemarle | ~0.59% | T. Mining has significant ESG risk |
+| First Trust Global Wind Energy ETF (**FAN**) | First Trust | Wind energy | Vestas, Ørsted, Northland Power, NextEra | ~0.60% | O, T |
+| First Trust S-Network Future Vehicles & Technology ETF (**CARZ**) | First Trust | Vehicles & enabling tech | Tesla, Toyota, NVIDIA, Apple | ~0.70% | O, T. Includes conventional automakers and big tech |
+| First Trust NASDAQ Clean Edge Green Energy ETF (**QCLN**) | First Trust | Clean energy | Tesla, First Solar, ON Semiconductor, Albemarle | ~0.56% | O, T |
+| First Trust Water ETF (**FIW**) | First Trust | Water utilities & equipment | American Water Works, Xylem, Ecolab, Roper | ~0.51% | O, T |
+| First Trust NASDAQ Clean Edge Smart Grid Infrastructure ETF (**GRID**) | First Trust | Grid & electrification | ABB, Schneider Electric, Eaton, Quanta | ~0.56% | O, T |
+| Global X CleanTech / ClimateTech ETF (**CTEC**) | Global X / Mirae Asset | Climate technology | Solar, battery and EV component makers | ~0.50% | O, T |
+| Global X Renewable Energy Producers ETF (**RNRG**) | Global X / Mirae Asset | Renewable yieldcos and utilities | Brookfield Renewable, Ørsted, Clearway | ~0.66% | O, T |
+| Global X Autonomous & Electric Vehicles ETF (**DRIV**) | Global X / Mirae Asset | EV/autonomy | NVIDIA, Toyota, Tesla, Alphabet | ~0.68% | O, T. Includes conventional automakers |
+| Global X Clean Water ETF (**AQWA**) | Global X / Mirae Asset | Water | American Water Works, Xylem, Ecolab | ~0.50% | O, T |
+| Global X Hydrogen ETF (**HYDR**) | Global X / Mirae Asset | Hydrogen | Plug Power, Bloom Energy, Ballard, industrial gases | ~0.50% | O, T. Much hydrogen is fossil-derived |
+| Invesco WilderHill Clean Energy ETF (**PBW**) | Invesco | Clean energy (equal weight, small-cap) | Small-cap solar, battery and EV names | ~0.61% | O, T |
+| Invesco Global Clean Energy ETF (**PBD**) | Invesco | Global clean energy | Global renewable and equipment makers | ~0.75% | O, T |
+| Invesco Water Resources ETF (**PHO**) | Invesco | Water | Ecolab, Xylem, Roper, Waters | ~0.59% | O, T |
+| Invesco Global Water ETF (**PIO**) | Invesco | Global water | Geberit, Xylem, Ecolab | ~0.75% | O, T |
+| Invesco Solar ETF (**TAN**) | Invesco | Solar | First Solar, Enphase, Nextracker | ~0.67% | O, T. Very concentrated and volatile |
+| Invesco MSCI Sustainable Future ETF (**ERTH**) | Invesco | Sustainable themes (renewables, green buildings, EV, water) | Tesla, Vestas, NextEra | ~0.62% | O, T |
+| iShares Global Clean Energy ETF (**ICLN**) | BlackRock | Global clean energy | First Solar, Iberdrola, Vestas, Enphase | ~0.39% ✓ | O, T |
+| iShares Self-Driving EV and Tech ETF (**IDRV**) | BlackRock | EV/autonomy | Tesla, Toyota, NVIDIA | ~0.47% | O, T |
+| KraneShares Electric Vehicles & Future Mobility ETF (**KARS**) | KraneShares | EV supply chain | BYD, Tesla, lithium miners | ~0.72% | T. Multi-product sponsor; includes miners |
+| KraneShares MSCI China Clean Technology ETF (**KGRN**) | KraneShares | China clean tech | BYD, LONGi, China renewables | ~0.79% | T. China governance and transparency concerns |
+| KraneShares Global Carbon ETF (**KRBN**) | KraneShares | Carbon-allowance futures (EU/US/UK) | EUA, CCA, RGGI futures | ~0.78% | T. Holds pollution permits, not sustainable businesses. 1933 Act commodity pool (K-1-free structure; check tax) |
+| Neuberger Energy Transition & Infrastructure ETF (**NBET**) | Neuberger Berman | Energy transition & infrastructure | Includes midstream oil & gas pipelines | ~0.65% | O, T. Fossil infrastructure conflicts with client's philosophy |
+| State Street SPDR S&P Kensho Clean Power ETF (**CNRG**) | State Street Global Advisors | Clean power innovation | Solar, wind and storage names | ~0.45% | O, T |
+| TCW Transform Systems ETF (**PWRD**) | TCW Group | Electrification / energy systems | Utilities, grid and industrial names | ~0.75% | O, T |
+| Tortoise Global Water Fund (**TBLU**) | Tortoise Capital Advisors | Water | Water utilities & equipment | ~0.40% | T. Sponsor's core business is energy infrastructure |
+| VanEck Low Carbon Energy ETF (**SMOG**) | VanEck | Low-carbon energy | NextEra, Tesla, Vestas, Iberdrola | ~0.61% | O, T |
+| VanEck Environmental Services ETF (**EVX**) | VanEck | Waste & environmental services | Waste Management, Republic Services, Clean Harbors | ~0.55% | O, T. Waste haulers operate landfills |
 
 ---
 
 ## 3. Recommended Funds
 
+### 3a. Recommended Under the Client's Strict Standard
+
 All four eligible funds are worth considering. Each fills a different role. **PRXG + PRXV** together form the core, VGSR and OWNS fill specific sleeves, and none duplicates another.
 
-### Broad, diversified ESG core
+#### Broad, diversified ESG core
 
 **Praxis Impact Large Cap Growth ETF (PRXG) and Praxis Impact Large Cap Value ETF (PRXV). Use as a pair.**
 - **Why it fits:** Run by Praxis, the investment arm of Everence, a member-owned nonprofit fraternal benefit society. Praxis has done screened, values-based investing exclusively for 30+ years and also does shareholder advocacy and community development investing. There is no conventional-product parent.
 - **What it invests in:** Diversified US large caps (each fund holds roughly 100–270 names) that pass Praxis's values and ESG screens. Growth leans toward technology (NVIDIA, Apple, Microsoft). Value leans toward financials, healthcare and staples (JPMorgan, Johnson & Johnson, Walmart, Procter & Gamble).
 - **Why consider it:** Combining the two gives a broad US large-cap core at 0.36%, the lowest fee among the eligible funds. Main risks are a short ETF track record (launched Apr 2025, ~$65–90M AUM each, so check trading liquidity) and the faith-based framing, which the client should be comfortable with.
 
-### Real-asset diversification
+#### Real-asset diversification
 
 **Vert Global Sustainable Real Estate ETF (VGSR)**
 - **Why it fits:** Vert is a Certified B Corp whose entire business is sustainable investing. The fund keeps only REITs that rank in the top quartile across three ESG rating agencies, plus smaller issue-specific leaders, and excludes fossil-fuel and private-prison REITs.
 - **What it invests in:** About 140 global REITs. Top names: healthcare (Welltower), data centers (Digital Realty, Equinix), logistics (Prologis) and retail (Simon Property).
 - **Why consider it:** The only eligible international and real-asset exposure on the list, with ~$400–500M AUM and a track record that goes back to the 2017 mutual fund. Risks: real-estate sector concentration (top 10 ≈ 44%), interest-rate sensitivity, and implementation by Dimensional as sub-adviser.
 
-### Measurable social impact / fixed income
+#### Measurable social impact / fixed income
 
 **CCM Affordable Housing MBS ETF (OWNS)**
 - **Why it fits:** CCM is an independent firm that has done only impact fixed income since 1998. Every mortgage pool is chosen because it finances homes for low- and moderate-income and minority borrowers in underserved census tracts. The impact is direct and can be traced loan by loan.
@@ -191,6 +218,30 @@ All four eligible funds are worth considering. Each fills a different role. **PR
 - **Why consider it:** The only eligible fixed-income fund on the list. It works as a high-quality bond allocation at a 0.30% net fee. Limits: it is a single-sector bond fund (not a full core bond replacement), small (~$105M AUM), and its net fee depends on a contractual waiver.
 
 **Not recommended yet:** CHGX and ETHO would add diversified US equity, including smaller companies, and OACP would add a core bond. Recommend them only after the questions in Section 4 are resolved. None is recommended for its fee or performance alone.
+
+### 3b. If the Client Relaxes the Ownership Rule (Not ESG-Only Sponsors)
+
+> These funds **do not meet the client's current standard** and are not recommended under it. They are listed only because they have the strongest ESG mandates among the not-ESG-only funds, and they fill the gaps in the eligible set (international/EM equity, small caps, core bonds). Present them only if the client explicitly accepts strong-mandate funds from diversified sponsors. Even then, prefer them in roughly the order below. *(judgment)*
+
+**Calvert Ultra-Short Investment Grade ETF (CVSB): best "ESG-dedicated manager, conglomerate parent" option**
+- **Why it is close:** Calvert has run only responsible-investment strategies since 1976 and has its own ESG research and engagement team. The conflict is only that Morgan Stanley owns it.
+- **What it invests in / role:** Ultra-short investment-grade bonds at 0.24%. Useful as a cash-equivalent sleeve, not a core bond replacement.
+
+**NYLI Candriam U.S. Large Cap Equity (IQSU) and International Equity (IQSI): strong-screen broad equity**
+- **Why it is close:** Candriam is a Europe-based ESG specialist. Its index excludes controversial activities and UN Global Compact violators, then ranks the remaining companies best-in-class. The parent is New York Life.
+- **What it invests in / role:** Broad US and developed ex-US large caps at ~0.09% and ~0.15%. Would give the client the international equity it lacks today.
+
+**iShares ESG Advanced MSCI USA / EAFE / EM (USXF, DMXF, EMXF): broadest fossil-free exclusions at the lowest cost**
+- **Why it is close:** The strictest exclusion set among the large-sponsor products (fossil fuels, weapons, tobacco, private prisons, predatory lending, palm oil). However, BlackRock is the client's own named example of an unacceptable sponsor, so treat these as a last resort.
+- **What it invests in / role:** A complete global equity set (US, developed, EM) at 0.10–0.17%.
+
+**Green bond funds: BGRN (iShares), GRNB (VanEck), FLMB (Franklin muni green)**
+- **Why it is close:** Use-of-proceeds bonds finance specific environmental projects, which is a measurable outcome regardless of who sponsors the fund.
+- **What it invests in / role:** Supranational, sovereign and corporate green bonds (BGRN, GRNB, ~0.20%), or tax-exempt green municipal bonds (FLMB, ~0.30%, useful for taxable accounts). Would complement OWNS in the fixed-income sleeve.
+
+**Not suggested even if the rule is relaxed:**
+- Group B "Aware", "Screened" and climate-tilt funds (e.g., ESGU, XVV, SNPE, EFIV, VOTE, CRBN). They track their conventional benchmarks closely and differ little from non-ESG index funds.
+- Most Group C thematics. They are concentrated industry bets, several hold miners, automakers, fossil infrastructure or carbon permits, and none has an ESG screening philosophy.
 
 ---
 
@@ -237,6 +288,21 @@ All four eligible funds are worth considering. Each fills a different role. **PR
 **CVSB / Calvert**
 - Morgan Stanley IM fund profile: https://morganstanley.com/im/publication/etf/fundprofile_etf_calvertultrashortinvestmentgrade_us.pdf
 
+**Not-ESG-only funds (Section 2c): fees, status and methodology**
+- iShares sustainable bond brief (EAGG, BGRN fees): https://ishares.com/us/literature/product-brief/ishares-sustainable-bond-etf-brief.pdf
+- iShares LDEM fact sheet: https://www.ishares.com/us/literature/fact-sheet/ldem-ishares-esg-msci-em-leaders-etf-fund-fact-sheet-en-us.pdf
+- etf.com, differences among iShares ESG ETFs (ESG Advanced fees/exclusions): https://www.etf.com/node/71490.md
+- FA Magazine, iShares ESG Advanced launch (USXF/DMXF exclusions): https://fa-mag.com/news/ishares-debuts-half-dozen-esg-etfs-56395.html
+- iShares 2026 liquidation supplement (none of the listed funds affected): https://www.sec.gov/Archives/edgar/data/0001100663/000119312526354177/d153282d497.htm
+- Franklin Templeton 2026 Putnam ETF liquidation (FLMB not included): https://www.franklintempleton.com/press-releases/news-room/2026/franklin-templeton-announces-plan-to-liquidate-putnam-etfs
+- Invesco Dec 2025 liquidation supplement (none of the listed funds affected): https://www.sec.gov/Archives/edgar/data/1378872/000119312525326792/d48091d497.htm
+- Invesco KLMT N-PORT, July 2026: https://www.sec.gov/Archives/edgar/data/0001378872/000137887226001618/edgar.htm
+- Nuveen 2026 ESG ETF fee cuts: https://www.thewealthadvisor.com/article/nuveen-cuts-fees-43-billion-etfs-launches-two-new-funds
+- Fee comparisons (ETF Central): https://www.etfcentral.com/compare-etfs/AVSU-vs-DFSU · https://www.etfcentral.com/compare-etfs/AVSD-vs-DFSI · https://www.etfcentral.com/compare-etfs/SNPE-vs-USSG · https://www.etfcentral.com/compare-etfs/USSG-vs-USCA · https://www.etfcentral.com/compare-etfs/LDEM-vs-ESGE · https://www.etfcentral.com/compare-etfs/SUSA-vs-DSI · https://www.etfcentral.com/compare-etfs/XVV-vs-SUSL · https://www.etfcentral.com/compare-etfs/SUSB-vs-SUSC
+- Vanguard VSGX profile: https://investor.vanguard.com/investment-products/mutual-funds/profile/VSGX
+- IQSU/IQSI: https://stockanalysis.com/stocks/IQSU · https://www.trackinsight.com/en/fund/IQSI
+- Seeking Alpha expense pages (XJH, XJR, NULC, NULG, NULV, SNPE): https://seekingalpha.com/symbol/XJH/expenses · https://seekingalpha.com/symbol/XJR/expenses · https://seekingalpha.com/symbol/NULC/expenses
+
 ### Outstanding questions to resolve before recommending
 
 **For the client (policy decisions)**
@@ -257,4 +323,4 @@ All four eligible funds are worth considering. Each fills a different role. **PR
 ### What this report does not claim
 - None of these funds is "perfectly" ESG-aligned. Each holds companies that some ESG investors would challenge (for example, large banks in PRXV and semiconductor manufacturers in CHGX).
 - ESG ratings were not used as evidence of eligibility.
-- Sponsor ownership for excluded funds reflects well-documented corporate structures. Individual excluded funds were not checked for liquidations or renamings, because exclusion makes that unnecessary.
+- Sponsor ownership for excluded funds reflects well-documented corporate structures. Fees not marked ✓ in Section 2c are last-known figures, and holdings there are representative, not live. Re-verify any not-ESG-only fund before it is presented, especially if the client relaxes the ownership rule.
