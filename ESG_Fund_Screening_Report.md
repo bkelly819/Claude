@@ -1,4 +1,4 @@
-# Pure-ESG Fund Screening: Results and Recommendations
+# ESG Fund Screening: Results and Recommendations
 
 **Universe:** The 105 ETFs in the attached `ESG_List.csv` (every row reviewed; no funds added or removed)
 **Research date:** October 15, 2026
@@ -13,75 +13,76 @@
 
 ## 1. Executive Summary
 
+**Screening rule (as directed):** Exclude every fund sponsored by the large, diversified firms that dominate the list: BlackRock/iShares, Invesco, Nuveen/TIAA, Xtrackers/DWS, State Street, Vanguard, First Trust, Global X/Mirae, Dimensional, Avantis/American Century, Franklin Templeton, PIMCO/Allianz, JPMorgan, FlexShares/Northern Trust and Neuberger Berman. **Include all other funds.**
+
 | Classification | Count | Funds |
 |---|---|---|
-| **Eligible: Pure ESG** | **4** | OWNS, PRXG, PRXV, VGSR |
-| **Requires Further Review** | **3** | CHGX, ETHO, OACP |
-| **Exclude (not ESG-only)** | **98** | All others, each documented in Section 2c |
+| **Included: Tier 1, pure ESG manager** | **4** | OWNS, PRXG, PRXV, VGSR |
+| **Included: Tier 2, ESG mandate, sponsor not ESG-only** | **8** | CHGX, ETHO, OACP, CVSB, IQSU, IQSI, GRNB, VOTE |
+| **Included: Tier 3, environmental/thematic** | **9** | ACES, SMOG, EVX, TBLU, PWRD, BATT, KARS, KGRN, KRBN |
+| **Excluded: large diversified sponsor** | **84** | See Section 2b |
 | **Total** | **105** | |
 
 **Key findings**
 
-1. **Most of the list fails on ownership.** At least 84 of the 105 funds come from large, diversified asset managers or conglomerates: BlackRock/iShares (27), Invesco (9), Nuveen/TIAA (11), Xtrackers/DWS (6), State Street (4), Vanguard (3), First Trust (5), Global X/Mirae (5), Dimensional (3), Avantis/American Century (3), Franklin Templeton (2), PIMCO/Allianz (2), JPMorgan (1), FlexShares/Northern Trust (2) and Neuberger Berman (1). The client's standard rules all of these out, however strong a given fund's screens are.
-2. **Most of the rest are thematic or sector products, not ESG mandates.** Clean energy, water, EVs, lithium, hydrogen and carbon-allowance funds from multi-product ETF houses (First Trust, Global X, Invesco, KraneShares, VanEck, ALPS, Amplify, Tortoise) are bets on an industry. They do not carry an ESG investment philosophy, and many hold miners, automakers or utilities that a strict ESG screen would question.
-3. **Only four funds pass every test.** Each has a sponsor whose whole business is built around sustainable, impact or values-based investing:
-   - **CCM** (OWNS): an independent impact fixed-income manager since 1998.
-   - **Praxis / Everence** (PRXG, PRXV): the investment arm of a member-owned, church-affiliated fraternal benefit society that has practiced stewardship investing since 1994.
-   - **Vert Asset Management** (VGSR): a Certified B Corp that runs only sustainable strategies.
-4. **Three funds are close but have unresolved questions.** CHGX's management changed in 2025. ETHO's dedicated ESG index provider sits inside a diversified ETF sponsor. OACP's faith-based values approach and unnamed sub-adviser need checking.
-5. **The eligible set has gaps.** It covers US large-cap equity, global real estate and agency MBS. It has **no eligible international/emerging-market equity, no small-cap and no broad core bond fund**. A portfolio built only from this list would be US-centric. That should be raised with the client rather than relaxing the standard to fill the gaps.
-6. **The not-ESG-only funds are now fully documented.** Section 2c gives every excluded fund's manager, ESG approach, holdings, fee and a mandate-strength rating. Section 3b shortlists the strongest of them (CVSB, IQSU/IQSI, USXF/DMXF/EMXF, green bonds) in case the client relaxes the ownership rule.
-7. **Calvert (CVSB) is the closest exclusion.** Calvert is a long-standing ESG-dedicated brand but is owned by Morgan Stanley. Under the client's stated rule it is excluded. The client may want to rule explicitly on "dedicated ESG subsidiary inside a conglomerate" cases (also relevant to Candriam/New York Life).
+1. **84 of the 105 funds are excluded** because their sponsors are large, diversified firms. These are BlackRock/iShares (27), Nuveen/TIAA (11), Invesco (9), Xtrackers/DWS (6), First Trust (5), Global X/Mirae (5), State Street (4), Vanguard (3), Dimensional (3), Avantis/American Century (3), Franklin Templeton (2), PIMCO/Allianz (2), FlexShares/Northern Trust (2), JPMorgan (1) and Neuberger Berman (1).
+2. **21 funds are included.** They differ a lot in how "pure" they are, so they are tiered:
+   - **Tier 1 (4 funds):** the manager's whole business is sustainable, impact or values-based investing. These are CCM, Praxis/Everence and Vert. They remain the strongest fits.
+   - **Tier 2 (8 funds):** ESG is the fund's stated mandate, but the sponsor is not ESG-only or the mandate needs checking. Some parents are themselves large: Calvert is owned by Morgan Stanley and Candriam by New York Life. They are included because those firms were not on the exclusion list. *(flagged for the client)*
+   - **Tier 3 (9 funds):** environmental or thematic industry funds (clean energy, water, EVs, batteries, carbon allowances). They are included as directed, but they are industry bets rather than ESG-screened portfolios, and several hold miners, automakers or carbon permits. Use them only as small satellite positions, if at all.
+3. **The included set now covers more of a portfolio.** Tier 2 adds international equity (IQSI), broad US equity including smaller companies (ETHO, CHGX, IQSU, VOTE), green bonds (GRNB), a core-plus bond fund (OACP) and an ultra-short bond fund (CVSB). Emerging-market equity is still not covered.
+4. **Recommended core:** PRXG + PRXV (US large cap), IQSI (international), VGSR (real estate), OWNS + GRNB (fixed income). Satellites: ETHO or CHGX for US breadth and smaller companies, CVSB for cash-like reserves. Details in Section 3.
 
 ---
 
 ## 2. Complete Screening Results
 
-### 2a. Eligible: Pure ESG (4)
+### 2a. Included Funds (21)
+
+#### Tier 1: Pure ESG manager (4)
 
 | Fund & ticker | Manager / parent | ESG philosophy | Investment focus | Major holdings (snapshot) | Expense ratio | Eligibility assessment | Sources |
 |---|---|---|---|---|---|---|---|
-| **CCM Affordable Housing MBS ETF (OWNS)** | Community Capital Management, LLC. Independently owned, Fort Lauderdale, founded 1998 by Todd Cohen. Trust: Quaker Investment Trust | The fund exists to finance affordable housing. It buys only MBS whose underlying mortgages go to low- and moderate-income and minority borrowers, prioritizing census tracts that are majority non-white and/or have ≥40% of residents at or below the poverty line, and areas of persistent poverty. | Agency mortgage-backed securities (investment grade); social impact (housing access, racial wealth gap) | Fannie Mae, Freddie Mac and Ginnie Mae pools selected loan-by-loan; government money market fund (~4.5%). ~237–270 positions; top 10 ≈ 24% (Sept 2026) | **0.30% net** (0.57% gross with a contractual waiver; confirm renewal in the current prospectus) | **Verified:** CCM is independently owned and specializes in impact fixed income. Its flagship Community Impact Bond Fund, launched 1999 (~$4B), won Environmental Finance's 2026 Fixed Income Fund of the Year (Americas). **Judgment:** the clearest "measurable social impact" fund on the list. Every bond is chosen for a stated social outcome. | SEC 485BPOS (Quaker Investment Trust, Oct 2024); ETF Strategy launch article; Environmental Finance 2026; Green America / Bond Buyer profiles |
-| **Praxis Impact Large Cap Growth ETF (PRXG)** | Praxis Investment Management, Inc., a subsidiary of Everence Financial (member-owned fraternal benefit society founded 1945 as Mennonite Mutual Aid) | Invests ≥80% in large-cap growth companies that fit Praxis Stewardship Investing core values. Applies values-based screens plus ESG screens. Everence's stewardship program pairs screening with shareholder advocacy and community development investing. | US large-cap growth equity (benchmark: CRSP US Large Cap Growth) | NVIDIA, Apple, Microsoft at the top; ~50% technology (Mar 2026) | **0.36%** | **Verified:** launched Apr 7, 2025. Praxis has run screened mutual funds since 1994. The parent is a nonprofit fraternal society, not a commercial financial conglomerate. **Judgment:** meets the ownership test well. The values lens is faith-based (Anabaptist) as well as ESG, so the client should be comfortable with that framing. | Business Wire launch release (Apr 2025); Praxis registration release; Everence "What is a fraternal benefit society?"; Everence annual reports |
-| **Praxis Impact Large Cap Value ETF (PRXV)** | Same as PRXG | Same stewardship framework applied to value stocks | US large-cap value equity (benchmark: CRSP US Large Cap Value) | JPMorgan Chase (~3.4–3.7%), Micron, Walmart, Johnson & Johnson, Procter & Gamble, AbbVie; ~267 positions | **0.36%** | Same as PRXG. Banks and pharma are among the top weights, so the client should look at whether the screens exclude financing or practices it objects to (see Section 4). | Same as PRXG; Morningstar / StockAnalysis holdings pages |
-| **Vert Global Sustainable Real Estate ETF (VGSR)** | Vert Asset Management, LLC (Sausalito/SF, co-founded by Sam & Sarah Adams). Certified B Corp; PRI and Net Zero Asset Managers signatory. **Sub-adviser: Dimensional Fund Advisors** | ≥80% in real estate companies that pass Vert's ESG criteria. Selection averages ratings from three ESG agencies and keeps top-quartile names ("Comprehensive Excellence"). A "Focused Excellence" track adds smaller REITs that lead on specific issues such as affordable housing or biodiversity. Excludes fossil-fuel and private-prison REITs. | Global listed real estate / REITs | Welltower, Simon Property Group, Digital Realty, Prologis, Equinix (~5% each); ~144 positions; top 10 ≈ 44% | **0.45%** (some data sources show 0.51%, possibly a gross figure; confirm) | **Verified:** Vert's only business is sustainable investing. The fund converted from mutual fund VGSRX to an ETF on Dec 4, 2023. **Judgment:** passes. The one caveat is that trading and portfolio implementation are sub-advised by Dimensional, a large conventional firm, while Vert designs the strategy and sets the investable universe. Confirm the client accepts a conventional firm as an outsourced implementation partner. | SEC N-CSR/N-CSRS (Manager Directed Portfolios, 2024); UN PRI case study by Vert; B Lab directory; IREI launch article |
+| **CCM Affordable Housing MBS ETF (OWNS)** | Community Capital Management, LLC. Independently owned, Fort Lauderdale, founded 1998. Trust: Quaker Investment Trust | Buys only MBS whose mortgages go to low- and moderate-income and minority borrowers, prioritizing census tracts that are majority non-white and/or have ≥40% of residents at or below the poverty line, and areas of persistent poverty | Agency MBS (investment grade); housing access | Fannie Mae, Freddie Mac and Ginnie Mae pools; government money market fund (~4.5%); ~237–270 positions | **0.30% net** ✓ (0.57% gross; contractual waiver) | **Verified:** independent impact-only fixed-income manager. Flagship Community Impact Bond Fund won Environmental Finance's 2026 award. **Judgment:** the most measurable social impact on the list | SEC 485BPOS (Oct 2024); Environmental Finance 2026; Green America profile |
+| **Praxis Impact Large Cap Growth ETF (PRXG)** | Praxis Investment Management / Everence Financial (member-owned nonprofit fraternal benefit society, founded 1945) | ≥80% in large-cap growth companies that fit Praxis Stewardship Investing values. Uses ESG and values screens, shareholder advocacy and community development investing | US large-cap growth (benchmark: CRSP US Large Cap Growth) | NVIDIA, Apple, Microsoft; ~50% technology | **0.36%** ✓ | **Verified:** launched Apr 2025; Praxis has run screened funds since 1994. **Judgment:** the parent is a nonprofit, so the ownership test is met. Faith-based (Anabaptist) values sit alongside ESG | Business Wire (Apr 2025); Everence fraternal-society page |
+| **Praxis Impact Large Cap Value ETF (PRXV)** | Same as PRXG | Same framework, value stocks | US large-cap value (benchmark: CRSP US Large Cap Value) | JPMorgan Chase (~3.5%), Micron, Walmart, Johnson & Johnson, Procter & Gamble, AbbVie; ~267 positions | **0.36%** ✓ | Same as PRXG. Check that the large bank and pharma weights fit the client's priorities | Same; Morningstar/StockAnalysis holdings |
+| **Vert Global Sustainable Real Estate ETF (VGSR)** | Vert Asset Management (B Corp; PRI and Net Zero Asset Managers signatory). Sub-adviser: Dimensional | ≥80% in real estate companies passing Vert's ESG criteria: top quartile across three rating agencies, plus issue leaders (affordable housing, biodiversity). Excludes fossil-fuel and private-prison REITs | Global listed real estate / REITs | Welltower, Simon Property, Digital Realty, Prologis, Equinix; ~144 positions; top 10 ≈ 44% | **0.45%** ✓ (some sources 0.51%) | **Verified:** Vert's only business is sustainable investing. Converted from VGSRX on Dec 4, 2023. Caveat: Dimensional handles implementation | SEC N-CSRS (Dec 2024); UN PRI case study; B Lab |
 
-### 2b. Requires Further Review (3)
+#### Tier 2: ESG mandate, sponsor not ESG-only (8)
 
-| Fund | Sponsor / manager | Why it is promising | What must be verified | Expense ratio |
-|---|---|---|---|---|
-| **Stance Sustainable Beta ETF (CHGX)** | Adviser: Empowered Funds, LLC (EA Advisers / ETF Architect white-label platform). Sub-adviser and index owner: Stance Capital, LLC (quantitative ESG boutique, Bill Davis) | Tracks the Change Finance Diversified Impact U.S. Large Cap Fossil Fuel Free Index: ~100 equal-weighted US large/mid caps, no fossil-fuel producers or fossil-fired utilities, plus ESG exclusions. Built in 2017 by Change Finance PBC, a dedicated impact firm. | (1) In **April 2025** the fund moved from AXS/Change Finance to Stance/EA Series Trust. Change Finance's executives now only advise on methodology, for up to six years. Confirm the screens have not been loosened. (2) Stance sold its earlier ESG ETF (STNC) to Hennessy in 2022. Check whether Stance's business remains centered on ESG. (3) The adviser of record is a general white-label platform. (4) Holdings are tilted toward semiconductors and hardware (AMAT, Sandisk, Teradyne, Western Digital, Intel, AMD in 2026). | 0.49% |
-| **Amplify Etho Climate Leadership U.S. ETF (ETHO)** | Adviser: Amplify Investments LLC (independent but multi-strategy ETF sponsor: crypto, income/covered-call, thematic). Sub-adviser: Tidal Investments. Index: Etho Capital, LLC (climate-dedicated) | Strong methodology: carbon-efficiency ranking across 10,000+ stocks, sector exclusions (fossil fuels, tobacco, weapons, gambling), ESG company screen and qualitative stakeholder review. ~290 equal-weighted holdings; broad US exposure including small/mid caps. | The ESG philosophy belongs to the index provider, not the sponsor. Amplify is not an ESG-dedicated firm, though it is far from a BlackRock-scale conglomerate. Ask the client whether a dedicated ESG index licensed to a non-dedicated sponsor is acceptable. Also confirm Etho Capital's current ownership and involvement. | 0.45% |
-| **OneAscent Core Plus Bond ETF (OACP)** | OneAscent Investment Solutions (Birmingham, AL), a faith-based ("biblically aligned") family of firms. **Unnamed sub-adviser** | Active core-plus bond fund with "values-based and proprietary impact criteria": eliminate harmful issuers, evaluate, then "elevate" issuers that promote flourishing. Would fill the core bond gap. | (1) Name the sub-adviser. If it is a large diversified manager, the fund probably fails. (2) Prospectus language says values are given "special consideration," which suggests they may be one factor rather than the primary objective. (3) Screens are faith-based moral exclusions (e.g., abortion, pornography, gambling per a third-party profile) and may not match the client's environmental priorities. (4) The fee is high for a bond fund. Top holdings are mostly US Treasuries/TIPS and agency MBS, so the impact contribution is hard to identify. | 0.74% |
+| Fund & ticker | Manager / parent | ESG philosophy | Investment focus | Major holdings (snapshot) | Expense ratio | Assessment and caveats | Sources |
+|---|---|---|---|---|---|---|---|
+| **Stance Sustainable Beta ETF (CHGX)** | Adviser: Empowered Funds (EA Series Trust, a white-label platform). Sub-adviser and index owner: Stance Capital (quant ESG boutique) | Change Finance Diversified Impact U.S. Large Cap Fossil Fuel Free Index: ~100 equal-weighted stocks; no fossil-fuel producers or fossil-fired utilities; ESG exclusions | US large/mid-cap equity, equal weight | Applied Materials, Sandisk, Teradyne, Western Digital, Intel, AMD (~1.3% each, mid-2026) | 0.49% ✓ | Strong fossil-free mandate. **Caveat:** management moved from AXS/Change Finance to Stance in Apr 2025, so confirm the methodology is intact. Tilted toward semiconductors | CHGX summary prospectus; SEC N-14; Nasdaq DTN2025-11 |
+| **Amplify Etho Climate Leadership U.S. ETF (ETHO)** | Amplify Investments (independent multi-strategy ETF sponsor). Sub-adviser: Tidal. Index: Etho Capital (climate-dedicated) | Ranks 10,000+ stocks on carbon efficiency; excludes fossil fuels, tobacco, weapons, gambling; ESG company screen; stakeholder review | US all-cap equity, equal weight, ~290 names (small/mid tilt) | MaxLinear, Aehr Test Systems, CEVA, Datadog (~1.5% each, mid-2026) | 0.45% ✓ | Strong climate methodology and broad diversification. The ESG commitment comes from the index provider, not Amplify | Amplify ETHO page; Amplify ETF Trust SEC filings |
+| **OneAscent Core Plus Bond ETF (OACP)** | OneAscent Investment Solutions (Birmingham, AL; faith-based family of firms). Sub-adviser not named in sources found | "Eliminate, evaluate, elevate": excludes harmful issuers, favors issuers that promote community and environmental flourishing; values-based and impact criteria | Active core-plus bonds (~40% corporate, 27% securitized, 22% government, 11% muni) | US Treasuries and TIPS, Fannie Mae pools (top 10 ≈ 19%) | 0.74% ✓ | Fills the core-bond gap. **Caveats:** faith-based screens, values given "special consideration" rather than primacy, high fee, sub-adviser unknown | OneAscent fund page; MarketXLS holdings |
+| **Calvert Ultra-Short Investment Grade ETF (CVSB)** | Calvert Research & Management / Morgan Stanley | Calvert Principles for Responsible Investment: proprietary ESG research, exclusions, engagement. ESG specialist since 1976 | Ultra-short investment-grade bonds (duration ≤1 yr) | Short investment-grade corporates, ABS, T-bills | 0.24% ✓ | Calvert's ESG credentials are strong. **Flag:** its parent (Morgan Stanley) is a large diversified bank. Included because it was not on the exclusion list | Morgan Stanley IM fund profile |
+| **NYLI Candriam U.S. Large Cap Equity ETF (IQSU)** | New York Life Investments; index by Candriam (NYL subsidiary) | Candriam ESG index: excludes controversial activities and UN Global Compact violators, then ranks best-in-class | US large-cap equity | Microsoft, Apple, NVIDIA, Alphabet, Visa | 0.09% ✓ | Strong exclusion screen at very low cost. **Flag:** parent is a large insurer and asset manager | StockAnalysis IQSU |
+| **NYLI Candriam International Equity ETF (IQSI)** | Same as IQSU | Same, developed ex-US | Developed international equity | ASML, Novartis, Novo Nordisk, Toyota, SAP | 0.15–0.16% ✓ | **The only included international equity fund.** Same flag as IQSU | Trackinsight IQSI |
+| **VanEck Green Bond ETF (GRNB)** | VanEck (independent, family-owned, multi-asset) | Use-of-proceeds green bonds certified under the Climate Bonds Initiative | Global green bonds, mostly investment grade | Supranational, sovereign, utility and bank green bonds | ~0.20% | Measurable environmental use of proceeds. VanEck is diversified but not on the exclusion list | VanEck GRNB page (verify fee) |
+| **TCW Transform 500 ETF (VOTE)** | TCW Group (diversified active manager) | Formerly Engine No. 1. Broad US index; ESG comes only from proxy voting and engagement, with no exclusion screens | US large-cap equity (S&P 500-like) | Apple, Microsoft, NVIDIA, Amazon | ~0.05% | **Weakest Tier 2 fund.** It holds fossil-fuel companies and differs little from a conventional index. Included as directed, but not recommended for a strict ESG client | — (verify on TCW site) |
 
-### 2c. Not ESG-Only: Excluded Under the Client's Standard, Fully Documented (98)
+#### Tier 3: Environmental / thematic funds (9). Included, satellite use only
 
-These funds are still **excluded** under the client's strict standard. The sponsor is a diversified firm, ESG is one input to a conventional strategy, or the fund is an industry theme rather than an ESG mandate. They are documented below in the same detail as the eligible funds, so the client can see what they hold and how strong each ESG mandate is. That also makes it easy to revisit them if the ownership rule is ever relaxed (see Section 3b).
+| Fund & ticker | Manager / parent | Theme | Major holdings (representative) | Expense ratio | Assessment and caveats |
+|---|---|---|---|---|---|
+| ALPS Clean Energy ETF (**ACES**) | ALPS Advisors / SS&C Technologies | US & Canadian clean energy | Tesla, First Solar, Enphase, Brookfield Renewable | ~0.55% | Concentrated and volatile. The parent is a fund-services company |
+| VanEck Low Carbon Energy ETF (**SMOG**) | VanEck | Low-carbon energy | NextEra, Tesla, Vestas, Iberdrola | ~0.61% | Pure-play clean energy. Concentrated |
+| VanEck Environmental Services ETF (**EVX**) | VanEck | Waste & environmental services | Waste Management, Republic Services, Clean Harbors | ~0.55% | Waste haulers operate landfills, so the environmental profile is mixed |
+| Tortoise Global Water Fund (**TBLU**) | Tortoise Capital Advisors | Water infrastructure | Water utilities & equipment makers | ~0.40% | Theme is positive, but the sponsor's core business is energy (midstream) infrastructure |
+| TCW Transform Systems ETF (**PWRD**) | TCW Group | Electrification / energy systems | Utilities, grid and industrial names | ~0.75% | Active thematic. Fee is high |
+| Amplify Lithium & Battery Technology ETF (**BATT**) | Amplify ETFs | Battery supply chain | Lithium, cobalt and nickel miners; BYD; Albemarle | ~0.59% | Mining carries significant environmental and human-rights risk. **Not consistent with a strict ESG philosophy** |
+| KraneShares Electric Vehicles & Future Mobility ETF (**KARS**) | KraneShares | EV supply chain | BYD, Tesla, lithium miners | ~0.72% | Includes miners and automakers |
+| KraneShares MSCI China Clean Technology ETF (**KGRN**) | KraneShares | China clean tech | BYD, LONGi, Chinese renewables | ~0.79% | Single-country concentration. China governance and transparency concerns |
+| KraneShares Global Carbon ETF (**KRBN**) | KraneShares | Carbon-allowance futures (EU/US/UK) | EUA, CCA, RGGI futures | ~0.78% | Holds pollution permits, not companies. 1933 Act commodity pool. Speculative hedge on carbon prices |
 
-**Reason codes:**
-- **O (Ownership):** Sponsor is a large, diversified financial institution or part of one.
-- **T (Thematic, not ESG mandate):** Industry or theme exposure without an ESG investment philosophy.
-- **I (Integration only):** ESG is a tilt, score or screen applied to a conventional index or strategy.
+### 2b. Excluded: Large Diversified Sponsor (84)
 
-**Mandate-strength scale (judgment):** How strong the fund's ESG mandate would be on its own, ignoring who sponsors it.
-- **Strong:** broad exclusions including fossil fuels, or use-of-proceeds or impact securities.
-- **Moderate:** best-in-class or exclusion screens that remove a meaningful part of the index.
-- **Light:** benchmark-hugging ESG tilt with few exclusions.
-- **Thematic:** industry exposure, not an ESG screen.
+All funds below are excluded on ownership alone, whatever the strength of their ESG mandate. Details are kept for reference. Expense ratios marked ✓ were confirmed this session; others are last-known values. Holdings are representative.
 
-**Expense ratios:** Figures marked **✓** were confirmed this session from at least one current data source (2026) or a sponsor document. Unmarked figures are last-known values to confirm against the prospectus. Holdings are representative top positions for the strategy, not a current holdings file. Pull live holdings before presenting.
-
-**Notable 2025–26 developments:**
-- Nuveen announced fee cuts on nine of its ESG ETFs in mid-2026 (10 bp on equity, 5 bp on fixed income). Its figures below may already be lower.
-- Liquidation waves at iShares, Franklin/Putnam and Invesco in 2025–26 did **not** name any fund on this list in the notices found.
-
-#### Group A: Strong ESG mandates from diversified sponsors (closest to the client's philosophy)
+#### Group A: Strong ESG mandates (excluded on ownership)
 
 | Fund & ticker | Manager / parent | ESG approach | Investment focus | Representative holdings | Expense ratio | Why excluded / assessment | Mandate |
 |---|---|---|---|---|---|---|---|
-| Calvert Ultra-Short Investment Grade ETF (**CVSB**) | Calvert Research & Management / Morgan Stanley | Calvert Principles for Responsible Investment: proprietary ESG research, exclusions, active engagement. Calvert has been an ESG specialist since 1976 | Ultra-short investment-grade corporate and securitized bonds (duration ≤1 yr) | Short-dated investment-grade corporates, ABS, Treasury bills | 0.24% ✓ | O. Calvert is ESG-dedicated, but its parent is a global bank. **Closest exclusion on the list** | Strong |
-| NYLI Candriam U.S. Large Cap Equity ETF (**IQSU**) | NYLIM, sub-advised index by Candriam / New York Life | Candriam ESG index: excludes controversial activities (incl. fossil-fuel-heavy, weapons, tobacco) and UN Global Compact violators, then applies best-in-class ESG ranking | US large-cap equity | Microsoft, Apple, NVIDIA, Alphabet, Visa | 0.09% ✓ | O. Candriam is ESG-focused, but its ultimate parent is a large insurer and asset manager | Strong |
-| NYLI Candriam International Equity ETF (**IQSI**) | NYLIM / Candriam / New York Life | Same Candriam screen, developed ex-US | Developed international equity | ASML, Novartis, Novo Nordisk, Toyota, SAP | 0.15–0.16% ✓ | O. Same as IQSU | Strong |
 | iShares ESG Advanced MSCI USA ETF (**USXF**) | BlackRock | MSCI "Advanced" screen: excludes fossil fuels, weapons, tobacco, private prisons, predatory lending, palm oil, etc.; keeps higher ESG-rated firms | US large/mid-cap equity | NVIDIA, Microsoft, Visa, Mastercard, Home Depot | 0.10% ✓ | O | Strong |
 | iShares ESG Advanced MSCI EAFE ETF (**DMXF**) | BlackRock | Same "Advanced" exclusion set, developed ex-US | Developed international equity | ASML, Novartis, Novo Nordisk, Schneider Electric, SAP | 0.12% ✓ | O | Strong |
 | iShares ESG Advanced MSCI EM ETF (**EMXF**) | BlackRock | Same "Advanced" exclusion set, emerging markets | Emerging-market equity | TSMC, HDFC Bank, Infosys, Meituan | 0.16–0.17% ✓ | O | Strong |
@@ -90,7 +91,6 @@ These funds are still **excluded** under the client's strict standard. The spons
 | iShares ESG MSCI KLD 400 ETF (**DSI**) | BlackRock | MSCI KLD 400 Social Index (Domini 400 lineage, the original SRI benchmark): excludes alcohol, tobacco, gambling, weapons, nuclear and fossil-fuel reserve owners; selects ESG leaders | US large/mid-cap equity, ~400 names | NVIDIA, Microsoft, Alphabet, Tesla, Visa | 0.25% ✓ | O. Historic SRI index, but sponsored by BlackRock | Strong |
 | iShares MSCI Global Sustainable Development Goals ETF (**SDG**) | BlackRock | Impact index: ≥50% (generally) of revenue from UN-SDG-aligned products such as healthcare, clean energy and green buildings | Global impact equity, concentrated | Vestas, Novo Nordisk, First Solar, Xinyi Solar, Daiichi Sankyo | ~0.49% | O | Strong (impact) |
 | iShares USD Green Bond ETF (**BGRN**) | BlackRock | Use-of-proceeds green bonds (Climate Bonds Initiative-aligned) | Global USD green bonds: supranational, sovereign, corporate | EIB, KfW, World Bank green bonds; corporate green bonds | 0.20% ✓ | O | Strong (use of proceeds) |
-| VanEck Green Bond ETF (**GRNB**) | VanEck | Use-of-proceeds green bonds certified by the Climate Bonds Initiative | Global green bonds, investment grade + some high yield | Supranational, utility and bank green bonds | ~0.20% | O | Strong (use of proceeds) |
 | Franklin Municipal Green Bond ETF (**FLMB**) | Franklin Templeton | Municipal bonds financing environmental projects (water, clean transport, renewable energy) | Tax-exempt municipal bonds, long duration | Water/sewer revenue bonds, transit authorities, green-certified munis | ~0.30% | O. Status confirmed: not among the 2026 Putnam/Franklin ESG liquidations | Strong (use of proceeds) |
 | JPMorgan Sustainable Municipal Income ETF (**JMSI**) | J.P. Morgan Asset Management | Munis screened for ESG and sustainability factors | Intermediate municipal bonds | Revenue and general obligation munis (education, housing, utilities) | ~0.18% | O | Moderate–Strong |
 | State Street SPDR MSCI ACWI Climate Paris Aligned ETF (**NZAC**) | State Street Global Advisors | EU Paris-Aligned Benchmark: decarbonization path, fossil-fuel exclusions | Global equity | Microsoft, Apple, NVIDIA, Alphabet, Tesla | ~0.12% | O | Moderate–Strong (climate) |
@@ -98,7 +98,7 @@ These funds are still **excluded** under the client's strict standard. The spons
 | Dimensional US Sustainability Core 1 ETF (**DFSU**) | Dimensional Fund Advisors | Factor core strategy with carbon-intensity underweights and exclusions (tobacco, weapons, fossil reserves) | US all-cap equity | Apple, Microsoft, NVIDIA, Amazon, Alphabet | 0.18% ✓ | O, I | Moderate |
 | Dimensional International Sustainability Core 1 ETF (**DFSI**) | Dimensional Fund Advisors | Same, developed ex-US | Developed international equity | Novo Nordisk, ASML, Nestlé, Toyota | 0.24% ✓ | O, I | Moderate |
 
-#### Group B: ESG-integrated or screened versions of conventional indexes
+#### Group B: ESG-integrated or screened conventional indexes
 
 | Fund & ticker | Manager / parent | ESG approach | Investment focus | Representative holdings | Expense ratio | Why excluded / assessment | Mandate |
 |---|---|---|---|---|---|---|---|
@@ -143,7 +143,6 @@ These funds are still **excluded** under the client's strict standard. The spons
 | PIMCO RAFI ESG U.S. ETF (**RAFE**) | PIMCO / Allianz (index: Research Affiliates) | Fundamental weighting with ESG screens | US large-cap value-tilted equity | Apple, Microsoft, JPMorgan, Johnson & Johnson | ~0.29% | O, I | Moderate |
 | State Street SPDR S&P 500 ESG ETF (**EFIV**) | State Street Global Advisors | S&P 500 ESG index: excludes bottom-quartile ESG scores, tobacco, controversial weapons, thermal coal | US large-cap equity | Apple, Microsoft, NVIDIA, Alphabet | ~0.10% | O, I | Light |
 | State Street SPDR MSCI USA Gender Diversity ETF (**SHE**) | State Street Global Advisors | Selects companies leading in gender diversity of board and management | US large-cap equity | Diversified large caps | ~0.20% | O, I | Light (single-issue social) |
-| TCW Transform 500 ETF (**VOTE**) | TCW Group (formerly Engine No. 1) | Essentially a broad US index fund. "ESG" comes from proxy voting and engagement, not screening | US large-cap equity | Apple, Microsoft, NVIDIA (S&P 500-like weights) | ~0.05% | O, I | Light (stewardship only) |
 | Vanguard ESG U.S. Stock ETF (**ESGV**) | Vanguard | FTSE exclusion screen (fossil fuels, weapons, tobacco, alcohol, gambling, adult entertainment, nuclear) | US total market | Apple, Microsoft, NVIDIA, Amazon | 0.09% ✓ | O, I | Moderate (exclusion-based) |
 | Vanguard ESG International Stock ETF (**VSGX**) | Vanguard | Same FTSE exclusions, ex-US | International developed + EM | TSMC, ASML, Novo Nordisk, Tencent | 0.10% ✓ | O, I | Moderate |
 | Vanguard ESG U.S. Corporate Bond ETF (**VCEB**) | Vanguard | Same exclusions, investment-grade corporates | US investment-grade corporate bonds | Bank, tech and healthcare investment-grade bonds | 0.12% ✓ | O, I | Moderate |
@@ -154,12 +153,10 @@ These funds are still **excluded** under the client's strict standard. The spons
 | Xtrackers EM Carbon Reduction & Climate Improvers ETF (**EMCR**) | DWS / Deutsche Bank | EM index with carbon-reduction targets | EM equity | TSMC, Tencent, Samsung | ~0.15% | O, I | Light (carbon tilt) |
 | Xtrackers MSCI Emerging Markets Select ETF (**EMCS**) | DWS / Deutsche Bank | MSCI ESG selection, EM | EM equity | TSMC, Tencent, HDFC Bank | 0.15% ✓ | O, I | Moderate |
 
-#### Group C: Thematic and sector funds (industry exposure, not an ESG mandate)
+#### Group C: Thematic and sector funds
 
 | Fund & ticker | Manager / parent | Theme | Representative holdings | Expense ratio | Why excluded / ESG concerns |
 |---|---|---|---|---|---|
-| ALPS Clean Energy ETF (**ACES**) | ALPS Advisors / SS&C Technologies | US & Canadian clean energy | Tesla, First Solar, Enphase, Brookfield Renewable | ~0.55% | O, T. Concentrated, volatile |
-| Amplify Lithium & Battery Technology ETF (**BATT**) | Amplify ETFs | Battery supply chain | Lithium, cobalt and nickel miners; battery makers; BYD, Albemarle | ~0.59% | T. Mining has significant ESG risk |
 | First Trust Global Wind Energy ETF (**FAN**) | First Trust | Wind energy | Vestas, Ørsted, Northland Power, NextEra | ~0.60% | O, T |
 | First Trust S-Network Future Vehicles & Technology ETF (**CARZ**) | First Trust | Vehicles & enabling tech | Tesla, Toyota, NVIDIA, Apple | ~0.70% | O, T. Includes conventional automakers and big tech |
 | First Trust NASDAQ Clean Edge Green Energy ETF (**QCLN**) | First Trust | Clean energy | Tesla, First Solar, ON Semiconductor, Albemarle | ~0.56% | O, T |
@@ -178,72 +175,61 @@ These funds are still **excluded** under the client's strict standard. The spons
 | Invesco MSCI Sustainable Future ETF (**ERTH**) | Invesco | Sustainable themes (renewables, green buildings, EV, water) | Tesla, Vestas, NextEra | ~0.62% | O, T |
 | iShares Global Clean Energy ETF (**ICLN**) | BlackRock | Global clean energy | First Solar, Iberdrola, Vestas, Enphase | ~0.39% ✓ | O, T |
 | iShares Self-Driving EV and Tech ETF (**IDRV**) | BlackRock | EV/autonomy | Tesla, Toyota, NVIDIA | ~0.47% | O, T |
-| KraneShares Electric Vehicles & Future Mobility ETF (**KARS**) | KraneShares | EV supply chain | BYD, Tesla, lithium miners | ~0.72% | T. Multi-product sponsor; includes miners |
-| KraneShares MSCI China Clean Technology ETF (**KGRN**) | KraneShares | China clean tech | BYD, LONGi, China renewables | ~0.79% | T. China governance and transparency concerns |
-| KraneShares Global Carbon ETF (**KRBN**) | KraneShares | Carbon-allowance futures (EU/US/UK) | EUA, CCA, RGGI futures | ~0.78% | T. Holds pollution permits, not sustainable businesses. 1933 Act commodity pool (K-1-free structure; check tax) |
 | Neuberger Energy Transition & Infrastructure ETF (**NBET**) | Neuberger Berman | Energy transition & infrastructure | Includes midstream oil & gas pipelines | ~0.65% | O, T. Fossil infrastructure conflicts with client's philosophy |
 | State Street SPDR S&P Kensho Clean Power ETF (**CNRG**) | State Street Global Advisors | Clean power innovation | Solar, wind and storage names | ~0.45% | O, T |
-| TCW Transform Systems ETF (**PWRD**) | TCW Group | Electrification / energy systems | Utilities, grid and industrial names | ~0.75% | O, T |
-| Tortoise Global Water Fund (**TBLU**) | Tortoise Capital Advisors | Water | Water utilities & equipment | ~0.40% | T. Sponsor's core business is energy infrastructure |
-| VanEck Low Carbon Energy ETF (**SMOG**) | VanEck | Low-carbon energy | NextEra, Tesla, Vestas, Iberdrola | ~0.61% | O, T |
-| VanEck Environmental Services ETF (**EVX**) | VanEck | Waste & environmental services | Waste Management, Republic Services, Clean Harbors | ~0.55% | O, T. Waste haulers operate landfills |
 
 ---
 
 ## 3. Recommended Funds
 
-### 3a. Recommended Under the Client's Strict Standard
+These are the strongest candidates among the 21 included funds. Tier 1 funds come first. Tier 2 funds are recommended where they fill a gap Tier 1 cannot, with their caveats stated.
 
-All four eligible funds are worth considering. Each fills a different role. **PRXG + PRXV** together form the core, VGSR and OWNS fill specific sleeves, and none duplicates another.
+#### Core: US equity
 
-#### Broad, diversified ESG core
+**Praxis Impact Large Cap Growth (PRXG) + Value (PRXV)**
+- **Why it fits:** The parent, Everence, is a member-owned nonprofit with 30+ years of screened investing, shareholder advocacy and community development investing. It has no conventional-product parent.
+- **What it invests in:** Diversified US large caps passing Praxis's values and ESG screens. Growth: NVIDIA, Apple, Microsoft. Value: JPMorgan, Johnson & Johnson, Walmart, Procter & Gamble.
+- **Why consider it:** Together they form a full large-cap core at 0.36%. Risks: short ETF history (Apr 2025), modest assets (~$65–90M each), and faith-based framing.
 
-**Praxis Impact Large Cap Growth ETF (PRXG) and Praxis Impact Large Cap Value ETF (PRXV). Use as a pair.**
-- **Why it fits:** Run by Praxis, the investment arm of Everence, a member-owned nonprofit fraternal benefit society. Praxis has done screened, values-based investing exclusively for 30+ years and also does shareholder advocacy and community development investing. There is no conventional-product parent.
-- **What it invests in:** Diversified US large caps (each fund holds roughly 100–270 names) that pass Praxis's values and ESG screens. Growth leans toward technology (NVIDIA, Apple, Microsoft). Value leans toward financials, healthcare and staples (JPMorgan, Johnson & Johnson, Walmart, Procter & Gamble).
-- **Why consider it:** Combining the two gives a broad US large-cap core at 0.36%, the lowest fee among the eligible funds. Main risks are a short ETF track record (launched Apr 2025, ~$65–90M AUM each, so check trading liquidity) and the faith-based framing, which the client should be comfortable with.
+#### Core: International equity
 
-#### Real-asset diversification
+**NYLI Candriam International Equity (IQSI)**
+- **Why it fits:** Candriam's index excludes controversial activities and UN Global Compact violators before ranking ESG leaders. It is the only international equity fund among the 21 included.
+- **What it invests in:** Developed ex-US large caps (ASML, Novartis, Novo Nordisk, Toyota, SAP).
+- **Why consider it:** Diversifies away from the US at ~0.15%. Caveat: the parent is New York Life, so present the ownership to the client openly.
 
-**Vert Global Sustainable Real Estate ETF (VGSR)**
-- **Why it fits:** Vert is a Certified B Corp whose entire business is sustainable investing. The fund keeps only REITs that rank in the top quartile across three ESG rating agencies, plus smaller issue-specific leaders, and excludes fossil-fuel and private-prison REITs.
-- **What it invests in:** About 140 global REITs. Top names: healthcare (Welltower), data centers (Digital Realty, Equinix), logistics (Prologis) and retail (Simon Property).
-- **Why consider it:** The only eligible international and real-asset exposure on the list, with ~$400–500M AUM and a track record that goes back to the 2017 mutual fund. Risks: real-estate sector concentration (top 10 ≈ 44%), interest-rate sensitivity, and implementation by Dimensional as sub-adviser.
+#### Real assets
 
-#### Measurable social impact / fixed income
+**Vert Global Sustainable Real Estate (VGSR)**
+- **Why it fits:** Vert is a B Corp that runs only sustainable strategies. The fund keeps top-quartile ESG REITs and excludes fossil-fuel and private-prison REITs.
+- **What it invests in:** ~140 global REITs: healthcare (Welltower), data centers (Digital Realty, Equinix), logistics (Prologis).
+- **Why consider it:** Real-estate diversification at 0.45%. Risks: sector concentration (top 10 ≈ 44%) and rate sensitivity.
 
-**CCM Affordable Housing MBS ETF (OWNS)**
-- **Why it fits:** CCM is an independent firm that has done only impact fixed income since 1998. Every mortgage pool is chosen because it finances homes for low- and moderate-income and minority borrowers in underserved census tracts. The impact is direct and can be traced loan by loan.
-- **What it invests in:** Agency MBS (Fannie Mae, Freddie Mac and Ginnie Mae pools), so credit risk is low. The main risks are interest-rate and prepayment risk.
-- **Why consider it:** The only eligible fixed-income fund on the list. It works as a high-quality bond allocation at a 0.30% net fee. Limits: it is a single-sector bond fund (not a full core bond replacement), small (~$105M AUM), and its net fee depends on a contractual waiver.
+#### Fixed income
 
-**Not recommended yet:** CHGX and ETHO would add diversified US equity, including smaller companies, and OACP would add a core bond. Recommend them only after the questions in Section 4 are resolved. None is recommended for its fee or performance alone.
+**CCM Affordable Housing MBS (OWNS)**
+- **Why it fits:** CCM is independent and has done only impact investing since 1998. Every pool finances homes for low- and moderate-income and minority borrowers.
+- **What it invests in:** Agency MBS (Fannie Mae, Freddie Mac, Ginnie Mae), so credit risk is low and the main risks are interest rates and prepayment.
+- **Why consider it:** A high-quality bond sleeve with traceable social impact at 0.30% net. It is small (~$105M) and relies on a fee waiver.
 
-### 3b. If the Client Relaxes the Ownership Rule (Not ESG-Only Sponsors)
+**VanEck Green Bond (GRNB)**
+- **Why it fits:** Every bond's proceeds finance certified green projects. That is a measurable environmental use of capital.
+- **What it invests in:** Global green bonds from supranationals, governments, utilities and banks.
+- **Why consider it:** Pairs with OWNS to give environmental and social impact across the bond allocation at ~0.20%. VanEck is a diversified sponsor.
 
-> These funds **do not meet the client's current standard** and are not recommended under it. They are listed only because they have the strongest ESG mandates among the not-ESG-only funds, and they fill the gaps in the eligible set (international/EM equity, small caps, core bonds). Present them only if the client explicitly accepts strong-mandate funds from diversified sponsors. Even then, prefer them in roughly the order below. *(judgment)*
+#### Satellites (optional)
 
-**Calvert Ultra-Short Investment Grade ETF (CVSB): best "ESG-dedicated manager, conglomerate parent" option**
-- **Why it is close:** Calvert has run only responsible-investment strategies since 1976 and has its own ESG research and engagement team. The conflict is only that Morgan Stanley owns it.
-- **What it invests in / role:** Ultra-short investment-grade bonds at 0.24%. Useful as a cash-equivalent sleeve, not a core bond replacement.
+**Amplify Etho Climate Leadership (ETHO) or Stance Sustainable Beta (CHGX)**
+- **Why they fit:** Both have strong fossil-free, climate-led methodologies. ETHO's comes from Etho Capital and CHGX's from the Change Finance index, now owned by Stance.
+- **What they invest in:** Equal-weighted US stocks. ETHO holds ~290 names with a small/mid tilt. CHGX holds ~100 large/mid caps with a semiconductor tilt.
+- **Why consider them:** They add breadth beyond large caps (ETHO) or an equal-weight alternative (CHGX) at 0.45–0.49%. Choose one, after confirming the open questions in Section 4.
 
-**NYLI Candriam U.S. Large Cap Equity (IQSU) and International Equity (IQSI): strong-screen broad equity**
-- **Why it is close:** Candriam is a Europe-based ESG specialist. Its index excludes controversial activities and UN Global Compact violators, then ranks the remaining companies best-in-class. The parent is New York Life.
-- **What it invests in / role:** Broad US and developed ex-US large caps at ~0.09% and ~0.15%. Would give the client the international equity it lacks today.
+**Calvert Ultra-Short Investment Grade (CVSB):** a cash-equivalent reserve with Calvert's ESG research at 0.24%. The Morgan Stanley parent is flagged.
 
-**iShares ESG Advanced MSCI USA / EAFE / EM (USXF, DMXF, EMXF): broadest fossil-free exclusions at the lowest cost**
-- **Why it is close:** The strictest exclusion set among the large-sponsor products (fossil fuels, weapons, tobacco, private prisons, predatory lending, palm oil). However, BlackRock is the client's own named example of an unacceptable sponsor, so treat these as a last resort.
-- **What it invests in / role:** A complete global equity set (US, developed, EM) at 0.10–0.17%.
-
-**Green bond funds: BGRN (iShares), GRNB (VanEck), FLMB (Franklin muni green)**
-- **Why it is close:** Use-of-proceeds bonds finance specific environmental projects, which is a measurable outcome regardless of who sponsors the fund.
-- **What it invests in / role:** Supranational, sovereign and corporate green bonds (BGRN, GRNB, ~0.20%), or tax-exempt green municipal bonds (FLMB, ~0.30%, useful for taxable accounts). Would complement OWNS in the fixed-income sleeve.
-
-**Not suggested even if the rule is relaxed:**
-- Group B "Aware", "Screened" and climate-tilt funds (e.g., ESGU, XVV, SNPE, EFIV, VOTE, CRBN). They track their conventional benchmarks closely and differ little from non-ESG index funds.
-- Most Group C thematics. They are concentrated industry bets, several hold miners, automakers, fossil infrastructure or carbon permits, and none has an ESG screening philosophy.
-
----
+**Not recommended despite inclusion:**
+- **VOTE:** stewardship only, holds fossil fuels.
+- **OACP:** 0.74% fee, values not primary, sub-adviser unknown. Revisit once verified.
+- **All Tier 3 thematics.** BATT, KARS and KRBN in particular conflict with a strict ESG philosophy. Clean-energy and water funds (ACES, SMOG, TBLU) could be small satellites at most, given their concentration and volatility.
 
 ## 4. Sources and Outstanding Questions
 
@@ -288,7 +274,7 @@ All four eligible funds are worth considering. Each fills a different role. **PR
 **CVSB / Calvert**
 - Morgan Stanley IM fund profile: https://morganstanley.com/im/publication/etf/fundprofile_etf_calvertultrashortinvestmentgrade_us.pdf
 
-**Not-ESG-only funds (Section 2c): fees, status and methodology**
+**Tier 2–3 and excluded funds (Sections 2a–2b): fees, status and methodology**
 - iShares sustainable bond brief (EAGG, BGRN fees): https://ishares.com/us/literature/product-brief/ishares-sustainable-bond-etf-brief.pdf
 - iShares LDEM fact sheet: https://www.ishares.com/us/literature/fact-sheet/ldem-ishares-esg-msci-em-leaders-etf-fund-fact-sheet-en-us.pdf
 - etf.com, differences among iShares ESG ETFs (ESG Advanced fees/exclusions): https://www.etf.com/node/71490.md
@@ -306,10 +292,11 @@ All four eligible funds are worth considering. Each fills a different role. **PR
 ### Outstanding questions to resolve before recommending
 
 **For the client (policy decisions)**
-1. **Dedicated ESG subsidiaries of conglomerates.** Calvert (Morgan Stanley) and Candriam (New York Life) are ESG-focused but have diversified parents. Are they excluded outright, as this report currently assumes?
+1. **Large parents outside the exclusion list.** Calvert (Morgan Stanley), Candriam (New York Life), TCW, VanEck and ALPS (SS&C) are included because they were not among the excluded sponsors. Confirm the client is comfortable with each parent before presenting CVSB, IQSU/IQSI or GRNB.
 2. **Outsourced implementation.** Is it acceptable that a conventional firm (Dimensional for VGSR) handles day-to-day portfolio implementation while an ESG-dedicated firm sets the strategy?
 3. **Faith-based mandates.** Praxis (and OneAscent, if it passes) apply religious-values screens alongside ESG. Is the client comfortable with that framing?
-4. **Portfolio gaps.** No eligible fund covers international/EM equity, small caps or a broad core bond. Should the client accept a US-concentrated portfolio, or look beyond the attached list?
+4. **Portfolio gaps.** No included fund offers ESG-screened emerging-market equity. Should the client go without EM exposure, or look beyond the attached list?
+5. **Thematic funds.** Should Tier 3 funds be allowed at all? Several (BATT, KARS, KRBN) conflict with a strict ESG philosophy.
 
 **For the fund sponsors (fact verification)**
 5. **OWNS:** Confirm the 0.30% fee waiver has been extended past its last stated term. Confirm CCM's current ownership on Form ADV. Confirm whether the predecessor sponsor's (Impact Shares) "net profits to nonprofits" model still applies.
@@ -323,4 +310,4 @@ All four eligible funds are worth considering. Each fills a different role. **PR
 ### What this report does not claim
 - None of these funds is "perfectly" ESG-aligned. Each holds companies that some ESG investors would challenge (for example, large banks in PRXV and semiconductor manufacturers in CHGX).
 - ESG ratings were not used as evidence of eligibility.
-- Sponsor ownership for excluded funds reflects well-documented corporate structures. Fees not marked ✓ in Section 2c are last-known figures, and holdings there are representative, not live. Re-verify any not-ESG-only fund before it is presented, especially if the client relaxes the ownership rule.
+- Sponsor ownership for excluded funds reflects well-documented corporate structures. Fees not marked ✓ in Sections 2a–2b are last-known figures, and Tier 3 and excluded-fund holdings are representative, not live. Re-verify every included Tier 2–3 fund before it is presented.
