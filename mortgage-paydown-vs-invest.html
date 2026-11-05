@@ -1,0 +1,771 @@
+<title>Mortgage Prepay vs. Invest</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Newsreader:opsz,wght@6..72,500;6..72,600&display=swap">
+<style>
+/* Layout: planner's worksheet — assumptions column on the left (sticky on desktop), findings on the right, verdict first. */
+:root{
+  --bg:#f4f6f4; --surface:#ffffff; --sunk:#eef1ef; --ink:#16201e; --muted:#59645f; --faint:#8a948f;
+  --line:#dde2df; --accent:#1d5c55; --accent-ink:#ffffff; --accent-soft:#e3efec;
+  --a:#2a78d6; --b:#eb6834; --a-soft:rgba(42,120,214,.12); --b-soft:rgba(235,104,52,.13);
+  --warn-bg:#fdf3dc; --warn-ink:#6b4a00; --warn-line:#efd28c;
+  --good:#1a7f4b;
+  --f-display:"Newsreader", Georgia, "Times New Roman", serif;
+  --f-body:"IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --f-mono:"IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  --r:6px;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#111514; --surface:#191e1d; --sunk:#151a19; --ink:#e8edeb; --muted:#a5afab; --faint:#7c8783;
+  --line:#2b3331; --accent:#6db3a7; --accent-ink:#0d1413; --accent-soft:#1d2d2a;
+  --a:#3987e5; --b:#d95926; --a-soft:rgba(57,135,229,.18); --b-soft:rgba(217,89,38,.2);
+  --warn-bg:#2c2412; --warn-ink:#f1d48f; --warn-line:#5a4618; --good:#4cc085; color-scheme:dark;
+}}
+:root[data-theme="dark"]{
+  --bg:#111514; --surface:#191e1d; --sunk:#151a19; --ink:#e8edeb; --muted:#a5afab; --faint:#7c8783;
+  --line:#2b3331; --accent:#6db3a7; --accent-ink:#0d1413; --accent-soft:#1d2d2a;
+  --a:#3987e5; --b:#d95926; --a-soft:rgba(57,135,229,.18); --b-soft:rgba(217,89,38,.2);
+  --warn-bg:#2c2412; --warn-ink:#f1d48f; --warn-line:#5a4618; --good:#4cc085; color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:14px;line-height:1.5}
+.wrap{max-width:1380px;margin:0 auto;padding-block:28px 64px;padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px))}
+header.top{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:12px 24px;padding-bottom:20px;border-bottom:1px solid var(--line);margin-bottom:24px}
+.eyebrow{font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);font-weight:600}
+h1{font-family:var(--f-display);font-weight:600;font-size:clamp(26px,3.4vw,36px);line-height:1.1;margin:4px 0 0;text-wrap:balance}
+h2{font-family:var(--f-display);font-weight:600;font-size:21px;margin:0;text-wrap:balance}
+h3{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:0;font-weight:600}
+.meta{color:var(--muted);font-size:13px;text-align:right}
+.meta b{color:var(--ink);font-weight:600}
+.grid{display:grid;grid-template-columns:minmax(0,370px) minmax(0,1fr);gap:24px;align-items:start}
+@media (max-width:1050px){.grid{grid-template-columns:minmax(0,1fr)}}
+aside.inputs{position:sticky;top:calc(env(safe-area-inset-top,0px) + 12px);max-height:calc(100vh - 24px);overflow:auto;background:var(--surface);border:1px solid var(--line);border-radius:var(--r)}
+@media (max-width:1050px){aside.inputs{position:static;max-height:none}}
+.sec{padding:16px 18px;border-bottom:1px solid var(--line);display:grid;gap:12px}
+.sec:last-child{border-bottom:0}
+.sec-head{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.field{display:grid;gap:4px}
+.field label,.lbl{font-size:12.5px;font-weight:500;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.hint{font-size:11.5px;color:var(--muted);line-height:1.4}
+input[type=number],input[type=month],input[type=text],select{width:100%;font:inherit;font-family:var(--f-mono);font-size:13px;padding:7px 9px;border:1px solid var(--line);border-radius:4px;background:var(--sunk);color:var(--ink);min-width:0}
+select{font-family:var(--f-body)}
+input:focus-visible,select:focus-visible,button:focus-visible,summary:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+input.needs,select.needs{border-color:var(--warn-line);background:var(--warn-bg)}
+.affix{position:relative}
+.affix span{position:absolute;top:50%;transform:translateY(-50%);font-family:var(--f-mono);font-size:12px;color:var(--faint);pointer-events:none}
+.affix .pre{left:9px}.affix .pre~input{padding-left:20px}
+.affix .suf{right:9px}.affix input{padding-right:26px}
+.tag{font-size:10px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;padding:1px 6px;border-radius:3px;white-space:nowrap}
+.tag.email{background:var(--accent-soft);color:var(--accent)}
+.tag.assume{background:var(--sunk);color:var(--muted);border:1px solid var(--line)}
+.tag.need{background:var(--warn-bg);color:var(--warn-ink);border:1px solid var(--warn-line)}
+.tag.calc{background:var(--sunk);color:var(--muted)}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chip{font:inherit;font-size:12px;font-family:var(--f-mono);padding:4px 10px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.chip[aria-pressed=true]{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.check{display:flex;gap:8px;align-items:flex-start;font-size:12.5px}
+.check input{margin-top:3px;accent-color:var(--accent)}
+.linkbtn{font:inherit;font-size:11.5px;background:none;border:0;color:var(--accent);cursor:pointer;padding:0;text-decoration:underline}
+.btn{font:inherit;font-size:12.5px;font-weight:500;padding:6px 12px;border-radius:4px;border:1px solid var(--accent);background:transparent;color:var(--accent);cursor:pointer}
+.lumps{display:grid;gap:6px}
+.lump{display:grid;grid-template-columns:1fr 1fr auto;gap:6px;align-items:center}
+.x{font:inherit;background:none;border:1px solid var(--line);border-radius:4px;color:var(--muted);cursor:pointer;width:30px;height:32px}
+input[type=range]{width:100%;accent-color:var(--accent)}
+
+main{display:grid;gap:20px;min-width:0}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:20px;min-width:0}
+.banner{background:var(--warn-bg);border:1px solid var(--warn-line);color:var(--warn-ink);border-radius:var(--r);padding:12px 16px;font-size:13px}
+.banner b{font-weight:600}
+.verdict{display:grid;gap:18px}
+.verdict-line{font-family:var(--f-display);font-size:clamp(22px,2.6vw,30px);line-height:1.2;font-weight:500;margin:0;text-wrap:balance;max-width:36ch}
+.verdict-line .win{font-weight:600}
+.duel{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+@media (max-width:640px){.duel{grid-template-columns:1fr}}
+.duel>div{border:1px solid var(--line);border-radius:var(--r);padding:14px 16px;display:grid;gap:2px;min-width:0}
+.duel .k{font-size:12px;color:var(--muted);display:flex;align-items:center;gap:7px}
+.duel .v{font-family:var(--f-mono);font-size:24px;font-weight:500;font-variant-numeric:tabular-nums;letter-spacing:-.01em}
+.duel .s{font-size:12px;color:var(--muted)}
+.duel .winner{border-color:var(--ink)}
+.duel .diff{background:var(--sunk)}
+.sw{width:10px;height:10px;border-radius:2px;display:inline-block;flex:none}
+.sw.a{background:var(--a)}.sw.b{background:var(--b)}
+.pill{font-size:10.5px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;padding:2px 7px;border-radius:999px;background:var(--ink);color:var(--bg)}
+.keyfacts{display:flex;flex-wrap:wrap;gap:8px 22px;font-size:13px;color:var(--muted)}
+.keyfacts b{color:var(--ink);font-family:var(--f-mono);font-weight:500}
+
+.tbl-wrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:13px}
+th,td{padding:8px 10px;text-align:right;border-bottom:1px solid var(--line);white-space:nowrap}
+th:first-child,td:first-child{text-align:left;white-space:normal}
+thead th{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600;border-bottom:1px solid var(--ink)}
+td.n{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+tr.total td{font-weight:600;border-top:1px solid var(--ink);border-bottom:0}
+tr.sub td:first-child{padding-left:22px;color:var(--muted)}
+.pos{color:var(--good)}
+.cmp td:first-child .d{display:block;font-size:11.5px;color:var(--muted)}
+.card-head{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:6px 16px;margin-bottom:14px}
+.card-head p{margin:0;color:var(--muted);font-size:12.5px;max-width:62ch}
+.charts{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+@media (max-width:900px){.charts{grid-template-columns:1fr}}
+.chartbox{position:relative;height:300px}
+.legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:12px;color:var(--muted);margin-bottom:8px}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.ln{width:18px;height:0;border-top:2px solid}
+.ln.a{border-color:var(--a)}.ln.b{border-color:var(--b)}.ln.dash{border-top-style:dashed}
+.taxgrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:16px}
+@media (max-width:760px){.taxgrid{grid-template-columns:1fr 1fr}}
+.stat{border-left:2px solid var(--line);padding-left:12px;display:grid;gap:2px}
+.stat .k{font-size:12px;color:var(--muted)}
+.stat .v{font-family:var(--f-mono);font-size:18px;font-variant-numeric:tabular-nums}
+.sens td,.sens th{text-align:center;padding:7px 6px;font-family:var(--f-mono);font-size:12.5px}
+.sens th{font-family:var(--f-body)}
+.sens td.cell{cursor:pointer;border:2px solid var(--surface)}
+.sens td.cell.cur{outline:2px solid var(--ink);outline-offset:-2px}
+.sens tbody th{text-align:right;font-family:var(--f-mono);font-weight:500;color:var(--muted)}
+.sens-legend{display:flex;gap:16px;flex-wrap:wrap;font-size:12px;color:var(--muted);margin-top:10px}
+details summary{cursor:pointer;font-weight:600;font-size:13.5px}
+details[open] summary{margin-bottom:12px}
+.notes{font-size:13px;color:var(--muted);display:grid;gap:8px}
+.notes>*{max-width:80ch}
+.notes p{margin:0}
+.notes b{color:var(--ink);font-weight:600}
+.quote{border-left:2px solid var(--accent);padding:4px 0 4px 12px;color:var(--ink);font-family:var(--f-display);font-size:15.5px;font-style:italic}
+@media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <div>
+      <div class="eyebrow">Financial planning analysis · Prepared for John-Henry Scherck</div>
+      <h1>Pay down the 7% mortgage, or invest the difference?</h1>
+    </div>
+    <div class="meta">New purchase · 30-year fixed<br>Analysis date <b id="asof">Nov 5, 2026</b></div>
+  </header>
+
+  <div class="grid">
+    <!-- ============ INPUTS ============ -->
+    <aside class="inputs" aria-label="Assumptions">
+      <div class="sec">
+        <div class="sec-head"><h3>1 · Mortgage</h3></div>
+        <div class="field">
+          <label for="loanAmt">Current mortgage balance <span class="tag email">Email</span></label>
+          <div class="affix"><span class="pre">$</span><input id="loanAmt" type="number" step="1000" min="0" value="1070000"></div>
+          <div class="hint">"About $1,070,000", may come down slightly after negotiations. Confirm at closing.</div>
+        </div>
+        <div class="row2">
+          <div class="field">
+            <label for="rate">Interest rate <span class="tag email">Email</span></label>
+            <div class="affix"><input id="rate" type="number" step="0.125" min="0" value="7"><span class="suf">%</span></div>
+          </div>
+          <div class="field">
+            <label for="termMonths">Remaining term <span class="tag email">Email</span></label>
+            <div class="affix"><input id="termMonths" type="number" step="1" min="1" max="480" value="360"><span class="suf">mo</span></div>
+          </div>
+        </div>
+        <div class="field">
+          <label for="pmt">Monthly payment (P&amp;I) <span class="tag calc" id="pmtTag">Calculated</span></label>
+          <div class="affix"><span class="pre">$</span><input id="pmt" type="number" step="0.01" min="0"></div>
+          <div class="hint">Principal and interest only; taxes and insurance are the same under both strategies. <button class="linkbtn" id="pmtReset" type="button" hidden>Reset to calculated</button></div>
+        </div>
+        <div class="field">
+          <label for="firstPay">First payment month <span class="tag need">Confirm</span></label>
+          <input id="firstPay" type="month" value="2027-01">
+          <div class="hint">Closing date isn't set yet. Placeholder only; drives payoff dates.</div>
+        </div>
+      </div>
+
+      <div class="sec">
+        <div class="sec-head"><h3>2 · Extra principal</h3></div>
+        <div class="field">
+          <label for="extraAmt">Extra payment per month <span class="tag email">Email: $2–3K</span></label>
+          <div class="affix"><span class="pre">$</span><input id="extraAmt" type="number" step="100" min="0" value="2500"></div>
+          <div class="chips" role="group" aria-label="Email scenarios">
+            <button class="chip" type="button" data-extra="2000">$2,000</button>
+            <button class="chip" type="button" data-extra="2500">$2,500</button>
+            <button class="chip" type="button" data-extra="3000">$3,000</button>
+          </div>
+        </div>
+        <div class="row2">
+          <div class="field">
+            <label for="extraStart">Start month</label>
+            <input id="extraStart" type="month" value="2027-01">
+          </div>
+          <div class="field">
+            <label for="extraGrow">Raise each year</label>
+            <div class="affix"><input id="extraGrow" type="number" step="0.5" min="0" value="0"><span class="suf">%</span></div>
+          </div>
+        </div>
+        <div class="row2">
+          <div class="field">
+            <label for="extraStop">Continue</label>
+            <select id="extraStop"><option value="payoff">Until payoff</option><option value="years">For a set period</option></select>
+          </div>
+          <div class="field">
+            <label for="extraYears">Years of extra</label>
+            <div class="affix"><input id="extraYears" type="number" step="1" min="1" value="10" disabled><span class="suf">yr</span></div>
+          </div>
+        </div>
+        <div class="field">
+          <span class="lbl">One-time principal payments</span>
+          <div class="lumps" id="lumps"></div>
+          <div><button class="btn" type="button" id="addLump">Add lump sum</button></div>
+          <div class="hint">None proposed in the email. Under Option B each lump sum is invested on the same date instead.</div>
+        </div>
+      </div>
+
+      <div class="sec">
+        <div class="sec-head"><h3>3 · Investing &amp; period</h3></div>
+        <div class="field">
+          <label for="ret">Expected annual return <span class="tag assume">Assumption</span></label>
+          <div class="affix"><input id="ret" type="number" step="0.25" value="7"><span class="suf">%</span></div>
+          <input id="retRange" type="range" min="0" max="12" step="0.25" value="7" aria-label="Expected annual return slider">
+        </div>
+        <div class="row2">
+          <div class="field">
+            <label for="divYield">Taxable yield <span class="tag assume">Assumption</span></label>
+            <div class="affix"><input id="divYield" type="number" step="0.1" min="0" value="1.5"><span class="suf">%</span></div>
+          </div>
+          <div class="field">
+            <label for="freq">Contributions</label>
+            <select id="freq"><option value="monthly">Monthly</option><option value="annual">Annually (year-end)</option></select>
+          </div>
+        </div>
+        <div class="field">
+          <label for="investAmtView">Amount invested under Option B <span class="tag calc">Same dollars</span></label>
+          <input id="investAmtView" type="text" readonly>
+          <div class="hint">Option B invests exactly what Option A sends to principal, so both use the same cash.</div>
+        </div>
+        <div class="field">
+          <label for="horizon">Comparison period: <b id="horizonLbl">30 years</b></label>
+          <input id="horizon" type="range" min="1" max="40" step="1" value="30">
+          <div class="hint">Both strategies are measured at the same end date.</div>
+        </div>
+        <label class="check"><input type="checkbox" id="investFreed" checked><span>Invest the full monthly payment once a loan is paid off (keeps cash outlay equal for the whole period)</span></label>
+        <label class="check"><input type="checkbox" id="reinvestTax" checked><span>Invest mortgage-interest tax savings each year</span></label>
+      </div>
+
+      <div class="sec">
+        <div class="sec-head"><h3>4 · Taxes</h3></div>
+        <div class="row2">
+          <div class="field">
+            <label for="filing">Filing status <span class="tag need">Needed</span></label>
+            <select id="filing" class="needs"><option value="">Select</option><option value="mfj">Married filing jointly</option><option value="single">Single</option><option value="hoh">Head of household</option><option value="mfs">Married filing separately</option></select>
+          </div>
+          <div class="field">
+            <label for="itemize">Itemizes?</label>
+            <select id="itemize"><option value="auto">Compare to standard</option><option value="yes">Yes, already itemizes</option><option value="no">No, standard deduction</option></select>
+          </div>
+        </div>
+        <div class="row2">
+          <div class="field">
+            <label for="fedRate">Federal bracket <span class="tag need">Needed</span></label>
+            <select id="fedRate" class="needs"><option value="">Select</option><option>10</option><option>12</option><option>22</option><option>24</option><option>32</option><option>35</option><option>37</option></select>
+          </div>
+          <div class="field">
+            <label for="stateRate">State bracket <span class="tag need">Needed</span></label>
+            <div class="affix"><input id="stateRate" type="number" step="0.1" min="0" class="needs" placeholder="e.g. CA"><span class="suf">%</span></div>
+          </div>
+        </div>
+        <div class="row2">
+          <div class="field">
+            <label for="stdFed">Federal std. deduction</label>
+            <div class="affix"><span class="pre">$</span><input id="stdFed" type="number" step="100" min="0" placeholder="by status"></div>
+          </div>
+          <div class="field">
+            <label for="stdState">State std. deduction</label>
+            <div class="affix"><span class="pre">$</span><input id="stdState" type="number" step="100" min="0" placeholder="by status"></div>
+          </div>
+        </div>
+        <div class="row2">
+          <div class="field">
+            <label for="otherFed">Other itemized, federal</label>
+            <div class="affix"><span class="pre">$</span><input id="otherFed" type="number" step="500" min="0" placeholder="SALT, gifts"></div>
+          </div>
+          <div class="field">
+            <label for="otherState">Other itemized, state</label>
+            <div class="affix"><span class="pre">$</span><input id="otherState" type="number" step="500" min="0" placeholder="gifts, etc."></div>
+          </div>
+        </div>
+        <div class="row2">
+          <div class="field">
+            <label for="limFed">Federal debt limit</label>
+            <div class="affix"><span class="pre">$</span><input id="limFed" type="number" step="1000" min="0" value="750000"></div>
+          </div>
+          <div class="field">
+            <label for="limState">State debt limit <span class="tag email">CA</span></label>
+            <div class="affix"><span class="pre">$</span><input id="limState" type="number" step="1000" min="0" value="1000000"></div>
+          </div>
+        </div>
+        <div class="hint">Interest is deductible only on the share of the balance under the limit ($750K federal; California $1M). The client signs from Los Angeles, CA.</div>
+        <label class="check"><input type="checkbox" id="cap35" checked><span>Cap the deduction's value at 35% for the 37% bracket (2026 law)</span></label>
+        <div class="row2">
+          <div class="field">
+            <label for="ltcg">Federal LTCG / qualified div. rate <span class="tag need">Needed</span></label>
+            <select id="ltcg" class="needs"><option value="">Select</option><option>0</option><option>15</option><option>20</option></select>
+          </div>
+          <div class="field" style="align-content:end">
+            <label class="check"><input type="checkbox" id="niit"><span>Add 3.8% NIIT</span></label>
+            <label class="check"><input type="checkbox" id="stateGains" checked><span>State taxes gains as income</span></label>
+          </div>
+        </div>
+        <label class="check"><input type="checkbox" id="liquidate" checked><span>Subtract tax on unrealized gains at the end of the period (as if sold)</span></label>
+      </div>
+
+      <div class="sec">
+        <div class="sec-head"><h3>5 · Refinance (optional)</h3></div>
+        <div class="row2">
+          <div class="field">
+            <label for="refiYear">Refinance after year</label>
+            <div class="affix"><input id="refiYear" type="number" step="1" min="1" max="29" placeholder="none"><span class="suf">yr</span></div>
+          </div>
+          <div class="field">
+            <label for="refiRate">New rate</label>
+            <div class="affix"><input id="refiRate" type="number" step="0.125" min="0" placeholder="e.g. 6"><span class="suf">%</span></div>
+          </div>
+        </div>
+        <div class="hint">The client asked what rate would justify a refi. Leave blank for no refinance. The remaining balance is re-amortized over the original end date; closing costs are not included.</div>
+      </div>
+    </aside>
+
+    <!-- ============ RESULTS ============ -->
+    <main>
+      <div class="banner" id="needBanner" hidden></div>
+
+      <section class="card verdict" aria-labelledby="verdictTitle">
+        <div class="eyebrow" id="verdictTitle">Final comparison · after-tax net worth at end of period</div>
+        <p class="verdict-line" id="verdictLine"></p>
+        <div class="duel">
+          <div id="duelA"><div class="k"><span class="sw a"></span>Option A · Pay down mortgage</div><div class="v" id="nwA"></div><div class="s" id="nwAs"></div></div>
+          <div id="duelB"><div class="k"><span class="sw b"></span>Option B · Invest the money</div><div class="v" id="nwB"></div><div class="s" id="nwBs"></div></div>
+          <div class="diff"><div class="k">Difference</div><div class="v" id="nwDiff"></div><div class="s" id="nwDiffs"></div></div>
+        </div>
+        <div class="keyfacts" id="keyfacts"></div>
+      </section>
+
+      <section class="card" aria-labelledby="cmpTitle">
+        <div class="card-head"><h2 id="cmpTitle">Side-by-side</h2><p id="cmpSub"></p></div>
+        <div class="tbl-wrap">
+          <table class="cmp">
+            <thead><tr><th>Measure</th><th><span class="sw a"></span> A · Pay down</th><th><span class="sw b"></span> B · Invest</th><th>A minus B</th></tr></thead>
+            <tbody id="cmpBody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="charts">
+        <div class="card">
+          <div class="card-head"><h2>Balance vs. growth</h2><p>Mortgage balance falling, investment account rising.</p></div>
+          <div class="legend"><span><i class="ln a"></i>A mortgage</span><span><i class="ln b"></i>B mortgage</span><span><i class="ln a dash"></i>A investments</span><span><i class="ln b dash"></i>B investments</span></div>
+          <div class="chartbox"><canvas id="chBal" role="img" aria-label="Mortgage balance and investment value by year for both options"></canvas></div>
+        </div>
+        <div class="card">
+          <div class="card-head"><h2>Net worth gap by year</h2><p>After-tax net worth of B minus A. Bars above zero mean investing is ahead that year.</p></div>
+          <div class="legend"><span><span class="sw b"></span>Investing ahead</span><span><span class="sw a"></span>Paying down ahead</span></div>
+          <div class="chartbox"><canvas id="chNW" role="img" aria-label="After-tax net worth difference, investing minus paying down, by year"></canvas></div>
+        </div>
+      </section>
+
+      <section class="card" aria-labelledby="taxTitle">
+        <div class="card-head"><h2 id="taxTitle">What prepaying does to interest and tax savings</h2><p id="taxSub"></p></div>
+        <div class="taxgrid">
+          <div class="stat"><span class="k">Interest avoided</span><span class="v" id="tInt"></span></div>
+          <div class="stat"><span class="k">Tax savings given up</span><span class="v" id="tLost"></span></div>
+          <div class="stat"><span class="k">Net after-tax interest saved</span><span class="v" id="tNet"></span></div>
+          <div class="stat"><span class="k">Effective after-tax mortgage rate, yr 1</span><span class="v" id="tRate"></span></div>
+        </div>
+        <div class="legend"><span><span class="sw a"></span>A · interest</span><span><span class="sw b"></span>B · interest</span><span><i class="ln a"></i>A · tax savings</span><span><i class="ln b"></i>B · tax savings</span></div>
+        <div class="chartbox"><canvas id="chInt" role="img" aria-label="Annual mortgage interest and tax savings by year for both options"></canvas></div>
+      </section>
+
+      <section class="card" aria-labelledby="sensTitle">
+        <div class="card-head"><h2 id="sensTitle">How sensitive is the answer?</h2><p>Net worth advantage of investing (B minus A) at the end of the period, in thousands. Select a cell to load it.</p></div>
+        <div class="tbl-wrap"><table class="sens" id="sens"></table></div>
+        <div class="sens-legend"><span><span class="sw b"></span>Investing ahead</span><span><span class="sw a"></span>Paying down ahead</span><span id="sensNote"></span></div>
+      </section>
+
+      <section class="card">
+        <details id="yrDetails">
+          <summary>Year-by-year detail</summary>
+          <div class="tbl-wrap">
+            <table>
+              <thead><tr><th>Year</th><th>A balance</th><th>A investments</th><th>A net worth</th><th>B balance</th><th>B investments</th><th>B net worth</th><th>B minus A</th></tr></thead>
+              <tbody id="yrBody"></tbody>
+            </table>
+          </div>
+        </details>
+      </section>
+
+      <section class="card notes" aria-labelledby="notesTitle">
+        <h2 id="notesTitle">From the client's email, and how it's modeled</h2>
+        <p class="quote">"It's about $1,070,000 at 7% for a 30 year fixed. I am planning to pay an extra 2-3K a month to pay the mortgage off early."</p>
+        <p><b>Same dollars, same dates.</b> Each month both options spend the same total: the scheduled payment plus the extra amount. Option A sends the extra to principal; Option B invests it in a taxable account. When either loan is paid off, the freed-up payment is invested (if that box is checked), so neither option gets more cash than the other.</p>
+        <p><b>Net worth</b> = investment account minus the tax owed if sold, plus any uninvested cash, minus the remaining mortgage. The house is worth the same under both options, so it is left out.</p>
+        <p><b>Mortgage interest deduction.</b> Each year's interest is multiplied by the share of the average balance under the limit. The benefit counts only the amount by which itemizing beats the standard deduction, at the marginal federal and state rates. State taxes deducted on the federal return (SALT) are not modeled. Standard deductions are held flat.</p>
+        <p><b>Investment taxes.</b> The taxable yield is taxed each year at the federal qualified rate, plus NIIT and state tax if checked. Remaining gains are taxed at the end if "as if sold" is checked. Returns are steady, not variable; real markets will not be.</p>
+        <p><b>Not modeled:</b> the planned $30–40K a year in renovations (that money is outside this comparison but competes for the same cash flow), refinance closing costs, PMI, inflation, and the liquidity value of having invested assets you can reach versus home equity you can't.</p>
+        <p>Missing details are left blank and flagged. This is an illustration based on stated assumptions, not a guarantee of future results.</p>
+      </section>
+    </main>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script>
+(function(){
+const $ = id => document.getElementById(id);
+const num = (id, d=0) => { const v = parseFloat($(id).value); return isFinite(v) ? v : d; };
+const isBlank = id => $(id).value.trim() === "";
+const fmt = (v, opt={}) => {
+  if (!isFinite(v)) return "–";
+  const s = Math.abs(v).toLocaleString("en-US",{maximumFractionDigits:0});
+  return (v < -0.5 ? "−" : (opt.plus && v > 0.5 ? "+" : "")) + "$" + s;
+};
+const fmtK = v => { const a=Math.abs(v); if (a < 500) return "$0"; const s = a>=1e6 ? "$"+(a/1e6).toFixed(2)+"M" : "$"+Math.round(a/1e3)+"K"; return (v<0?"−":"")+s; };
+const MONTHS = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+function parseMonth(s){ const m = /^(\d{4})-(\d{2})$/.exec(s||""); return m ? {y:+m[1], m:+m[2]-1} : null; }
+function addMonths(base, k){ const t = base.y*12 + base.m + k; return {y:Math.floor(t/12), m:t%12}; }
+function monthLabel(d){ return MONTHS[d.m]+" "+d.y; }
+function monthDiff(a,b){ return (b.y*12+b.m)-(a.y*12+a.m); }
+function amortPmt(bal, annRate, n){ const r = annRate/1200; if (n<=0) return bal; if (r===0) return bal/n; return bal*r/(1-Math.pow(1+r,-n)); }
+
+const STD = { // 2026 federal (OBBBA); California 2025 figures — verify each year
+  mfj:{fed:32200, st:11412, limF:750000, limS:1000000},
+  single:{fed:16100, st:5706, limF:750000, limS:1000000},
+  hoh:{fed:24150, st:11412, limF:750000, limS:1000000},
+  mfs:{fed:16100, st:5706, limF:375000, limS:500000}
+};
+
+let pmtOverridden = false;
+let lumps = []; // {date:"YYYY-MM", amt:number}
+
+function readParams(){
+  const first = parseMonth($("firstPay").value) || {y:2027,m:0};
+  const exStart = parseMonth($("extraStart").value) || first;
+  const fed = isBlank("fedRate") ? 0 : num("fedRate");
+  const st = num("stateRate");
+  const ltcg = isBlank("ltcg") ? 0 : num("ltcg");
+  const invRate = (ltcg + ($("niit").checked?3.8:0) + ($("stateGains").checked?st:0))/100;
+  const refiY = num("refiYear", 0), refiR = num("refiRate", NaN);
+  return {
+    bal: num("loanAmt"), rate: num("rate"), term: Math.max(1, Math.round(num("termMonths",360))),
+    pmt: num("pmt"), first,
+    extra: num("extraAmt"), exStartIdx: Math.max(0, monthDiff(first, exStart)),
+    exGrow: num("extraGrow")/100, exStop: $("extraStop").value, exYears: num("extraYears",10),
+    lumps: lumps.map(l => ({idx: (()=>{const d=parseMonth(l.date); return d? monthDiff(first,d) : -1;})(), amt: +l.amt||0})).filter(l=>l.idx>=0 && l.amt>0),
+    ret: num("ret")/100, yld: num("divYield")/100, freq: $("freq").value,
+    H: Math.round(num("horizon",30)), investFreed: $("investFreed").checked, reinvestTax: $("reinvestTax").checked,
+    itemize: $("itemize").value, fed: fed/100, fedDed: (($("cap35").checked && fed>=37) ? 35 : fed)/100, st: st/100,
+    stdFed: num("stdFed"), stdSt: num("stdState"), otherFed: num("otherFed"), otherSt: num("otherState"),
+    limFed: num("limFed"), limSt: num("limState"),
+    invRate, liquidate: $("liquidate").checked,
+    refiIdx: (refiY>0 && isFinite(refiR)) ? Math.round(refiY*12) : -1, refiRate: refiR
+  };
+}
+
+function extraFor(p, m){
+  let e = 0;
+  if (m >= p.exStartIdx){
+    const k = m - p.exStartIdx;
+    if (p.exStop === "payoff" || k < p.exYears*12) e = p.extra * Math.pow(1+p.exGrow, Math.floor(k/12));
+  }
+  for (const l of p.lumps) if (l.idx === m) e += l.amt;
+  return e;
+}
+
+function taxBenefit(p, interest, avgBal){
+  if (p.itemize === "no" || interest <= 0) return {fed:0, st:0, ded:0};
+  const dF = interest * (avgBal > 0 ? Math.min(1, p.limFed/avgBal) : 1);
+  const dS = interest * (avgBal > 0 ? Math.min(1, p.limSt/avgBal) : 1);
+  let gF, gS;
+  if (p.itemize === "yes"){ gF = dF; gS = dS; }
+  else {
+    gF = Math.max(p.stdFed, p.otherFed + dF) - Math.max(p.stdFed, p.otherFed);
+    gS = Math.max(p.stdSt, p.otherSt + dS) - Math.max(p.stdSt, p.otherSt);
+  }
+  return {fed: gF*p.fedDed, st: gS*p.st, ded: dF};
+}
+
+// Simulate one strategy. strat "A" = extra to principal, "B" = invest extra.
+// Budget each month = B's scheduled payment + extra, identical for both.
+function simulate(p, strat){
+  const Hm = p.H*12, total = Math.max(Hm, p.term + 1);
+  const gm = Math.pow(1+p.ret, 1/12) - 1;
+  let balA = p.bal, balB = p.bal, rateA = p.rate, rateB = p.rate, pmtB = p.pmt;
+  let port = 0, basis = 0, cash = 0, pending = 0;
+  let yInt = 0, yBalSum = 0, yBalN = 0, yDiv = 0;
+  let totInt = 0, totTaxSave = 0, totTaxSaveF = 0, totTaxSaveS = 0, totContrib = 0, totTaxReinv = 0, totDivTax = 0, totExtraToLoan = 0;
+  let payoffIdx = -1, yr1 = null;
+  const years = [];
+  for (let m = 0; m < total; m++){
+    if (m === p.refiIdx){ rateA = rateB = p.refiRate; pmtB = amortPmt(balB, p.refiRate, p.term - m); }
+    const extra = extraFor(p, m);
+    // Shadow schedule of the regular-payment loan: it sets the payment both options share.
+    let sched = 0;
+    if (balB > 0.005){ const iB = balB*rateB/1200; sched = Math.min(pmtB, balB + iB); }
+    const budget = sched + extra + (balB > 0.005 ? 0 : pmtB);
+    const own = strat === "A" ? balA : balB, r = (strat === "A" ? rateA : rateB)/1200;
+    let pay = 0, interest = 0;
+    if (own > 0.005){
+      interest = own * r;
+      pay = strat === "A" ? Math.min(budget, own + interest) : sched;
+      yBalSum += own; yBalN++;
+      if (m < Hm){ yInt += interest; totInt += interest; if (strat==="A") totExtraToLoan += Math.max(0, pay - Math.min(sched, own+interest)); }
+    }
+    // advance balances
+    if (balB > 0.005){ balB = balB + balB*rateB/1200 - sched; if (balB <= 0.005) balB = 0; }
+    if (strat === "A" && balA > 0.005){ balA = balA + interest - pay; if (balA <= 0.005) balA = 0; }
+    const ownNow = strat === "A" ? balA : balB;
+    if (own > 0.005 && ownNow === 0 && payoffIdx < 0) payoffIdx = m;
+    // whatever part of the shared budget did not go to the loan
+    let toInvest = 0;
+    const left = budget - pay;
+    if (strat === "B"){ toInvest += extra; const freed = left - extra; if (freed > 0.005){ if (p.investFreed) toInvest += freed; else cash += freed; } }
+    else if (left > 0.005){ if (p.investFreed) toInvest += left; else cash += left; }
+    if (m >= Hm) { if (payoffIdx >= 0) break; else continue; }
+    // investments
+    yDiv += port * p.yld / 12;
+    port *= (1+gm);
+    if (toInvest > 0){
+      totContrib += toInvest;
+      if (p.freq === "monthly"){ port += toInvest; basis += toInvest; } else pending += toInvest;
+    }
+    if ((m+1) % 12 === 0){
+      const avg = yBalN ? yBalSum/yBalN : 0;
+      const tb = taxBenefit(p, yInt, avg);
+      const save = tb.fed + tb.st;
+      totTaxSave += save; totTaxSaveF += tb.fed; totTaxSaveS += tb.st;
+      const divTax = yDiv * p.invRate; totDivTax += divTax;
+      port -= divTax; basis += yDiv;
+      if (pending > 0){ port += pending; basis += pending; pending = 0; }
+      if (save > 0){ if (p.reinvestTax){ port += save; basis += save; totTaxReinv += save; } else cash += save; }
+      const bal = strat === "A" ? balA : balB;
+      const liq = p.liquidate ? Math.max(0, port - basis) * p.invRate : 0;
+      years.push({yr:(m+1)/12, bal, port, interest:yInt, taxSave:save, nw: port - liq + cash - bal, basis});
+      if (!yr1) yr1 = {interest:yInt, taxSave:save, avgBal:avg};
+      yInt = 0; yBalSum = 0; yBalN = 0; yDiv = 0;
+    }
+  }
+  const last = years[years.length-1] || {bal:p.bal, port:0, nw:-p.bal, basis:0};
+  const gains = Math.max(0, last.port - last.basis);
+  const liqTax = p.liquidate ? gains * p.invRate : 0;
+  return {years, payoffIdx, totInt, totTaxSave, totTaxSaveF, totTaxSaveS, totContrib, totTaxReinv, totDivTax, liqTax,
+    endBal:last.bal, port:last.port, gainsTotal: last.port - totContrib - totTaxReinv + totDivTax,
+    nw:last.nw, cash, yr1, totExtraToLoan};
+}
+
+function run(p){ const A = simulate(p,"A"), B = simulate(p,"B"); return {A, B, diff: B.nw - A.nw}; }
+
+function breakeven(p){
+  const f = r => { const q = Object.assign({}, p, {ret:r}); return run(q).diff; };
+  let lo = -0.02, hi = 0.20, flo = f(lo), fhi = f(hi);
+  if (flo > 0 || fhi < 0) return null;
+  for (let i=0;i<40;i++){ const mid=(lo+hi)/2, fm=f(mid); if (fm>0) hi=mid; else lo=mid; }
+  return (lo+hi)/2;
+}
+
+/* ---------- charts ---------- */
+let charts = {};
+function css(v){ return getComputedStyle(document.documentElement).getPropertyValue(v).trim(); }
+function baseOpts(yFmt){
+  const ink = css("--muted"), grid = css("--line");
+  return {
+    responsive:true, maintainAspectRatio:false, animation:false,
+    interaction:{mode:"index", intersect:false},
+    plugins:{legend:{display:false}, tooltip:{backgroundColor:css("--surface"), titleColor:css("--ink"), bodyColor:css("--ink"), borderColor:grid, borderWidth:1, padding:10, boxPadding:4, usePointStyle:true,
+      titleFont:{family:"IBM Plex Sans", weight:"600"}, bodyFont:{family:"IBM Plex Mono", size:12},
+      callbacks:{title:items=>"Year "+items[0].label, label:c=>" "+c.dataset.label+": "+fmt(c.parsed.y)}}},
+    scales:{
+      x:{grid:{display:false}, border:{color:grid}, ticks:{color:ink, font:{family:"IBM Plex Mono", size:11}, maxRotation:0, autoSkipPadding:12}},
+      y:{grid:{color:grid}, border:{display:false}, ticks:{color:ink, font:{family:"IBM Plex Mono", size:11}, callback:yFmt||(v=>fmtK(v)), maxTicksLimit:6}}
+    },
+    elements:{point:{radius:0, hoverRadius:5, hitRadius:8, hoverBorderWidth:2, hoverBorderColor:css("--surface")}, line:{borderWidth:2, tension:0}}
+  };
+}
+function drawCharts(res, p){
+  if (typeof Chart === "undefined") return;
+  const a = css("--a"), b = css("--b"), labels = res.A.years.map(y=>y.yr);
+  const ds = (label, data, color, dash) => ({label, data, borderColor:color, backgroundColor:color, borderDash:dash?[6,4]:[], pointBackgroundColor:color});
+  const sets = {
+    chBal: {type:"line", data:{labels, datasets:[
+      ds("A mortgage", res.A.years.map(y=>y.bal), a), ds("B mortgage", res.B.years.map(y=>y.bal), b),
+      ds("A investments", res.A.years.map(y=>y.port), a, true), ds("B investments", res.B.years.map(y=>y.port), b, true)]}, options:baseOpts()},
+    chNW: {type:"bar", data:{labels, datasets:[(()=>{ const d = res.B.years.map((y,i)=>y.nw - res.A.years[i].nw); return {label:"B minus A", data:d, backgroundColor:d.map(v=>v>=0?b:a), borderRadius:3, borderSkipped:false, categoryPercentage:.85, barPercentage:.9}; })()]},
+      options:(()=>{ const o = baseOpts(); o.plugins.tooltip.callbacks.label = c => " "+(c.parsed.y>=0?"Investing ahead by ":"Paying down ahead by ")+fmt(Math.abs(c.parsed.y)); return o; })()},
+    chInt: {type:"bar", data:{labels, datasets:[
+      {type:"bar", label:"A interest", data:res.A.years.map(y=>y.interest), backgroundColor:a, borderRadius:{topLeft:3,topRight:3}, borderSkipped:"bottom", categoryPercentage:.8, barPercentage:.9, order:2},
+      {type:"bar", label:"B interest", data:res.B.years.map(y=>y.interest), backgroundColor:b, borderRadius:{topLeft:3,topRight:3}, borderSkipped:"bottom", categoryPercentage:.8, barPercentage:.9, order:2},
+      Object.assign(ds("A tax savings", res.A.years.map(y=>y.taxSave), a), {type:"line", order:1}),
+      Object.assign(ds("B tax savings", res.B.years.map(y=>y.taxSave), b), {type:"line", order:1})
+    ]}, options:baseOpts()}
+  };
+  for (const id in sets){
+    if (charts[id]) { charts[id].destroy(); }
+    charts[id] = new Chart($(id), sets[id]);
+  }
+}
+
+/* ---------- render ---------- */
+function payoffText(p, r){ if (r.payoffIdx < 0) return "Beyond period"; const d = addMonths(p.first, r.payoffIdx); return monthLabel(d); }
+function yrsMo(n){ const y = Math.floor(n/12), m = n%12; return (y? y+" yr ":"") + (m? m+" mo":"") || "0 mo"; }
+
+function render(){
+  const p = readParams();
+  // payment
+  const calc = amortPmt(p.bal, p.rate, p.term);
+  if (!pmtOverridden){ $("pmt").value = calc.toFixed(2); p.pmt = calc; }
+  $("pmtReset").hidden = !pmtOverridden;
+  $("pmtTag").textContent = pmtOverridden ? "Entered" : "Calculated";
+  if (p.pmt <= p.bal*p.rate/1200){ p.pmt = calc; }
+  $("horizonLbl").textContent = p.H + (p.H===1?" year":" years");
+  $("extraYears").disabled = p.exStop !== "years";
+  document.querySelectorAll(".chip").forEach(c => c.setAttribute("aria-pressed", String(+c.dataset.extra === p.extra)));
+  const yearly = p.extra*12;
+  $("investAmtView").value = p.freq === "monthly" ? fmt(p.extra)+" per month" + (p.lumps.length? " + lump sums":"") : fmt(yearly)+" per year" + (p.lumps.length? " + lump sums":"");
+
+  // flags for missing inputs
+  const needs = [];
+  [["filing","filing status"],["fedRate","federal bracket"],["stateRate","state bracket"],["ltcg","federal capital gains rate"]].forEach(([id,label])=>{
+    const blank = isBlank(id); $(id).classList.toggle("needs", blank); if (blank) needs.push(label);
+  });
+  const nb = $("needBanner");
+  if (needs.length){ nb.hidden = false; nb.innerHTML = "<b>Tax inputs needed:</b> "+needs.join(", ")+". The email doesn't include them, so blank rates count as 0% and the results below leave those taxes out until they're entered."; }
+  else nb.hidden = true;
+
+  const res = run(p), A = res.A, B = res.B;
+  const winB = res.diff > 0.5, tie = Math.abs(res.diff) <= 0.5;
+  const nameA = "paying down the mortgage", nameB = "investing";
+  const extraTxt = p.extra > 0 ? fmt(p.extra)+"/mo" : "the lump sums";
+  $("verdictLine").innerHTML = tie ? "Both strategies end in the same place after "+p.H+" years." :
+    (winB ? "<span class='win'>Investing</span> "+extraTxt+" instead of prepaying leaves an estimated <span class='win'>"+fmt(res.diff)+"</span> more after taxes over "+p.H+" years."
+          : "<span class='win'>Paying down the mortgage</span> with "+extraTxt+" leaves an estimated <span class='win'>"+fmt(-res.diff)+"</span> more after taxes over "+p.H+" years.");
+  $("nwA").textContent = fmt(A.nw); $("nwB").textContent = fmt(B.nw);
+  $("nwAs").textContent = "Paid off "+payoffText(p,A); $("nwBs").textContent = "Paid off "+payoffText(p,B);
+  $("nwDiff").textContent = fmt(Math.abs(res.diff));
+  $("nwDiffs").textContent = tie ? "Even" : (winB ? "in favor of investing" : "in favor of paying down");
+  $("duelA").classList.toggle("winner", !winB && !tie); $("duelB").classList.toggle("winner", winB);
+  ["duelA","duelB"].forEach(id=>{ const el=$(id).querySelector(".k"); const old=el.querySelector(".pill"); if(old) old.remove(); });
+  if (!tie){ const pill=document.createElement("span"); pill.className="pill"; pill.textContent="Higher"; $(winB?"duelB":"duelA").querySelector(".k").appendChild(pill); }
+
+  const be = breakeven(p);
+  const mortAfterTax = A.yr1 && A.yr1.interest>0 ? p.rate*(1 - B.yr1.taxSave/B.yr1.interest) : p.rate;
+  const monthsSaved = (B.payoffIdx<0||A.payoffIdx<0) ? null : B.payoffIdx - A.payoffIdx;
+  $("keyfacts").innerHTML =
+    "<span>Break-even return <b>"+(be===null?"n/a":(be*100).toFixed(2)+"%")+"</b></span>"+
+    "<span>Assumed return <b>"+(p.ret*100).toFixed(2)+"%</b></span>"+
+    "<span>Scheduled P&amp;I <b>"+fmt(p.pmt)+"</b></span>"+
+    (monthsSaved!==null ? "<span>Loan paid off <b>"+yrsMo(monthsSaved)+"</b> sooner with prepayment</span>" : "");
+
+  // comparison table
+  const rows = [
+    ["Total mortgage interest paid", "Within the "+p.H+"-year period", A.totInt, B.totInt, true],
+    ["Interest saved", "Versus regular payments", B.totInt - A.totInt, null, false],
+    ["Mortgage payoff date", null, payoffText(p,A), payoffText(p,B)],
+    ["Mortgage balance at end of period", null, A.endBal, B.endBal, true],
+    ["Extra principal paid", null, A.totExtraToLoan, 0, false],
+    ["Total investment contributions", "Extra payments, freed-up payments"+(p.reinvestTax?", tax savings":""), A.totContrib + A.totTaxReinv, B.totContrib + B.totTaxReinv, false],
+    ["Investment gains", "Growth after annual taxes on yield", A.port - A.totContrib - A.totTaxReinv, B.port - B.totContrib - B.totTaxReinv, false],
+    ["Projected investment value", "Before tax on unrealized gains", A.port, B.port, false],
+    ["Estimated mortgage-interest tax savings", "Federal "+fmt(A.totTaxSaveF)+" / "+fmt(B.totTaxSaveF)+" · state "+fmt(A.totTaxSaveS)+" / "+fmt(B.totTaxSaveS), A.totTaxSave, B.totTaxSave, false],
+    ["Estimated investment taxes", "Annual yield tax plus tax if sold at end", A.totDivTax + A.liqTax, B.totDivTax + B.liqTax, true],
+    ["Uninvested cash", null, A.cash, B.cash, false],
+  ];
+  let html = "";
+  for (const r of rows){
+    const isStr = typeof r[2] === "string";
+    if (r[3] === null){ html += "<tr><td>"+r[0]+(r[1]?"<span class='d'>"+r[1]+"</span>":"")+"</td><td class='n pos'>"+fmt(r[2])+"</td><td class='n'>–</td><td class='n'>–</td></tr>"; continue; }
+    const d = isStr ? "" : (r[2] - r[3]);
+    const good = !isStr && Math.abs(d) > 0.5 ? (r[4] ? d < 0 : d > 0) : false;
+    html += "<tr><td>"+r[0]+(r[1]?"<span class='d'>"+r[1]+"</span>":"")+"</td>"+
+      "<td class='n'>"+(isStr?r[2]:fmt(r[2]))+"</td><td class='n'>"+(isStr?r[3]:fmt(r[3]))+"</td>"+
+      "<td class='n"+(good?" pos":"")+"'>"+(isStr? (monthsSaved!==null? yrsMo(monthsSaved)+" sooner":"–") : fmt(d,{plus:true}))+"</td></tr>";
+  }
+  html += "<tr class='total'><td>After-tax net worth (excluding home)</td><td class='n'>"+fmt(A.nw)+"</td><td class='n'>"+fmt(B.nw)+"</td><td class='n'>"+fmt(A.nw-B.nw,{plus:true})+"</td></tr>";
+  $("cmpBody").innerHTML = html;
+  $("cmpSub").textContent = "Both options start "+monthLabel(p.first)+" and are measured at "+monthLabel(addMonths(p.first, p.H*12-1))+".";
+
+  // tax panel
+  const lost = B.totTaxSave - A.totTaxSave, avoided = B.totInt - A.totInt;
+  $("tInt").textContent = fmt(avoided); $("tLost").textContent = fmt(lost);
+  $("tNet").textContent = fmt(avoided - lost);
+  $("tRate").textContent = mortAfterTax.toFixed(2)+"%";
+  const share = B.yr1 && B.yr1.avgBal ? Math.min(1, p.limFed/B.yr1.avgBal) : 1;
+  $("taxSub").textContent = "Only "+Math.round(share*100)+"% of year-one interest is federally deductible because the balance is above the "+fmt(p.limFed)+" limit. Every dollar of interest avoided also gives up its deduction.";
+
+  // year table
+  let yh = "";
+  for (let i=0;i<A.years.length;i++){ const a=A.years[i], b=B.years[i];
+    yh += "<tr><td>"+a.yr+"</td><td class='n'>"+fmt(a.bal)+"</td><td class='n'>"+fmt(a.port)+"</td><td class='n'>"+fmt(a.nw)+"</td><td class='n'>"+fmt(b.bal)+"</td><td class='n'>"+fmt(b.port)+"</td><td class='n'>"+fmt(b.nw)+"</td><td class='n'>"+fmt(b.nw-a.nw,{plus:true})+"</td></tr>"; }
+  $("yrBody").innerHTML = yh;
+
+  drawCharts(res, p);
+  renderSens(p);
+}
+
+function renderSens(p){
+  const extras = [1000,1500,2000,2500,3000,3500,4000];
+  if (!extras.includes(p.extra) && p.extra>0) { extras.push(p.extra); extras.sort((x,y)=>x-y); }
+  const rets = [4,5,6,7,8,9,10];
+  const curR = Math.round(p.ret*10000)/100; if (!rets.includes(curR)) { rets.push(curR); rets.sort((x,y)=>x-y); }
+  const grid = extras.map(e => rets.map(r => run(Object.assign({}, p, {extra:e, ret:r/100})).diff));
+  const max = Math.max(1, ...grid.flat().map(Math.abs));
+  const a = css("--a"), b = css("--b");
+  const hexA = toRGB(a), hexB = toRGB(b);
+  let h = "<thead><tr><th>Extra / mo</th>"+rets.map(r=>"<th>"+r+"% return</th>").join("")+"</tr></thead><tbody>";
+  extras.forEach((e,i)=>{
+    h += "<tr><th scope='row'>"+fmt(e)+"</th>";
+    rets.forEach((r,j)=>{
+      const v = grid[i][j], t = Math.min(1, Math.abs(v)/max), c = v>0? hexB : hexA, al = (0.08 + 0.55*Math.sqrt(t)).toFixed(2);
+      const cur = e===p.extra && Math.abs(r - curR) < 1e-9;
+      h += "<td class='cell"+(cur?" cur":"")+"' tabindex='0' data-e='"+e+"' data-r='"+r+"' style='background:rgba("+c+","+al+")' title='"+fmt(e)+"/mo at "+r+"%: "+fmt(v,{plus:true})+"'>"+(Math.round(Math.abs(v)/1000)===0 ? "0" : (v>=0?"+":"−")+Math.round(Math.abs(v)/1000).toLocaleString())+"</td>";
+    });
+    h += "</tr>";
+  });
+  $("sens").innerHTML = h + "</tbody>";
+  $("sensNote").textContent = "Outlined cell = current inputs. Other settings stay as entered.";
+}
+function toRGB(hex){ const m = /^#?([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})$/i.exec(hex); return m ? [parseInt(m[1],16),parseInt(m[2],16),parseInt(m[3],16)].join(",") : "128,128,128"; }
+
+/* ---------- lumps ---------- */
+function renderLumps(){
+  const box = $("lumps"); box.innerHTML = "";
+  lumps.forEach((l,i)=>{
+    const row = document.createElement("div"); row.className = "lump";
+    row.innerHTML = "<input type='month' id='lumpD"+i+"' aria-label='Lump sum month' value='"+l.date+"'>"+
+      "<div class='affix'><span class='pre'>$</span><input type='number' id='lumpA"+i+"' aria-label='Lump sum amount' step='1000' min='0' value='"+l.amt+"'></div>"+
+      "<button class='x' type='button' aria-label='Remove lump sum'>×</button>";
+    row.querySelector("input[type=month]").addEventListener("input", ev=>{ l.date = ev.target.value; schedule(); });
+    row.querySelector("input[type=number]").addEventListener("input", ev=>{ l.amt = ev.target.value; schedule(); });
+    row.querySelector(".x").addEventListener("click", ()=>{ lumps.splice(i,1); renderLumps(); schedule(); });
+    box.appendChild(row);
+  });
+}
+$("addLump").addEventListener("click", ()=>{
+  const f = parseMonth($("firstPay").value) || {y:2027,m:0}; const d = addMonths(f, 12);
+  lumps.push({date: d.y+"-"+String(d.m+1).padStart(2,"0"), amt: 25000}); renderLumps(); schedule();
+});
+
+/* ---------- wiring ---------- */
+let raf = 0; function schedule(){ cancelAnimationFrame(raf); raf = requestAnimationFrame(render); }
+document.querySelectorAll("aside input, aside select").forEach(el => el.addEventListener("input", ev => {
+  if (ev.target.id === "pmt") pmtOverridden = true;
+  if (ev.target.id === "ret") $("retRange").value = ev.target.value;
+  if (ev.target.id === "retRange") $("ret").value = ev.target.value;
+  schedule();
+}));
+$("pmtReset").addEventListener("click", ()=>{ pmtOverridden = false; schedule(); });
+$("firstPay").addEventListener("change", ()=>{ $("extraStart").value = $("firstPay").value; schedule(); });
+$("filing").addEventListener("change", ()=>{
+  const s = STD[$("filing").value]; if (!s) return;
+  $("stdFed").value = s.fed; $("stdState").value = s.st; $("limFed").value = s.limF; $("limState").value = s.limS; schedule();
+});
+document.querySelectorAll(".chip").forEach(c => c.addEventListener("click", ()=>{ $("extraAmt").value = c.dataset.extra; schedule(); }));
+$("sens").addEventListener("click", ev => { const td = ev.target.closest("td.cell"); if (!td) return; $("extraAmt").value = td.dataset.e; $("ret").value = td.dataset.r; $("retRange").value = td.dataset.r; schedule(); });
+$("sens").addEventListener("keydown", ev => { if ((ev.key==="Enter"||ev.key===" ") && ev.target.matches("td.cell")){ ev.preventDefault(); ev.target.click(); } });
+const mq = window.matchMedia("(prefers-color-scheme: dark)"); mq.addEventListener && mq.addEventListener("change", schedule);
+new MutationObserver(schedule).observe(document.documentElement, {attributes:true, attributeFilter:["data-theme"]});
+if (document.fonts && document.fonts.ready) document.fonts.ready.then(schedule);
+render();
+})();
+</script>
