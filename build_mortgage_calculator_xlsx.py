@@ -159,7 +159,7 @@ inp("Other itemized deductions, federal", "OtherFed", None, USD, "Optional", "SA
 inp("Other itemized deductions, state", "OtherSt", None, USD, "Optional", "")
 inp("Federal mortgage debt limit", "LimFed", 750000, USD, "Tax law", "$750K ($375K if married filing separately).")
 inp("State mortgage debt limit", "LimSt", 1000000, USD, "Email: CA", "California $1M ($500K if MFS).")
-inp("Cap deduction value at 35% for 37% bracket?", "Cap35", "Yes", "@", "Tax law", "2026+ limit on itemized deduction value for the top bracket.", dv=dv_yes)
+inp("Cap deduction value at 35% for 37% bracket?", "CapTopRate", "Yes", "@", "Tax law", "2026+ limit on itemized deduction value for the top bracket.", dv=dv_yes)
 inp("Federal LTCG / qualified dividend rate", "LTCG", None, PCT1, "Needed", "Not in the email.", kind="need", dv=dv_ltcg)
 inp("Add 3.8% NIIT?", "NIIT", "No", "@", "Needed", "Depends on income.", kind="need", dv=dv_yes)
 inp("State taxes investment gains as income?", "StateGains", "Yes", "@", "Tax law", "California taxes capital gains as ordinary income.", dv=dv_yes)
@@ -167,7 +167,7 @@ inp("Tax unrealized gains at end (as if sold)?", "Liquidate", "Yes", "@", "Assum
 std_tbl = row + 1
 inp("Federal standard deduction used", "StdFed", None, USD, "Calculated", "", kind="calc")
 inp("State standard deduction used", "StdSt", None, USD, "Calculated", "", kind="calc")
-inp("Federal rate applied to deductions", "FedDedRate", '=IF(AND(Cap35="Yes",FedRate>=0.37),0.35,FedRate)', PCT1, "Calculated", "", kind="calc")
+inp("Federal rate applied to deductions", "FedDedRate", '=IF(AND(CapTopRate="Yes",FedRate>=0.37),0.35,FedRate)', PCT1, "Calculated", "", kind="calc")
 inp("Total tax rate on investment income", "InvRate", '=LTCG+IF(NIIT="Yes",0.038,0)+IF(StateGains="Yes",StateRate,0)', PCT, "Calculated", "", kind="calc")
 
 section("5. Refinance (optional)")
@@ -315,11 +315,131 @@ for y in range(1, 41):
     c = wsA.cell(row=r, column=10, value=f"=I{r}-H{r}"); c.number_format = USD; c.font = BLACK
     for j, k in enumerate(["aYI", "bYI", "aT", "bT"]):
         c = wsA.cell(row=r, column=11 + j, value=f"='Monthly Model'!{C[k]}{mr}"); c.number_format = USD; c.font = GREEN
+src = [("A extra paid to principal (cum.)", "aXL"), ("A invested: freed payment after payoff (cum.)", "aInv"),
+       ("A invested: tax savings (cum.)", "aTR"), ("B invested: extra payments (cum.)", "extra"),
+       ("B invested: freed payment after payoff (cum.)", None), ("B invested: tax savings (cum.)", "bTR")]
+for j, (h, k) in enumerate(src):
+    col = 15 + j
+    c = wsA.cell(row=1, column=col, value=h)
+    c.font = HDR; c.fill = HDRFILL; c.alignment = Alignment(wrap_text=True, horizontal="center", vertical="center")
+    wsA.column_dimensions[L(col)].width = 17
+    for y in range(1, 41):
+        r = y + 1
+        if k:
+            fml = f"=SUMIFS('Monthly Model'!${C[k]}${FIRST}:${C[k]}${LAST},'Monthly Model'!${C['m']}${FIRST}:${C['m']}${LAST},\"<=\"&12*A{r})"
+        else:
+            fml = f"=SUMIFS('Monthly Model'!${C['bInv']}${FIRST}:${C['bInv']}${LAST},'Monthly Model'!${C['m']}${FIRST}:${C['m']}${LAST},\"<=\"&12*A{r})-R{r}"
+        c = wsA.cell(row=r, column=col, value=fml); c.number_format = USD; c.font = GREEN if k else BLACK
+        c.fill = AFILL if col <= 17 else BFILL
+wsA.row_dimensions[1].height = 58
+wsA["F1"].comment = Comment("Option A never invests the extra payment: it all goes to principal (column O). A's account holds only (1) its yearly mortgage-interest tax savings (column Q) and (2) after payoff, the freed-up monthly payment (column P). Turn either off on the Inputs sheet.", "Model")
+wsA["G1"].comment = Comment("Option B invests the extra payment every month (column R), its yearly mortgage-interest tax savings (column T), and after its own payoff, the freed-up payment (column S).", "Model")
+wsA["A43"] = "Why Option A has an investment balance: no extra-payment dollars are invested under A (see column O, all paid to principal). Its account holds only the mortgage-interest tax savings both options reinvest each year (column Q), plus the full monthly payment once A's loan is paid off (column P), so both options spend the same cash every month."
+wsA["A43"].font = MUTED; wsA.merge_cells("A43:N44"); wsA["A43"].alignment = Alignment(wrap_text=True, vertical="top"); wsA.row_dimensions[43].height = 30
 for r in range(2, 42):
     for col in (4, 6, 8, 11, 13):
         wsA.cell(row=r, column=col).fill = AFILL
     for col in (5, 7, 9, 12, 14):
         wsA.cell(row=r, column=col).fill = BFILL
+
+
+# ======================= BREAK-EVEN SOLVER =======================
+# Contributions, tax savings, cash and mortgage balances do not depend on the investment return,
+# so the after-tax net worth of each option can be re-run at any trial return using only the
+# portfolio recursion. Bisection on the return finds where B - A = 0.
+wsB = wb.create_sheet("Break-Even")
+wsB.sheet_view.showGridLines = False
+wsB["A1"] = "Break-even investment return solver"; wsB["A1"].font = H2
+wsB["A2"] = ("Re-runs both portfolios month by month at trial returns (same deposits, tax savings, cash and mortgage balances as the Monthly Model) "
+             "and bisects to the return where Option B's after-tax net worth equals Option A's. Rows 7-10 hold each trial; the monthly portfolios start at row 16.")
+wsB["A2"].font = MUTED; wsB.merge_cells("A2:R2"); wsB["A2"].alignment = Alignment(wrap_text=True); wsB.row_dimensions[2].height = 28
+R0 = 16                      # month 0 row
+RF, RL = R0 + 1, R0 + NROWS  # months 1..480
+fixed = [("A", "Month", None), ("B", "A deposit", "aDp"), ("C", "A tax savings reinvested", "aTR"),
+         ("D", "B deposit", "bDp"), ("E", "B tax savings reinvested", "bTR"), ("F", "Year end", None)]
+for colL, h, k in fixed:
+    c = wsB[f"{colL}{R0-1}"]; c.value = h; c.font = HDR; c.fill = HDRFILL; c.alignment = Alignment(wrap_text=True, horizontal="center")
+    wsB.column_dimensions[colL].width = 12
+    wsB[f"{colL}{R0}"] = 0
+    for i in range(1, NROWS + 1):
+        r = R0 + i
+        if colL == "A": v = i
+        elif colL == "F": v = f"=IF(MOD(A{r},12)=0,1,0)"
+        else: v = f"='Monthly Model'!{C[k]}{i+1}"
+        c = wsB[f"{colL}{r}"]; c.value = v; c.number_format = "0" if colL in "AF" else USD
+        c.font = GREEN if colL in "BCDE" else BLACK
+# horizon constants (independent of the return)
+consts = [("H4", "Months in period", "=Horizon*12", "0"),
+          ("H5", "A deposits + tax savings to date", f"=SUMIFS(B{RF}:B{RL},A{RF}:A{RL},\"<=\"&Horizon*12)+SUMIFS(C{RF}:C{RL},A{RF}:A{RL},\"<=\"&Horizon*12)", USD),
+          ("H6", "B deposits + tax savings to date", f"=SUMIFS(D{RF}:D{RL},A{RF}:A{RL},\"<=\"&Horizon*12)+SUMIFS(E{RF}:E{RL},A{RF}:A{RL},\"<=\"&Horizon*12)", USD),
+          ("H7", "A cash minus mortgage at end", f"={at_h('aCB')}-{at_h('aEnd')}", USD),
+          ("H8", "B cash minus mortgage at end", f"={at_h('bCB')}-{at_h('bEnd')}", USD)]
+for ref, lab, fml, fmt in consts:
+    lab_cell = "G" + ref[1:]
+    wsB[lab_cell] = lab; wsB[lab_cell].font = BLACK; wsB[lab_cell].alignment = Alignment(horizontal="right")
+    wsB[ref] = fml; wsB[ref].number_format = fmt; wsB[ref].font = BLACK
+wsB.column_dimensions["G"].width = 30; wsB.column_dimensions["H"].width = 14
+for rr, lab in [(7, "Low / High"), (8, "Trial return / monthly"), (9, "A / B net worth"), (10, "B minus A")]:
+    pass
+LO, HI = -0.10, 0.30
+N_BIS = 26
+SENS = [0.03, 0.04, 0.05, 0.06, 0.07, 0.08, 0.09, 0.10, 0.11]
+FIRSTCOL = 10  # column J
+def pair(idx):
+    return L(FIRSTCOL + 2 * idx), L(FIRSTCOL + 2 * idx + 1)
+labels = {7: "Low | High", 8: "Return | Monthly", 9: "NW A | NW B", 10: "B minus A"}
+wsB["I6"] = "Trial"; wsB["I6"].font = BOLD
+for rr, t in labels.items():
+    wsB[f"I{rr}"] = t; wsB[f"I{rr}"].font = BOLD
+wsB.column_dimensions["I"].width = 16
+def build_eval(idx, title, lo_f, hi_f, rate_f):
+    ca, cb = pair(idx)
+    wsB[f"{ca}6"] = title; wsB[f"{ca}6"].font = BOLD
+    wsB.merge_cells(f"{ca}6:{cb}6")
+    wsB[f"{ca}7"] = lo_f; wsB[f"{cb}7"] = hi_f
+    wsB[f"{ca}8"] = rate_f; wsB[f"{cb}8"] = f"=(1+{ca}8)^(1/12)-1"
+    for c_ in (f"{ca}7", f"{cb}7", f"{ca}8"): wsB[c_].number_format = "0.0000%"
+    wsB[f"{cb}8"].number_format = "0.000000%"
+    for colL, dep, tr, nwref, basis, other in ((ca, "B", "C", f"{ca}9", "$H$5", "$H$7"), (cb, "D", "E", f"{cb}9", "$H$6", "$H$8")):
+        wsB[f"{colL}{R0}"] = 0
+        for i in range(1, NROWS + 1):
+            r = R0 + i
+            s_ = max(R0, r - 12)
+            wsB[f"{colL}{r}"] = (f"={colL}{r-1}*(1+${cb}$8)+${dep}{r}-IF($F{r}=1,Yld/12*SUM({colL}{s_}:{colL}{r-1})*InvRate,0)+${tr}{r}")
+            wsB[f"{colL}{r}"].number_format = USD
+        port = f"INDEX({colL}{RF}:{colL}{RL},$H$4)"
+        bas = f"({basis}+Yld/12*SUMPRODUCT(($A${R0}:$A${RL-1}<=$H$4-1)*{colL}{R0}:{colL}{RL-1}))"
+        wsB[nwref] = f'={port}-IF(Liquidate="Yes",MAX(0,{port}-{bas})*InvRate,0)+{other}'
+        wsB[nwref].number_format = USD
+    wsB[f"{ca}10"] = f"={cb}9-{ca}9"; wsB[f"{ca}10"].number_format = USD
+    wsB.column_dimensions[ca].width = 13; wsB.column_dimensions[cb].width = 13
+    return ca, cb
+# endpoint checks
+e_lo = build_eval(0, "Check low", LO, LO, f"={LO}")
+e_hi = build_eval(1, "Check high", HI, HI, f"={HI}")
+prev = None
+for k in range(N_BIS):
+    if prev is None:
+        lo_f, hi_f = f"={LO}", f"={HI}"
+    else:
+        pa, pb = prev
+        lo_f = f"=IF({pa}10>0,{pa}7,{pa}8)"
+        hi_f = f"=IF({pa}10>0,{pa}8,{pb}7)"
+    ca, cb = pair(2 + k)
+    prev = build_eval(2 + k, f"Bisect {k+1}", lo_f, hi_f, f"=({ca}7+{cb}7)/2")
+last_a, last_b = prev
+sens_cols = []
+for j, rt in enumerate(SENS):
+    sens_cols.append(build_eval(2 + N_BIS + j, f"Return {rt:.0%}", rt, rt, f"={rt}"))
+wsB.freeze_panes = f"J{R0}"
+# result cells
+wsB["G11"] = "Break-even return (after tax)"; wsB["G11"].font = BOLD; wsB["G11"].alignment = Alignment(horizontal="right")
+wsB["H11"] = (f'=IF({e_hi[0]}10<0,"Above {HI:.0%}",IF({e_lo[0]}10>0,"Below {LO:.0%}",{last_a}8))')
+wsB["H11"].number_format = PCT; wsB["H11"].font = BOLD; wsB["H11"].fill = YELLOW
+name("BreakEven", "'Break-Even'!$H$11")
+wsB["G12"] = "Check: B minus A at break-even"; wsB["G12"].alignment = Alignment(horizontal="right")
+wsB["H12"] = f"={last_a}10"; wsB["H12"].number_format = USD
+SENS_REFS = sens_cols
 
 # ======================= COMPARISON (dashboard) =======================
 ws = wb.create_sheet("Comparison", 0)
@@ -406,16 +526,39 @@ for i, (lab, fml, fmt) in enumerate(tax_rows):
 ws["B34"] = "Key facts"; ws["B34"].font = H2
 facts = [("Scheduled P&I payment", "=Pmt", USD2), ("Extra principal per month", "=Extra", USD), ("Assumed investment return", "=Ret", PCT),
          ("Comparison period (years)", "=Horizon", "0"),
-         ("Break-even return (no taxes)", "=(1+Rate/12)^12-1", PCT)]
+         ("Break-even return (after tax)", "=BreakEven", PCT),
+         ("Break-even return (before tax)", "=(1+Rate/12)^12-1", PCT)]
 for i, (lab, fml, fmt) in enumerate(facts):
     r = 35 + i
     ws.cell(row=r, column=2, value=lab).font = BLACK
     c = ws.cell(row=r, column=3, value=fml); c.number_format = fmt; c.font = GREEN
-ws["D39"] = "With taxes, find it with Data > What-If Analysis > Goal Seek: set D9 to 0 by changing Inputs return."
-ws["D39"].font = MUTED
+ws["C39"].font = Font(name=F, bold=True, color="008000"); ws["C39"].fill = YELLOW
+ws["D39"] = "Investing wins above this rate."; ws["D39"].font = MUTED
+ws["D40"] = "Ignores taxes; reference only."; ws["D40"].font = MUTED
+ws["B7"] = ('=IF(ISNUMBER(BreakEven),"Investing comes out ahead only if the portfolio earns more than "&TEXT(BreakEven,"0.00%")&" a year (assumed: "&TEXT(Ret,"0.00%")&"). Below that, paying down the mortgage wins.",'
+            '"Break-even return is "&BreakEven&" (outside the solver range).")')
+ws["B7"].font = Font(name=F, italic=True, size=11, color="1D5C55"); ws.merge_cells("B7:E7"); ws["B7"].alignment = Alignment(wrap_text=True, vertical="center"); ws.row_dimensions[7].height = 34
 
-ws["B41"] = "Not modeled: the planned $30–40K/yr renovations, refinance closing costs, PMI, inflation, market volatility, and the liquidity of invested assets vs. home equity. Illustration only, not a guarantee of future results."
-ws["B41"].font = MUTED; ws.merge_cells("B41:E41"); ws["B41"].alignment = Alignment(wrap_text=True); ws.row_dimensions[41].height = 30
+ws["B43"] = "After-tax net worth by investment return"; ws["B43"].font = H2
+ws["B44"] = "Same inputs, only the return changes. Shows where investing becomes the better option."; ws["B44"].font = MUTED
+for j, h in enumerate(["Annual return", "A · Pay down", "B · Invest", "B minus A"]):
+    c = ws.cell(row=45, column=2 + j, value=h); c.font = HDR; c.fill = HDRFILL; c.alignment = Alignment(horizontal="center")
+ws.cell(row=45, column=6, value="Better").font = HDR; ws.cell(row=45, column=6).fill = HDRFILL
+ws.column_dimensions["F"].width = 14
+for i, (ca, cb) in enumerate(SENS_REFS):
+    r = 46 + i
+    ws.cell(row=r, column=2, value=f"='Break-Even'!{ca}8").number_format = PCT1
+    ws.cell(row=r, column=3, value=f"='Break-Even'!{ca}9").number_format = USD
+    ws.cell(row=r, column=4, value=f"='Break-Even'!{cb}9").number_format = USD
+    ws.cell(row=r, column=5, value=f"=D{r}-C{r}").number_format = USD
+    ws.cell(row=r, column=6, value=f'=IF(E{r}>0,"Invest","Pay down")')
+    for col in range(2, 7):
+        c = ws.cell(row=r, column=col); c.border = Border(bottom=thin); c.font = GREEN if col in (2, 3, 4) else BLACK
+        if col > 2: c.alignment = Alignment(horizontal="right")
+    ws.cell(row=r, column=2).alignment = Alignment(horizontal="left")
+
+ws["B56"] = "Not modeled: the planned $30–40K/yr renovations, refinance closing costs, PMI, inflation, market volatility, and the liquidity of invested assets vs. home equity. Illustration only, not a guarantee of future results."
+ws["B56"].font = MUTED; ws.merge_cells("B56:E56"); ws["B56"].alignment = Alignment(wrap_text=True); ws.row_dimensions[56].height = 30
 
 # charts (from Annual Schedule)
 def line(title, ycols, labels, anchor, ytitle):
@@ -462,10 +605,12 @@ notes = [
  ("Net worth = investment account minus tax owed if sold, plus uninvested cash, minus remaining mortgage. The home is worth the same in both options and is left out.", False),
  ("Mortgage interest deduction: each year's interest × (limit ÷ average balance, max 100%). With 'Compare to standard', only the amount itemizing adds above the standard deduction counts, at the marginal federal and state rates. SALT on the federal return is not modeled; standard deductions are held flat.", False),
  ("Investment taxes: the taxable yield is taxed each year at the federal qualified rate (+ NIIT and state if selected). Remaining gains are taxed at the end if 'as if sold' is Yes. Returns are steady, not variable.", False),
+ ("Why Option A shows an investment balance: none of the extra payment is invested under A; it all goes to principal. A's account holds only its yearly mortgage-interest tax savings (reinvested in both options) and, after A's loan is paid off, the freed-up monthly payment. Without that, A would spend less cash than B and the comparison would not be equal. Annual Schedule columns O-T show every dollar by source.", False),
+ ("Break-even return: the Break-Even sheet re-runs both investment accounts at trial returns (deposits, tax savings, cash and mortgage balances do not depend on the return) and bisects to the return where both options end with the same after-tax net worth. It includes every tax setting and updates automatically.", False),
  ("Refinance (optional): from the refinance month the rate changes and the regular loan is re-amortized to the original end date. Closing costs are not included.", False),
  ("", False),
  ("Sheets", True),
- ("Comparison: verdict, side-by-side table, tax effects and charts. Inputs: every assumption (blue = editable, yellow = needed/confirm). Monthly Model: the full month-by-month calculation for both options (480 months). Annual Schedule: year-end values feeding the charts.", False),
+ ("Comparison: verdict, side-by-side table, tax effects and charts. Inputs: every assumption (blue = editable, yellow = needed/confirm). Monthly Model: the full month-by-month calculation for both options (480 months). Annual Schedule: year-end values feeding the charts, plus where each option's invested dollars came from. Break-Even: the break-even return solver and return sensitivity.", False),
  ("All results are live formulas. Change any blue cell on the Inputs sheet and everything recalculates.", False),
  ("", False),
  ("Illustration based on stated assumptions; not a guarantee of future results.", False),
