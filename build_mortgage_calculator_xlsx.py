@@ -212,6 +212,7 @@ cols = [
  ("aPt", "A portfolio", USD), ("aBs", "A cost basis", USD), ("aCB", "A cash balance", USD), ("aNW", "A after-tax net worth", USD),
  ("bDA", "B div accrual", USD), ("bYD", "B yr dividends", USD), ("bPd", "B pending", USD), ("bDp", "B deposit", USD), ("bDT", "B div tax", USD), ("bTR", "B tax savings reinvested", USD),
  ("bPt", "B portfolio", USD), ("bBs", "B cost basis", USD), ("bCB", "B cash balance", USD), ("bNW", "B after-tax net worth", USD),
+ ("aTA", "A portfolio: part from reinvested tax savings", USD), ("bTA", "B portfolio: part from reinvested tax savings", USD),
 ]
 C = {k: L(i + 1) for i, (k, _, _) in enumerate(cols)}
 FIRST, LAST = 2, NROWS + 1
@@ -281,6 +282,12 @@ for r in range(FIRST, LAST + 1):
         f[x + "Bs"] = f"={prevbs}+{C[x+'Dp']}{r}+{C[x+'YD']}{r}+{C[x+'TR']}{r}"
         f[x + "CB"] = f'={prevcb}+{csh}{r}+IF(ReinvestTax="Yes",0,{C[x+"T"]}{r})'
         f[x + "NW"] = f'={pt}{r}-IF(Liquidate="Yes",MAX(0,{pt}{r}-{bs}{r})*InvRate,0)+{cb}{r}-{C[x+"End"]}{r}'
+    for x in "ab":
+        ta = C[x + "TA"]
+        prevta = "0" if first else f"{ta}{p}"
+        s12 = max(FIRST, r - 12)
+        div = f"IF({ye},Yld/12*SUM({ta}{s12}:{ta}{r-1})*InvRate,0)" if r - 1 >= FIRST else "0"
+        f[x + "TA"] = f"={prevta}*(1+GM)+{C[x+'TR']}{r}-{div}"
     for i, (k, _, fmt) in enumerate(cols):
         c = wsM.cell(row=r, column=i + 1, value=f[k])
         c.number_format = fmt
@@ -295,53 +302,59 @@ def tot(k):
 
 # ======================= ANNUAL =======================
 wsA = wb.create_sheet("Annual Schedule")
-ah = ["Year", "Year ending", "In period", "A mortgage balance", "B mortgage balance", "A investments", "B investments",
-      "A net worth (after tax)", "B net worth (after tax)", "B minus A", "A interest", "B interest", "A tax savings", "B tax savings"]
-for i, h in enumerate(ah):
-    c = wsA.cell(row=1, column=i + 1, value=h)
-    c.font = HDR; c.fill = HDRFILL; c.alignment = Alignment(wrap_text=True, horizontal="center", vertical="center")
-    wsA.column_dimensions[L(i + 1)].width = 15
-wsA.row_dimensions[1].height = 32
-wsA.freeze_panes = "B2"
-amap = ["aEnd", "bEnd", "aPt", "bPt", "aNW", "bNW"]
-for y in range(1, 41):
-    r = y + 1
-    mr = 12 * y + 1  # monthly row of year-end
-    wsA.cell(row=r, column=1, value=y).font = BLACK
-    c = wsA.cell(row=r, column=2, value=f"='Monthly Model'!{C['date']}{mr}"); c.number_format = MON; c.font = GREEN
-    wsA.cell(row=r, column=3, value=f'=IF(A{r}<=Horizon,"Yes","")').font = BLACK
-    for j, k in enumerate(amap):
-        c = wsA.cell(row=r, column=4 + j, value=f"='Monthly Model'!{C[k]}{mr}"); c.number_format = USD; c.font = GREEN
-    c = wsA.cell(row=r, column=10, value=f"=I{r}-H{r}"); c.number_format = USD; c.font = BLACK
-    for j, k in enumerate(["aYI", "bYI", "aT", "bT"]):
-        c = wsA.cell(row=r, column=11 + j, value=f"='Monthly Model'!{C[k]}{mr}"); c.number_format = USD; c.font = GREEN
-src = [("A extra paid to principal (cum.)", "aXL"), ("A invested: freed payment after payoff (cum.)", "aInv"),
-       ("A invested: tax savings (cum.)", "aTR"), ("B invested: extra payments (cum.)", "extra"),
-       ("B invested: freed payment after payoff (cum.)", None), ("B invested: tax savings (cum.)", "bTR")]
-for j, (h, k) in enumerate(src):
-    col = 15 + j
+MM = lambda k, mr: f"'Monthly Model'!{C[k]}{mr}"
+cum = lambda k, r: f"SUMIFS('Monthly Model'!${C[k]}${FIRST}:${C[k]}${LAST},'Monthly Model'!${C['m']}${FIRST}:${C['m']}${LAST},\"<=\"&12*$A{r})"
+# (header, formula(r, mr), fill, font)
+spec = [
+ ("Year", lambda r, mr: r - 1, None, BLACK),
+ ("Year ending", lambda r, mr: "=" + MM("date", mr), None, GREEN),
+ ("In period", lambda r, mr: f'=IF(A{r}<=Horizon,"Yes","")', None, BLACK),
+ ("A mortgage balance", lambda r, mr: "=" + MM("aEnd", mr), "A", GREEN),
+ ("B mortgage balance", lambda r, mr: "=" + MM("bEnd", mr), "B", GREEN),
+ ("A investments: from freed-up payment after A's payoff", lambda r, mr: f"={MM('aPt', mr)}-{MM('aTA', mr)}", "A", BLACK),
+ ("A investments: from reinvested mortgage-interest tax savings", lambda r, mr: "=" + MM("aTA", mr), "A", GREEN),
+ ("A investments: total", lambda r, mr: f"=F{r}+G{r}", "A", BLACK),
+ ("B investments: from extra payments (and freed-up payment after B's payoff)", lambda r, mr: f"={MM('bPt', mr)}-{MM('bTA', mr)}", "B", BLACK),
+ ("B investments: from reinvested mortgage-interest tax savings", lambda r, mr: "=" + MM("bTA", mr), "B", GREEN),
+ ("B investments: total", lambda r, mr: f"=I{r}+J{r}", "B", BLACK),
+ ("A net worth (after tax)", lambda r, mr: "=" + MM("aNW", mr), "A", GREEN),
+ ("B net worth (after tax)", lambda r, mr: "=" + MM("bNW", mr), "B", GREEN),
+ ("B minus A", lambda r, mr: f"=M{r}-L{r}", None, BLACK),
+ ("A interest", lambda r, mr: "=" + MM("aYI", mr), "A", GREEN),
+ ("B interest", lambda r, mr: "=" + MM("bYI", mr), "B", GREEN),
+ ("A tax savings", lambda r, mr: "=" + MM("aT", mr), "A", GREEN),
+ ("B tax savings", lambda r, mr: "=" + MM("bT", mr), "B", GREEN),
+ ("A extra paid to principal (cum.)", lambda r, mr: "=" + cum("aXL", r), "A", GREEN),
+ ("A extra payments invested (cum.)", lambda r, mr: 0, "A", BLACK),
+ ("A freed-up payment invested (cum.)", lambda r, mr: "=" + cum("aInv", r), "A", GREEN),
+ ("A tax savings reinvested (cum.)", lambda r, mr: "=" + cum("aTR", r), "A", GREEN),
+ ("B extra payments invested (cum.)", lambda r, mr: "=" + cum("extra", r), "B", GREEN),
+ ("B freed-up payment invested (cum.)", lambda r, mr: f"={cum('bInv', r)}-W{r}", "B", BLACK),
+ ("B tax savings reinvested (cum.)", lambda r, mr: "=" + cum("bTR", r), "B", GREEN),
+]
+for i, (h, fn, fill, font) in enumerate(spec):
+    col = i + 1
     c = wsA.cell(row=1, column=col, value=h)
     c.font = HDR; c.fill = HDRFILL; c.alignment = Alignment(wrap_text=True, horizontal="center", vertical="center")
-    wsA.column_dimensions[L(col)].width = 17
+    wsA.column_dimensions[L(col)].width = 16 if col > 3 else 11
     for y in range(1, 41):
         r = y + 1
-        if k:
-            fml = f"=SUMIFS('Monthly Model'!${C[k]}${FIRST}:${C[k]}${LAST},'Monthly Model'!${C['m']}${FIRST}:${C['m']}${LAST},\"<=\"&12*A{r})"
-        else:
-            fml = f"=SUMIFS('Monthly Model'!${C['bInv']}${FIRST}:${C['bInv']}${LAST},'Monthly Model'!${C['m']}${FIRST}:${C['m']}${LAST},\"<=\"&12*A{r})-R{r}"
-        c = wsA.cell(row=r, column=col, value=fml); c.number_format = USD; c.font = GREEN if k else BLACK
-        c.fill = AFILL if col <= 17 else BFILL
-wsA.row_dimensions[1].height = 58
-wsA["F1"].comment = Comment("Option A never invests the extra payment: it all goes to principal (column O). A's account holds only (1) its yearly mortgage-interest tax savings (column Q) and (2) after payoff, the freed-up monthly payment (column P). Turn either off on the Inputs sheet.", "Model")
-wsA["G1"].comment = Comment("Option B invests the extra payment every month (column R), its yearly mortgage-interest tax savings (column T), and after its own payoff, the freed-up payment (column S).", "Model")
-wsA["A43"] = "Why Option A has an investment balance: no extra-payment dollars are invested under A (see column O, all paid to principal). Its account holds only the mortgage-interest tax savings both options reinvest each year (column Q), plus the full monthly payment once A's loan is paid off (column P), so both options spend the same cash every month."
-wsA["A43"].font = MUTED; wsA.merge_cells("A43:N44"); wsA["A43"].alignment = Alignment(wrap_text=True, vertical="top"); wsA.row_dimensions[43].height = 30
-for r in range(2, 42):
-    for col in (4, 6, 8, 11, 13):
-        wsA.cell(row=r, column=col).fill = AFILL
-    for col in (5, 7, 9, 12, 14):
-        wsA.cell(row=r, column=col).fill = BFILL
-
+        c = wsA.cell(row=r, column=col, value=fn(r, 12 * y + 1))
+        c.font = font
+        c.number_format = MON if col == 2 else ("0" if col == 1 else USD)
+        if fill == "A": c.fill = AFILL
+        if fill == "B": c.fill = BFILL
+for col in (8, 11):
+    for r in range(1, 42):
+        wsA.cell(row=r, column=col).font = Font(name=F, bold=True, color="FFFFFF" if r == 1 else "000000")
+wsA.row_dimensions[1].height = 72
+wsA.freeze_panes = "B2"
+wsA["F1"].comment = Comment("Option A sends every extra dollar to principal (column S) and invests none of it (column T is always $0). This column only fills in after A's loan is paid off, when the full monthly payment is freed up and invested so both options spend the same cash.", "Model")
+wsA["G1"].comment = Comment("Both options reinvest their own yearly mortgage-interest tax savings. This is the part of A's account that grows during the paydown years. Set 'Invest mortgage-interest tax savings each year?' to No on the Inputs sheet to hold it as cash instead.", "Model")
+wsA["A43"] = ("Reading this tab: Option A invests none of its extra payments (column T = $0; they all go to principal, column S). During the paydown years A's account holds only "
+              "its own reinvested mortgage-interest tax savings (column G), the same treatment Option B gets (column J). After A's loan is paid off, the freed-up monthly "
+              "payment is invested (column F) so both options spend exactly the same cash each month for the whole period.")
+wsA["A43"].font = MUTED; wsA.merge_cells("A43:N45"); wsA["A43"].alignment = Alignment(wrap_text=True, vertical="top"); wsA.row_dimensions[43].height = 30
 
 # ======================= BREAK-EVEN SOLVER =======================
 # Contributions, tax savings, cash and mortgage balances do not depend on the investment return,
@@ -569,20 +582,20 @@ def line(title, ycols, labels, anchor, ytitle):
     for col in ycols:
         ch.add_data(Reference(wsA, min_col=col, min_row=1, max_row=41), titles_from_data=True)
     ch.set_categories(Reference(wsA, min_col=1, min_row=2, max_row=41))
-    colors = {4: "2A78D6", 5: "EB6834", 6: "2A78D6", 7: "EB6834", 8: "2A78D6", 9: "EB6834"}
+    colors = {4: "2A78D6", 5: "EB6834", 8: "2A78D6", 11: "EB6834", 12: "2A78D6", 13: "EB6834"}
     for s, col in zip(ch.series, ycols):
         s.graphicalProperties.line.solidFill = colors[col]
         s.graphicalProperties.line.width = 22000
         s.smooth = False
-        if col in (6, 7): s.graphicalProperties.line.dashStyle = "dash"
+        if col in (8, 11): s.graphicalProperties.line.dashStyle = "dash"
     ch.y_axis.delete = False; ch.x_axis.delete = False
     ch.legend.position = "b"
     ws.add_chart(ch, anchor)
 
-line("Balance vs. growth", [4, 5, 6, 7], None, "G2", "$")
-line("After-tax net worth", [8, 9], None, "G20", "$")
+line("Balance vs. growth", [4, 5, 8, 11], None, "G2", "$")
+line("After-tax net worth", [12, 13], None, "G20", "$")
 bc = BarChart(); bc.type = "col"; bc.title = "Annual mortgage interest"; bc.height = 8.5; bc.width = 17
-for col in (11, 12):
+for col in (15, 16):
     bc.add_data(Reference(wsA, min_col=col, min_row=1, max_row=41), titles_from_data=True)
 bc.set_categories(Reference(wsA, min_col=1, min_row=2, max_row=41))
 bc.series[0].graphicalProperties.solidFill = "2A78D6"; bc.series[1].graphicalProperties.solidFill = "EB6834"
@@ -605,7 +618,7 @@ notes = [
  ("Net worth = investment account minus tax owed if sold, plus uninvested cash, minus remaining mortgage. The home is worth the same in both options and is left out.", False),
  ("Mortgage interest deduction: each year's interest × (limit ÷ average balance, max 100%). With 'Compare to standard', only the amount itemizing adds above the standard deduction counts, at the marginal federal and state rates. SALT on the federal return is not modeled; standard deductions are held flat.", False),
  ("Investment taxes: the taxable yield is taxed each year at the federal qualified rate (+ NIIT and state if selected). Remaining gains are taxed at the end if 'as if sold' is Yes. Returns are steady, not variable.", False),
- ("Why Option A shows an investment balance: none of the extra payment is invested under A; it all goes to principal. A's account holds only its yearly mortgage-interest tax savings (reinvested in both options) and, after A's loan is paid off, the freed-up monthly payment. Without that, A would spend less cash than B and the comparison would not be equal. Annual Schedule columns O-T show every dollar by source.", False),
+ ("Why Option A shows an investment balance: none of the extra payment is invested under A; it all goes to principal. A's account holds only its yearly mortgage-interest tax savings (reinvested in both options) and, after A's loan is paid off, the freed-up monthly payment. Without that, A would spend less cash than B and the comparison would not be equal. Annual Schedule columns F-K split each account by source, and columns S-Y show every dollar contributed.", False),
  ("Break-even return: the Break-Even sheet re-runs both investment accounts at trial returns (deposits, tax savings, cash and mortgage balances do not depend on the return) and bisects to the return where both options end with the same after-tax net worth. It includes every tax setting and updates automatically.", False),
  ("Refinance (optional): from the refinance month the rate changes and the regular loan is re-amortized to the original end date. Closing costs are not included.", False),
  ("", False),
